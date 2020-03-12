@@ -1,0 +1,155 @@
+/*
+Author: Ben Leboutilllier
+Date created: 2 March 2020
+Date updated: 11 March 2020
+*/
+
+button,
+.tab-button {
+    cursor: pointer;
+    outline: none;
+}
+
+.tab-button {
+    border: none;
+    width: 120px;
+    height: 40px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+button:hover {
+
+}
+
+body {
+    background-color: antiquewhite; /*THIS*/
+}
+
+header {
+    background-color: aquamarine; /*THIS*/
+    flex-direction: row;
+}
+
+.header-picture {
+    width: calc(100%/7);
+    border: solid purple 1px;
+    height: 120px;
+    float: left;
+}
+
+footer {
+    border: solid purple 1px;
+    text-align: center;
+    padding: 13px;
+    height: 70px;
+
+    /*Keep footer at bottom of page*/
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+.section-main-body {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    height: calc(100vh - 190px);
+    margin-left: -250px;
+    background-color: brown;
+}
+
+#sidebar.active {
+    margin-left: 0px;
+}
+
+.hamburger-button {
+    margin: 10px;
+}
+
+#page-content {
+    width: 100%;
+}
+
+#div-form1 {
+    width: 600px;
+    text-align: center;
+    margin: auto;
+}
+
+#form1,
+#page-tabs-buttons,
+#page-tabs-content {
+    width: 100%;
+}
+
+#form1-text-area {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 150px;
+    max-height: 300px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+#form1-error {
+    color: red;
+}
+
+#container-for-page-tabs {
+    width: 90%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+#page1 {background-color: olivedrab;}
+#page2 {background-color: peru;}
+#page3 {background-color: rosybrown;}
+
+.inactive-tab-content {
+    display: none;
+}
+
+.active-tab-content {
+    display: block;
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+
+.spin {
+    border: 8px solid rgb(152, 192, 243);
+    border-left: 8px solid rgb(30, 129, 209);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite;
+    margin: 10px auto;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/*
+#my-chart {
+    height: 400px;
+    width: 1000px;
+    margin: 30px auto;
+} */
