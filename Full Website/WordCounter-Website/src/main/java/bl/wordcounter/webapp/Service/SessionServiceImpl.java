@@ -50,7 +50,7 @@ public class SessionServiceImpl implements SessionService {
                 return currentSession;
             }
         }
-        throw new AccountNotFoundException("Account Not Found.");
+        throw new AccountNotFoundException("Username, password, or both are incorrect.");
     }
 
     @Override
