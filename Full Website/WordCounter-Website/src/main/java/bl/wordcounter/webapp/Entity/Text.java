@@ -36,6 +36,6 @@ public class Text {
     
     @ManyToOne
     @JoinColumn(name = "accountid")
-    private Account accountId;
+    private Account account;
     
 }

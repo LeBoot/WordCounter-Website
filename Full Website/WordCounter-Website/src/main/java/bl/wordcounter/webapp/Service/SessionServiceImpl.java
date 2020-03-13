@@ -7,6 +7,7 @@ package bl.wordcounter.webapp.Service;
 
 import bl.wordcounter.webapp.Entity.Account;
 import bl.wordcounter.webapp.Exception.AccountNotFoundException;
+import bl.wordcounter.webapp.Exception.SessionLoggedOutException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class SessionServiceImpl implements SessionService {
     
     
     @Override
-    public int logIn(String email, String password) throws AccountNotFoundException{
+    public int logIn(String email, String password) throws AccountNotFoundException {
         List<Account> allAccounts = accountService.getAllAccounts();
         for (Account a : allAccounts) {
             if (a.getEmail().equals(email) && a.getPassword().equals(password)) {
@@ -59,10 +60,9 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Account getSessionOwner() {
+    public Account getSessionOwner() throws SessionLoggedOutException {
         if (currentSession == LOGGED_OUT) {
-            //code 
-            // throw "session logged out exception" ?
+            throw new SessionLoggedOutException("Session is logged out.");
         } else {
             return accountService.retrieveAccount(currentSession);
         }

@@ -6,7 +6,9 @@
 package bl.wordcounter.webapp.Service;
 
 import bl.wordcounter.webapp.Entity.Account;
+import bl.wordcounter.webapp.Exception.InvalidInputException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -14,10 +16,14 @@ import java.util.List;
  */
 public interface AccountService {
     
-    Account retrieveAccount(int id);
+    Account retrieveAccount(int id)
+            throws NoSuchElementException;
     List<Account> getAllAccounts();
-    Account createAccount(Account account);
-    Account editAccount(Account account);
-    void deleteAccount(int id);
+    Account createAccount(Account account)
+            throws InvalidInputException;
+    Account editAccount(Account account)
+            throws InvalidInputException;
+    void deleteAccount(int id)
+            throws NoSuchElementException;
     
 }
