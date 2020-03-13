@@ -13,7 +13,7 @@ import java.util.Map.Entry;
  *
  * @author Boone
  */
-public interface ServiceLayer {
+public interface AnalysisService {
     
     Map<String, Integer> getResultsAlphabetically(String input);
     List<Entry<String, Integer>> getResultsByOccurance(Map<String, Integer> map);

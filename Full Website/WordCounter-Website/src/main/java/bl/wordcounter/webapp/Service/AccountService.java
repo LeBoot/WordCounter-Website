@@ -25,5 +25,6 @@ public interface AccountService {
             throws InvalidInputException;
     void deleteAccount(int id)
             throws NoSuchElementException;
+    String autogeneratePassword(int length);
     
 }

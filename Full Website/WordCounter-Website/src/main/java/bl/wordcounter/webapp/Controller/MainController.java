@@ -5,7 +5,7 @@
  */
 package bl.wordcounter.webapp.Controller;
 
-import bl.wordcounter.webapp.Service.ServiceLayerImpl;
+import bl.wordcounter.webapp.Service.AnalysisServiceImpl;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
     
     @Autowired
-    ServiceLayerImpl service;
+    AnalysisServiceImpl service;
     
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     String displayHomepage() {

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @author Boone
  */
 @Service
-public class ServiceLayerImpl implements ServiceLayer {
+public class AnalysisServiceImpl implements AnalysisService {
 
     //Keep a list of whatever characters are not to be included;
             //namely, those which might appear at the end of sentence

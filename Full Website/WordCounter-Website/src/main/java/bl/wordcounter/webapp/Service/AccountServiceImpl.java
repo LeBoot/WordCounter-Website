@@ -11,6 +11,7 @@ import bl.wordcounter.webapp.Repository.AccountRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +66,34 @@ public class AccountServiceImpl implements AccountService {
         }
     }
     
+    @Override
+    public String autogeneratePassword(int length) {
+        Random rand = new Random();
+
+        String password = "";
+        String numbers = "0123456789";
+        String letters = "abcdefghijkmnopqurstuvwxyz";
+        String characters = numbers + letters + letters.toUpperCase();
+        
+        if (length < 4) {
+            length = 4; //arbitrary
+        } else if (length > 20) {
+            length = 20; //database restriction
+        }
+        
+        int min = 0;
+        int max = length - 1;
+        
+        while(password.length() < length) {
+            int n = rand.nextInt((max - min) + 1) + min;
+            try {
+                password += characters.substring(n, n + 1);
+            } catch (StringIndexOutOfBoundsException e) {}
+        }
+        
+        return password;
+    }  
+    
     private void validateAccount(Account a, boolean isAccountNew) throws InvalidInputException {
         //validate email format
         try {
@@ -116,6 +145,6 @@ public class AccountServiceImpl implements AccountService {
            (password.length() > max) ){
             throw new InvalidInputException(message);
         }
-    }
+    }    
     
 }
