@@ -7,10 +7,15 @@ package bl.wordcounter.webapp.Controller;
 
 import bl.wordcounter.webapp.Service.AnalysisService;
 import bl.wordcounter.webapp.Service.TextService;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -39,17 +44,14 @@ public class TextController {
         return "Delete Text.";
     }
     
-    @RequestMapping(value = "/display-text", method = RequestMethod.GET)
-    public String displayText() {
-        return "Display Text.";
-    }
-    
     
     //ANALYSIS =================================================================
     
+    //AJAX
     @RequestMapping(value = "/analyze", method = RequestMethod.POST)
-    public String analyze() {
-        return "Analyze.";
+    public ResponseEntity<Object> analyze(@RequestParam("text-to-analyze") String input) {
+        List<Map.Entry<String, Integer>> list = analysisService.analyze(input);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 }

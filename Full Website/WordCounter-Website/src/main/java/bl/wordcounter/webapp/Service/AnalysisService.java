@@ -6,7 +6,6 @@
 package bl.wordcounter.webapp.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -15,7 +14,6 @@ import java.util.Map.Entry;
  */
 public interface AnalysisService {
     
-    Map<String, Integer> getResultsAlphabetically(String input);
-    List<Entry<String, Integer>> getResultsByOccurance(Map<String, Integer> map);
+    List<Entry<String, Integer>> analyze(String input);
   
 }

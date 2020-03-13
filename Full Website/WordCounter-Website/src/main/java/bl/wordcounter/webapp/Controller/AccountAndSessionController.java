@@ -8,6 +8,7 @@ package bl.wordcounter.webapp.Controller;
 import bl.wordcounter.webapp.Service.AccountService;
 import bl.wordcounter.webapp.Service.MailService;
 import bl.wordcounter.webapp.Service.SessionService;
+import bl.wordcounter.webapp.Service.TextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,12 +31,17 @@ public class AccountAndSessionController {
     @Autowired
     SessionService sessionService;
     
+    @Autowired
+    TextService textService;
+    
     
     //ACCOUNTS =================================================================
     
-    @RequestMapping(value = "/log-in", method = RequestMethod.GET)
-    public String login() {
-        return "Login.";
+    
+    
+    @RequestMapping(value = "/log-in", method = RequestMethod.POST)
+    public String attemptLogin() {
+        return "Attempt Login.";
     }
     
     @RequestMapping(value = "/log-out", method = RequestMethod.GET)
