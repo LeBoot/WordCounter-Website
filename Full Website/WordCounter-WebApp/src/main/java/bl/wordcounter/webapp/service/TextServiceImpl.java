@@ -5,7 +5,6 @@
  */
 package bl.wordcounter.webapp.service;
 
-import bl.wordcounter.webapp.entity.Account;
 import bl.wordcounter.webapp.entity.Text;
 import bl.wordcounter.webapp.repository.TextRepository;
 import java.util.ArrayList;

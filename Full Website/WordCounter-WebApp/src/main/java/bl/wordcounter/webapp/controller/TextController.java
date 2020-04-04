@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bl.wordcounter.webapp.service;
+package bl.wordcounter.webapp.controller;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author Boone
  */
-@Service
-public class SecurityServiceImpl implements SecurityService {
+@Controller
+@RequestMapping("/text")
+public class TextController {
     
 }

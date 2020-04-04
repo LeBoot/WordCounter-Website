@@ -19,6 +19,38 @@ public class Enigma {
     //============================================================================================
 
     /**
+     * Auto-generates a password that is built from VALID_CHARACTERS.
+     * If the input length is less than 4, the output length will be 4.
+     * If the input length is greater than 20, the output length will be 10.
+     * If the input length is between 4 and 20 (inclusively), the output length
+     *  will be the input length.
+     * @param length
+     * @return String new password
+     */
+    public String autogeneratePassword(int length) {
+        Random randGen = new Random();
+        
+        if (length < 4) {
+            length = 4; //arbitrary
+        } else if (length > 20) {
+            length = 10; //arbitrary
+        }
+        
+        int min = 0;
+        int max = VALID_CHARACTERS.length - 1;
+        
+        String password = "";
+        while(password.length() < length) {
+            int n = randGen.nextInt((max - min) + 1) + min;
+            try {
+                password += VALID_CHARACTERS[n];
+            } catch (Exception e) {}
+        }
+        
+        return password;
+    }   
+    
+    /**
      * Encrypts a password.
      * Validates that the input contains only valid characters.
      *  If false, throws an exception.

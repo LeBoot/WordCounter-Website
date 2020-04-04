@@ -5,7 +5,11 @@
  */
 package bl.wordcounter.webapp.service;
 
+import bl.wordcounter.webapp.enigma.Enigma;
+import bl.wordcounter.webapp.enigma.exception.InvalidKeyException;
+import bl.wordcounter.webapp.enigma.exception.InvalidPasswordException;
 import bl.wordcounter.webapp.entity.Account;
+import bl.wordcounter.webapp.exception.EmailUnavailableException;
 import bl.wordcounter.webapp.repository.AccountRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,25 +27,70 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountRepository accountRepo;
     
-    @Override
-    public Account saveAccount(Account account) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    Enigma enigma = new Enigma();
 
+    @Override
+    public String autogeneratePassword(int length) {
+        return enigma.autogeneratePassword(length);
+    }
+    
+    @Override
+    public void changeEmail(int id, String email) throws EmailUnavailableException {
+        checkEmailAvailability(email);
+        Account account = getAnAccount(id);
+        accountRepo.save(account);
+    }
+    
+    @Override
+    public void changePassword(int id, String password)
+            throws NoSuchElementException, InvalidKeyException, InvalidPasswordException {
+        Account account = getAnAccount(id);
+        encryptPasswordAndSave(account, password);
+    }
+    
+    @Override
+    public void deleteAccount(int id) {
+        accountRepo.deleteById(id);
+    }
+    
+    @Override
+    public List<Account> getAllAccounts() {
+        return accountRepo.findAll();
+    }
+    
     @Override
     public Account getAnAccount(int id) throws NoSuchElementException {
         Optional<Account> optA = accountRepo.findById(id);
         return optA.orElseThrow();
     }
-
+    
     @Override
-    public List<Account> getAllAccounts() {
-        return accountRepo.findAll();
+    public void saveNewAccount(String email, String password)
+            throws EmailUnavailableException, InvalidPasswordException, InvalidKeyException {
+        checkEmailAvailability(email);
+        Account account = new Account();
+        account.setEmail(email);
+        encryptPasswordAndSave(account, password);
     }
-
-    @Override
-    public void deleteAccount(int id) {
-        accountRepo.deleteById(id);
+    
+    //HELPER METHODS ===========================================================
+    
+    private void encryptPasswordAndSave(Account account, String password)
+            throws InvalidPasswordException, InvalidKeyException {
+        String[] output = enigma.encryptPassword(password);
+        account.setPassword(output[0]);
+        account.setPasskey(output[1]);
+        accountRepo.save(account);
+    }
+    
+    private void checkEmailAvailability(String email) throws EmailUnavailableException {
+        List<Account> accounts = accountRepo.findAll();
+        for (Account a : accounts) {
+            if (a.getEmail().equalsIgnoreCase(email)) {
+                String message = "The email " + email + " is already associated with an account.";
+                throw new EmailUnavailableException(message);
+            }
+        }
     }
     
 }

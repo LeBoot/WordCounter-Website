@@ -11,4 +11,7 @@ package bl.wordcounter.webapp.service;
  */
 public interface MailService {
     
+    void sendForgotPassword(String recipientAddress, String newPassword)
+            throws Exception;
+    
 }

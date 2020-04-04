@@ -21,9 +21,8 @@ public class SessionServiceImpl implements SessionService {
 
     @Autowired
     AccountService accountService;
-    
-    @Autowired
-    Enigma enigma;
+   
+    Enigma enigma = new Enigma();
     
     private static int SESSION_STATUS = LOGGED_OUT;
     private static int SESSION_OWNER = NO_OWNER;
