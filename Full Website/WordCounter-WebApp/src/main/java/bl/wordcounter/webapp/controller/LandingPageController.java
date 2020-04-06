@@ -40,7 +40,8 @@ public class LandingPageController {
         } else {
             //Display "log out" button
             //Display "my account" button
-        }        
+        }
+        
         return "Home";
     }
     

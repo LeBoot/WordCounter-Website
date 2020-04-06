@@ -1,0 +1,43 @@
+/* 
+    Name: Sidebar.css
+    Project: Word Counter
+    Date Created: 2 March 2020
+    Date Updated: 6 April 2020
+    Author: Ben Lebout
+*/
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    height: calc(100vh - 190px);
+    margin-left: -250px;
+    background-color: brown;
+}
+
+#sidebar.active {
+    margin-left: 0px;
+}
+
+#div-sidebar-header {
+    border: solid yellow 1px;
+    text-align: center;
+}
+
+#div-sidebar-links-container {
+    margin-top: 10px;
+}
+
+.div-sidebar-link {
+    height: 50px;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.div-sidebar-link a {
+    color: black;
+}
+
+.div-sidebar-button {
+    width: 95%;
+    height: 100%;
+}

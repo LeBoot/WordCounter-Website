@@ -1,0 +1,65 @@
+/* 
+    Name: HeaderFooter.css
+    Project: Word Counter
+    Date Created: 2 March 2020
+    Date Updated: 6 April 2020
+    Author: Ben Lebout
+*/
+
+#div-noscript {
+    text-align: center;
+    color: rgb(153, 6, 6);
+    background-color: rgb(252, 153, 142);
+    padding: 5px;
+}
+
+body {
+    background-color: antiquewhite; /*THIS*/
+}
+
+header {
+    flex-direction: row;
+}
+
+footer {
+    border: solid purple 1px;
+    text-align: center;
+    padding: 13px;
+    height: 70px;
+
+    /*Keep footer at bottom of page*/
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.section-main-body {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+.div-header-picture {
+    width: calc(100%/7);
+    border: solid purple 1px;
+    height: 120px;
+    float: left;
+}
+
+#page-content {
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+    outline: none;
+}
+
+button:hover {
+    background-color: rgb(223, 222, 222);
+    outline: none;
+}

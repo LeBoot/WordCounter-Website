@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="description of website"> <!-- THIS -->
+        <meta name="keywords" content="keyword1; keyword2; keyword3"> <!-- THIS -->
+        
+        <meta name="author" content="Ben Leboot">
+        <meta name="date.created" content="2020-03-02">
+        <meta name="date.modified" content="2020-04-06"> <!-- THIS -->
+               
+        <!-- Title for document -->
+        <title>Home | Word Counter</title>
+
+        <!-- External Links -->
+            <!-- Latest compiled and minified CSS -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <!-- jQuery library -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <!-- Latest compiled JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ 
+        <!-- CSS, Custom, External -->
+        <link href="css/headerfooter.css" rel="stylesheet" type="text/css" />
+        <link href="css/home.css" rel="stylesheet" type="text/css" />
+        <link href="css/sidebar.css" rel="stylesheet" type="text/css" />
+        
+        <!-- CSS, Custom, Internal -->
+        <style>
+            /* The Modal (background) */
+            .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+
+            /* Modal Content */
+            .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            }
+        </style>
+
+    </head> <!-- END HEAD ====================================================================================== -->
+    
+    <body>
+        <noscript><div id="div-noscript"><h2>Warning: This page does not function properly with JavaScript disabled.</h2></div></noscript>
+        
+        <header>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+        </header> <!-- END header ------------------------------------------------------------------------------ -->
+
+        <section class="section-main-body">
+
+            <!-- Sidebar -->
+            <nav id="sidebar">
+                <div id="div-sidebar-header">
+                    <h4>Insert "Welcome, email" with JS</h4>
+                </div>
+                <div id="div-sidebar-links-container">
+                    <div class="div-sidebar-link">
+                        <button class="div-sidebar-button" id="button-activate-modal-log-in">Log In</button>
+                    </div>
+                    <div class="div-sidebar-link">
+                        <button class="div-sidebar-button" id="button-activate-modal-sign-up">Sign Up</button>
+                    </div>
+                    <div class="div-sidebar-link">
+                        <a href="account/view">
+                            <button class="div-sidebar-button" id="button-link-my-account">My Account</button>
+                        </a>
+                    </div>
+                    <div class="div-sidebar-link">
+                        <a href="session/logout">
+                            <button class="div-sidebar-button" id="button-log-out">Log Out</button>
+                        </a>
+                    </div>
+                </div>
+            </nav> <!-- End Sidebar ---------------------------------------------------------------------------- -->
+    
+            <!-- Page Content -->
+            <div id="page-content">
+                <nav id="nav-sidebar-toggle">
+                    <button id="button-sidebar-toggle" onClick="toggleSidebar()">☰ Menu</button>
+                </nav>
+                <div id="div-form1">
+                    <form id="form1" onSubmit="analyzetext()">
+                        <div>
+                            <textarea placeholder="Text to analyze." id="form1-text-area" name="form1-text-area"></textarea>
+                        </div>
+                        <div id="form1-error-div"></div>
+                        <div id="div-form1-buttons">
+                            <button type="submit" id="form1-button">Analyze</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="container-for-page-tabs" class="inactive-tab-content">
+                    <div id="page-tabs-buttons">
+                        <button class="tab-button" onClick="displayTabContent('page1', this, 'olivedrab')" id="defaultOpen">Scalar Graph</button>
+                        <button class="tab-button" onClick="displayTabContent('page2', this, 'peru')">Log Graph</button>
+                        <button class="tab-button" onClick="displayTabContent('page3', this, 'rosybrown')">Table</button>
+                    </div>
+                    <div id="page-tabs-content">
+                        <div class="tab-content" id="page1">
+                            <h2>This is page 1</h2>
+                        </div>
+            
+                        <div class="tab-content" id="page2">
+                            <h2>This is page 2</h2>
+                        </div>
+            
+                        <div class="tab-content" id="page3">
+                            <h2>This is page 3</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="my-chart"></div>
+            </div> <!-- End Page Content ----------------------------------------------------------------------- -->
+
+
+            <!-- Modals ---------------------------------------------------------------------------------------- -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Some text in the Modal..</p>
+                </div>
+            
+            </div>
+
+    
+        </section> <!-- END Section-Main-Body ------------------------------------------------------------------ -->
+
+        <footer>
+            <p>Created by LeBoot Websites</p>
+            <p>Copyright © 2020</p>
+        </footer> <!-- END footer -->
+
+        <!-- JavaScript, Custom, Internal -->
+        <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+            
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+              modal.style.display = "block";
+            }
+            
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+              modal.style.display = "none";
+            }
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+            </script>
+
+        </script>
+
+        <!-- JavaScript, Custom, External -->
+        <script src="js/home.js" ></script>
+        <script src="js/sidebar.js" ></script>
+
+        <!-- External Scripts -->
+            <!-- Full JQuery (with AJAX) -->
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+            <!-- Popper JS -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <!-- Bootstrap JS -->
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body> <!-- END BODY ====================================================================================== -->
+</html>

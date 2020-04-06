@@ -40,8 +40,8 @@ public class AccountController {
     @RequestMapping(value = "/view", method = RequestMethod.GET)
     String displayAccountPage(Model model) {
         if (sessionService.getSessionStatus() == 0) {
-            return "redirect: /home";
-        }       
+            return "redirect:/home";
+        }
         return "Account";
     }
     

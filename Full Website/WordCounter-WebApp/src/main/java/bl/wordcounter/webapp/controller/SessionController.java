@@ -40,15 +40,15 @@ public class SessionController {
         } catch (UnsuccessfulLoginException ex) {
             errorService.setHtmlErrors(ex.getMessage());
         }
-        return "redirect: /home";
+        return "redirect:/home";
     }
     
     //Thymeleaf
-    @RequestMapping(value="logout", method = RequestMethod.POST)
+    @RequestMapping(value="logout", method = RequestMethod.GET)
     String logout() {
         errorService.resetHtmlErrors();
         sessionService.logOut();
-        return "redirect: /home";
+        return "redirect:/home";
     } 
     
 }

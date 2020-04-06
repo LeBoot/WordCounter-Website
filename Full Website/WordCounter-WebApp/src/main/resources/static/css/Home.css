@@ -1,0 +1,124 @@
+/* 
+    Name: Home.css
+    Project: Word Counter
+    Date Created: 2 March 2020
+    Date Updated: 6 April 2020
+    Author: Ben Lebout
+*/
+
+/*Form*/
+/* ------------------------------ */
+
+/*Page Tabs*/
+/* ------------------------------ */
+.tab-button {
+    border: none;
+    width: 120px;
+    height: 40px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/*Miscellaneous*/
+/* ------------------------------ */
+
+#nav-sidebar-toggle {
+    margin: 10px;
+}
+
+.spin {
+    border: 8px solid rgb(152, 192, 243);
+    border-left: 8px solid rgb(30, 129, 209);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite;
+    margin: 10px auto;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#div-form1 {
+    width: 600px;
+    text-align: center;
+    margin: auto;
+}
+
+#form1,
+#page-tabs-buttons,
+#page-tabs-content {
+    width: 100%;
+}
+
+#form1-text-area {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 150px;
+    max-height: 300px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+#form1-error {
+    color: red;
+}
+
+#container-for-page-tabs {
+    width: 90%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+#page1 {background-color: olivedrab;}
+#page2 {background-color: peru;}
+#page3 {background-color: rosybrown;}
+
+.inactive-tab-content {
+    display: none;
+}
+
+.active-tab-content {
+    display: block;
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+
+
+
+/*
+#my-chart {
+    height: 400px;
+    width: 1000px;
+    margin: 30px auto;
+} */
+
