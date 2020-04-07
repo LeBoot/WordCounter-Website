@@ -49,8 +49,56 @@
             margin: auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%;
             }
+
+            #modal-sign-up-content {
+                width: 400px;
+                height: 365px;
+            }
+
+            .modal-header {
+                text-align: center;
+                margin-top: 0;
+            }
+
+            input {
+                border: 1px solid rgb(200, 209, 209);
+                outline: none;
+                border-radius: 4px;
+                padding-left: 3px;
+            }
+
+            input,
+            label,
+            .div-error-small {
+                display: block;
+                width: 55%;
+                margin: auto;
+            }
+
+            .div-error-small {
+                color: red;
+                font-size: small;
+            }
+
+            .form-div-label-and-input{
+                width: 100%;
+                float: left;
+                margin: 5px 0px;
+            }
+
+            .form-div-buttons {
+                width: 90%;
+                position: absolute;
+                bottom: 0;
+                margin-bottom: 20px;
+            }
+
+            .form-button {
+                float: right;
+                margin: 0px 5px;
+            }
+
         </style>
 
     </head> <!-- END HEAD ====================================================================================== -->
@@ -77,10 +125,10 @@
                 </div>
                 <div id="div-sidebar-links-container">
                     <div class="div-sidebar-link">
-                        <button class="div-sidebar-button" id="button-activate-modal-log-in">Log In</button>
+                        <button class="div-sidebar-button" id="button-activate-modal-log-in" onClick="displayModalLogIn()">Log In</button>
                     </div>
                     <div class="div-sidebar-link">
-                        <button class="div-sidebar-button" id="button-activate-modal-sign-up">Sign Up</button>
+                        <button class="div-sidebar-button" id="button-activate-modal-sign-up" onClick="displayModalSignUp()">Sign Up</button>
                     </div>
                     <div class="div-sidebar-link">
                         <a href="account/view">
@@ -137,12 +185,46 @@
 
 
             <!-- Modals ---------------------------------------------------------------------------------------- -->
-            <div id="myModal" class="modal">
+            <div id="modal-log-in" class="modal">
 
                 <!-- Modal content -->
                 <div class="modal-content">
                 <span class="close">&times;</span>
-                <p>Some text in the Modal..</p>
+                <p>Log In Modal</p>
+                </div>
+            
+            </div>
+
+            <div id="modal-sign-up" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content" id="modal-sign-up-content">
+                    <h2 class="modal-header">Sign Up</h2>
+                    <div class="div-error-big" id="modal-sign-up-div-errors"></div>
+                    <form id="modal-form-sign-up">
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-sign-up-input-email">Email:</label>
+                            <input type="email" id="modal-form-sign-up-input-email">
+                            <div class="div-error-small" id="modal-sign-up-form-email-errors"></div>
+                        </div>
+
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-sign-up-input-password-1">Password:</label>
+                            <input type="password" id="modal-form-sign-up-input-password1">
+                            <div class="div-error-small" id="modal-sign-up-form-password1-errors"></div>
+                        </div>
+
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-sign-up-input-password-2">Confirm Password:</label>
+                            <input type="password" id="modal-form-sign-up-input-password2">
+                            <div class="div-error-small" id="modal-sign-up-form-password2-errors"></div>
+                        </div>
+
+                        <div class="form-div-buttons">
+                            <button type="submit" class="form-button" id="modal-form-sign-up-button-submit" onclick="submitSignUp()">Submit</button>
+                            <button type="button" class="form-button" id="modal-form-sign-up-button-cancel" onclick="closeModalSignUp()">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             
             </div>
@@ -157,33 +239,6 @@
 
         <!-- JavaScript, Custom, Internal -->
         <script>
-            // Get the modal
-            var modal = document.getElementById("myModal");
-            
-            // Get the button that opens the modal
-            var btn = document.getElementById("myBtn");
-            
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-            
-            // When the user clicks the button, open the modal 
-            btn.onclick = function() {
-              modal.style.display = "block";
-            }
-            
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() {
-              modal.style.display = "none";
-            }
-            
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-              if (event.target == modal) {
-                modal.style.display = "none";
-              }
-            }
-            </script>
-
         </script>
 
         <!-- JavaScript, Custom, External -->
