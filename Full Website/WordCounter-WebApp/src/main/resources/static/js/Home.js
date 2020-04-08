@@ -46,9 +46,8 @@ function closeModalLogIn() {
 }
 
 function clearModalLogIn() {
-    // $("#modal-form-sign-up-input-email").val("");
-    // $("#modal-form-sign-up-input-password1").val("");
-    // $("#modal-form-sign-up-input-password2").val("");
+    $("#modal-form-log-in-input-email").val("");
+    $("#modal-form-log-in-input-password").val("");
 }
 
 
@@ -112,6 +111,38 @@ function submitSignUp() {
         proceed = false;
         var error = "Passwords do not match."
         $("#modal-sign-up-form-password2-errors").text(error);
+    }
+
+    if (proceed) {
+        //MAKE AJAX CALL
+    }
+
+}
+
+/*Submit Log In ========================================== */
+function submitLogIn() {
+    console.log("HERE");
+    //Prevent form from submitting on its own and refreshing the page
+    event.preventDefault();
+
+    //Clear errors
+    clearAllErrors();
+
+    //Create variable to determine whether or not to make AJAX call
+    var proceed = true;
+
+    //Grab input from user
+    var email = $("#modal-form-log-in-input-email").val().trim();
+    var pass = $("#modal-form-log-in-input-password").val().trim();
+
+    //Clear fields
+    clearModalSignUp();
+    
+    //validate email properties
+    var emailReturn = validateEmail(email);
+    if (emailReturn != "good") {
+        proceed = false;
+        $("#modal-log-in-form-email-errors").text(emailReturn);
     }
 
     if (proceed) {

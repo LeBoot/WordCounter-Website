@@ -51,9 +51,14 @@
             border: 1px solid #888;
             }
 
+            #modal-log-in-content {
+                width: 400px;
+                height: 300px;
+            }
+
             #modal-sign-up-content {
                 width: 400px;
-                height: 365px;
+                height: 380px;
             }
 
             .modal-header {
@@ -81,6 +86,13 @@
                 font-size: small;
             }
 
+            .div-error-big {
+                text-align: center;
+                color: rgb(153, 6, 6);
+                background-color: rgb(253, 197, 192);
+                border-radius: 4px;
+            }
+
             .form-div-label-and-input{
                 width: 100%;
                 float: left;
@@ -94,9 +106,30 @@
                 margin-bottom: 20px;
             }
 
-            .form-button {
+            .form-button,
+            .form-button-forgot-password {
                 float: right;
                 margin: 0px 5px;
+                background-color: rgb(227, 238, 238);
+                color: black;
+                border: 1px solid rgb(156, 150, 150);
+                border-radius: 4px;
+                cursor: pointer;
+                outline: none;
+                height: 40px;
+            }
+
+            .form-button {
+                width: 60px;
+            }
+
+            .form-button-forgot-password {
+                width: 80px;
+            }
+
+            .form-button:hover,
+            .form-button-forgot-password:hover {
+                background-color: rgb(195, 211, 211);
             }
 
         </style>
@@ -125,19 +158,19 @@
                 </div>
                 <div id="div-sidebar-links-container">
                     <div class="div-sidebar-link">
-                        <button class="div-sidebar-button" id="button-activate-modal-log-in" onClick="displayModalLogIn()">Log In</button>
+                        <button class="div-sidebar-button button-standard" id="button-activate-modal-log-in" onClick="displayModalLogIn()">Log In</button>
                     </div>
                     <div class="div-sidebar-link">
-                        <button class="div-sidebar-button" id="button-activate-modal-sign-up" onClick="displayModalSignUp()">Sign Up</button>
+                        <button class="div-sidebar-button button-standard" id="button-activate-modal-sign-up" onClick="displayModalSignUp()">Sign Up</button>
                     </div>
                     <div class="div-sidebar-link">
                         <a href="account/view">
-                            <button class="div-sidebar-button" id="button-link-my-account">My Account</button>
+                            <button class="div-sidebar-button button-standard" id="button-link-my-account">My Account</button>
                         </a>
                     </div>
                     <div class="div-sidebar-link">
                         <a href="session/logout">
-                            <button class="div-sidebar-button" id="button-log-out">Log Out</button>
+                            <button class="div-sidebar-button button-standard" id="button-log-out">Log Out</button>
                         </a>
                     </div>
                 </div>
@@ -146,7 +179,7 @@
             <!-- Page Content -->
             <div id="page-content">
                 <nav id="nav-sidebar-toggle">
-                    <button id="button-sidebar-toggle" onClick="toggleSidebar()">☰ Menu</button>
+                    <button id="button-sidebar-toggle button-standard" onClick="toggleSidebar()">☰ Menu</button>
                 </nav>
                 <div id="div-form1">
                     <form id="form1" onSubmit="analyzetext()">
@@ -155,7 +188,7 @@
                         </div>
                         <div id="form1-error-div"></div>
                         <div id="div-form1-buttons">
-                            <button type="submit" id="form1-button">Analyze</button>
+                            <button class="button-standard" type="submit" id="form1-button">Analyze</button>
                         </div>
                     </form>
                 </div>
@@ -186,18 +219,32 @@
 
             <!-- Modals ---------------------------------------------------------------------------------------- -->
             <div id="modal-log-in" class="modal">
+                <div class="modal-content" id="modal-log-in-content">
+                    <h2 class="modal-header">Log In</h2>
+                    <div class="div-error-big" id="modal-log-in-div-errors"></div>
+                    <form id="modal-form-log-in">
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-log-in-input-email">Email:</label>
+                            <input type="email" id="modal-form-log-in-input-email">
+                            <div class="div-error-small" id="modal-log-in-form-email-errors"></div>
+                        </div>
 
-                <!-- Modal content -->
-                <div class="modal-content">
-                <span class="close">&times;</span>
-                <p>Log In Modal</p>
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-log-in-input-password">Password:</label>
+                            <input type="password" id="modal-form-log-in-input-password">
+                            <div class="div-error-small" id="modal-log-in-form-password-errors"></div>
+                        </div>
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-log-in-button-cancel" onclick="closeModalLogIn()">Cancel</button>
+                            <button type="button" class="form-button-forgot-password" id="modal-form-log-in-button-forgot-password" onclick="displayModalForgotPassword()">Forgot Password</button>
+                            <button type="submit" class="form-button" id="modal-form-log-in-button-submit" onclick="submitLogIn()">Log In</button>
+                        </div>
+                    </form>
                 </div>
-            
             </div>
 
             <div id="modal-sign-up" class="modal">
-
-                <!-- Modal content -->
                 <div class="modal-content" id="modal-sign-up-content">
                     <h2 class="modal-header">Sign Up</h2>
                     <div class="div-error-big" id="modal-sign-up-div-errors"></div>
@@ -221,12 +268,11 @@
                         </div>
 
                         <div class="form-div-buttons">
-                            <button type="submit" class="form-button" id="modal-form-sign-up-button-submit" onclick="submitSignUp()">Submit</button>
                             <button type="button" class="form-button" id="modal-form-sign-up-button-cancel" onclick="closeModalSignUp()">Cancel</button>
+                            <button type="submit" class="form-button" id="modal-form-sign-up-button-submit" onclick="submitSignUp()">Submit</button>
                         </div>
                     </form>
                 </div>
-            
             </div>
 
     

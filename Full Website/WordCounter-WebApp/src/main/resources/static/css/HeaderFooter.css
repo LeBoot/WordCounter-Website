@@ -54,12 +54,12 @@ footer p {
     margin: 0;
 }
 
-button {
+.button-standard {
     cursor: pointer;
     outline: none;
 }
 
-button:hover {
+.button-standard:hover {
     background-color: rgb(223, 222, 222);
     outline: none;
 }
