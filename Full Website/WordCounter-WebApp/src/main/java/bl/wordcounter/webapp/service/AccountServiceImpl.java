@@ -10,6 +10,7 @@ import bl.wordcounter.webapp.enigma.exception.InvalidKeyException;
 import bl.wordcounter.webapp.enigma.exception.InvalidPasswordException;
 import bl.wordcounter.webapp.entity.Account;
 import bl.wordcounter.webapp.exception.EmailUnavailableException;
+import bl.wordcounter.webapp.exception.InvalidInputException;
 import bl.wordcounter.webapp.repository.AccountRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -65,12 +66,14 @@ public class AccountServiceImpl implements AccountService {
     }
     
     @Override
-    public void saveNewAccount(String email, String password)
-            throws EmailUnavailableException, InvalidPasswordException, InvalidKeyException {
+    public void saveNewAccount(String email, String password1, String password2)
+            throws EmailUnavailableException, InvalidPasswordException, InvalidKeyException, InvalidInputException {
+        validateEmail(email);
         checkEmailAvailability(email);
+        confirmPasswordsMatch(password1, password2);
         Account account = new Account();
         account.setEmail(email);
-        encryptPasswordAndSave(account, password);
+        encryptPasswordAndSave(account, password1);
     }
     
     //HELPER METHODS ===========================================================
@@ -90,6 +93,32 @@ public class AccountServiceImpl implements AccountService {
                 String message = "The email " + email + " is already associated with an account.";
                 throw new EmailUnavailableException(message);
             }
+        }
+    }
+    
+    private void validateEmail(String email) throws InvalidInputException {
+        int min = 8;
+        int max = 50;
+        
+        if (email.length() > max) {
+            String message = "Please use an email that is no more than " + max + " characters in length.";
+            throw new InvalidInputException(message);
+        }
+        
+        if (
+            (email.length() < min) ||
+            (!email.contains("@")) ||
+            (!email.contains("."))
+            ){
+            String message = "Please use a valid email.";
+            throw new InvalidInputException(message);
+        } 
+    }
+    
+    private void confirmPasswordsMatch(String pass1, String pass2) throws InvalidInputException {
+        if (!pass1.equals(pass2)) {
+            String message = "Passwords do not match.";
+            throw new InvalidInputException(message);
         }
     }
     

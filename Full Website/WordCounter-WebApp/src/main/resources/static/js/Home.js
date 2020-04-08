@@ -2,7 +2,7 @@
     Name: Home.js
     Project: Word Counter
     Date Created: 7 April 2020
-    Date Updated: 7 April 2020
+    Date Updated: 8 April 2020
     Author: Ben Lebout
 */
 
@@ -14,6 +14,8 @@ $(document).ready(function () {
 function closeAllModals() {
     closeModalLogIn();
     closeModalSignUp();
+    closeModalLogInSuccess();
+    closeModalSignUpSuccess();
 }
 
 function clearAllErrors() {
@@ -29,6 +31,8 @@ window.onclick = function(event) {
         closeModalLogIn();
     }
 }
+
+const error400 = "Sorry, that request didn't work.  Please try again";
 
 
 /*Log In Modal ========================================== */
@@ -69,6 +73,51 @@ function clearModalSignUp() {
     $("#modal-form-sign-up-input-email").val("");
     $("#modal-form-sign-up-input-password1").val("");
     $("#modal-form-sign-up-input-password2").val("");
+}
+
+/*Sign Up Success Modal ========================================== */
+var modalSignUpSuccess = document.getElementById("modal-sign-up-success");
+
+function displayModalSignUpSuccess() {
+    closeAllModals();
+    clearAllErrors();
+    modalSignUpSuccess.style.display = "block";
+}
+
+function closeModalSignUpSuccess() {
+    modalSignUpSuccess.style.display = "none";
+}
+
+/*Log In Success Modal ========================================== */
+var modalLogInSuccess = document.getElementById("modal-log-in-success");
+
+function displayModalLogInSuccess() {
+    closeAllModals();
+    clearAllErrors();
+    modalLogInSuccess.style.display = "block";
+}
+
+function closeModalLogInSuccess() {
+    modalLogInSuccess.style.display = "none";
+}
+
+/*Forgot Password Modal ========================================== */
+var modalForgotPassword = document.getElementById("modal-forgot-password");
+
+function displayModalForgotPassword() {
+    closeAllModals();
+    clearAllErrors();
+    setModalForgotPasswordInitialHtml();
+    modalForgotPassword.style.display = "block";
+}
+
+function closeModalForgotPassword() {
+    clearModalForgotPassword();
+    modalForgotPassword.style.display = "none";
+}
+
+function clearModalForgotPassword() {
+    $("#modal-form-forgot-password-input-email").val("");
 }
 
 
@@ -113,15 +162,40 @@ function submitSignUp() {
         $("#modal-sign-up-form-password2-errors").text(error);
     }
 
+    //make AJAX call
     if (proceed) {
-        //MAKE AJAX CALL
+        $.ajax({
+            type: 'POST',
+            url: '/account/new',
+            data: {
+                "formEmail": email,
+                "formPass1": pass1,
+                "formPass2": pass2
+            },
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function(data, status) {
+                displayModalSignUpSuccess();
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                console.log("Err: " + err);
+                console.log("Err.message: " + err.message);
+                console.log("Status: " + status);
+                console.log("Error: " + error);
+
+                $("#modal-sign-up-div-errors").text("Error Goes Here.");
+            }
+        });        
     }
 
 }
 
 /*Submit Log In ========================================== */
 function submitLogIn() {
-    console.log("HERE");
+    
     //Prevent form from submitting on its own and refreshing the page
     event.preventDefault();
 
@@ -146,9 +220,100 @@ function submitLogIn() {
     }
 
     if (proceed) {
-        //MAKE AJAX CALL
+        
     }
 
+}
+
+/*Submit Forgot Password ========================================== */
+function submitForgotPassword() {
+    
+    //Prevent form from submitting on its own and refreshing the page
+    event.preventDefault();
+
+    //Clear errors
+    clearAllErrors();
+
+    //Create variable to determine whether or not to make AJAX call
+    var proceed = true;
+
+    //Grab input from user
+    var email = $("#modal-form-forgot-password-input-email").val().trim();
+    
+    //Clear fields
+    clearModalForgotPassword();
+
+    //validate email properties
+    var emailReturn = validateEmail(email);
+    if (emailReturn != "good") {
+        proceed = false;
+        $("#modal-forgot-password-div-errors").text(emailReturn);
+    }
+
+    if (proceed) {
+        //Clear modal text and put spinner
+        setModalForogtPasswordAsSpinner();
+
+        //MAKE AJAX CALL
+/*
+        //If error
+        closeModalForgotPassword();
+        submitForgotPassword();
+        $("#modal-forgot-password-div-errors").text("Error goes here.");
+*/
+        //if success
+        setModalForgotPasswordSuccess();
+
+    }
+
+}
+
+function setModalForgotPasswordInitialHtml() {
+    $("#modal-forgot-password").html(`
+        <div class="modal-content" id="modal-forgot-password-content">
+            <h2 class="modal-header">Forgot Password</h2>
+            <div class="div-error-big" id="modal-forgot-password-div-errors"></div>
+            <form id="modal-form-forgot-password">
+                <div class="form-div-label-and-input">
+                    <label for="modal-form-forgot-password-input-email">Email:</label>
+                    <input type="email" id="modal-form-forgot-password-input-email">
+                </div>
+
+                <div class="form-div-buttons">
+                    <button type="button" class="form-button" id="modal-form-forgot-password-button-cancel" onclick="closeModalForgotPassword()">Cancel</button>
+                    <button type="submit" class="form-button" id="modal-form-forgot-password-button-submit" onclick="submitForgotPassword()">Submit</button>
+                </div>
+            </form>
+        </div>
+    `);
+}
+
+function setModalForogtPasswordAsSpinner() {
+    $("#modal-forgot-password").html(`
+        <div class="modal-content" id="modal-forgot-password-content">
+            <h2 class="modal-header">Forgot Password</h2>
+            <div class="div-error-big" id="modal-forgot-password-div-errors"></div>
+            <div class="spin"></div>
+        </div>
+    `);
+}
+
+function setModalForgotPasswordSuccess() {
+    $("#modal-forgot-password").html(`
+        <div class="modal-content" id="modal-forgot-password-content" style="text-align:center;">
+            <h2 class="modal-header">Forgot Password</h2>
+            <div class="div-error-big" id="modal-forgot-password-div-errors"></div>
+            
+            
+            <h4>Your password has been successfully reset.</h4>
+            <h4>Please check your email.</h4>
+            
+            
+            <div class="form-div-buttons">
+                <button type="button" class="form-button" id="modal-form-forgot-password-button-cancel" onclick="closeModalForgotPassword()">Close</button    
+            </div>
+        </div>
+    `);
 }
 
 

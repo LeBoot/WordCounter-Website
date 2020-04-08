@@ -51,7 +51,8 @@
             border: 1px solid #888;
             }
 
-            #modal-log-in-content {
+            #modal-log-in-content,
+            #modal-forgot-password-content {
                 width: 400px;
                 height: 300px;
             }
@@ -59,6 +60,12 @@
             #modal-sign-up-content {
                 width: 400px;
                 height: 380px;
+            }
+
+            .modal-success {
+                width: 400px;
+                height: 200px;
+                text-align: center;
             }
 
             .modal-header {
@@ -127,8 +134,22 @@
                 width: 80px;
             }
 
+            .button-modal-success {
+                float: right;
+                margin: 20px 5px 0px 5px;
+                background-color: rgb(227, 238, 238);
+                color: black;
+                border: 1px solid rgb(156, 150, 150);
+                border-radius: 4px;
+                cursor: pointer;
+                outline: none;
+                height: 40px;
+                width: 60px;
+            }
+
             .form-button:hover,
-            .form-button-forgot-password:hover {
+            .form-button-forgot-password:hover,
+            .button-modal-success:hover {
                 background-color: rgb(195, 211, 211);
             }
 
@@ -270,6 +291,40 @@
                         <div class="form-div-buttons">
                             <button type="button" class="form-button" id="modal-form-sign-up-button-cancel" onclick="closeModalSignUp()">Cancel</button>
                             <button type="submit" class="form-button" id="modal-form-sign-up-button-submit" onclick="submitSignUp()">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-sign-up-success" class="modal">
+                <div class="modal-content modal-success" id="modal-sign-up-success-content">
+                    <h2>Welcome!</h2>
+                    <h4>You're successfully signed up.</h4>
+                    <button type="submit" class="button-modal-success" onclick="closeModalSignUpSuccess()">Close</button>
+                </div>
+            </div>
+
+            <div id="modal-log-in-success" class="modal">
+                <div class="modal-content modal-success" id="modal-log-in-success-content">
+                    <h2>Welcome!</h2>
+                    <h4>You're logged in and good to go.</h4>
+                    <button type="submit" class="button-modal-success" onclick="closeModalLogInSuccess()">Close</button>
+                </div>
+            </div>
+
+            <div id="modal-forgot-password" class="modal">
+                <div class="modal-content" id="modal-forgot-password-content">
+                    <h2 class="modal-header">Forgot Password</h2>
+                    <div class="div-error-big" id="modal-forgot-password-div-errors"></div>
+                    <form id="modal-form-forgot-password">
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-forgot-password-input-email">Email:</label>
+                            <input type="email" id="modal-form-forgot-password-input-email">
+                        </div>
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-forgot-password-button-cancel" onclick="closeModalForgotPassword()">Cancel</button>
+                            <button type="submit" class="form-button" id="modal-form-forgot-password-button-submit" onclick="submitForgotPassword()">Submit</button>
                         </div>
                     </form>
                 </div>

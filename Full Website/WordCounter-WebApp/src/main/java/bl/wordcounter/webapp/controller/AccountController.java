@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -76,8 +78,19 @@ public class AccountController {
     
     //AJAX
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    ResponseEntity<Object> saveNewAccount() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    @ResponseBody
+    ResponseEntity<Object> saveNewAccount(
+//            @RequestParam(value = "formEmail") String formEmail,
+//            @RequestParam(value = "formPass1") String formPass1,
+//            @RequestParam(value = "formPass2") String formPass2) {
+    String formEmail, String formPass1, String formPass2
+    ){
+        try {
+            accountService.saveNewAccount(formEmail, formPass1, formPass2);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+        }
     }
     
     //AJAX
