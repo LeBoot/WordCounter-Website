@@ -6,6 +6,8 @@
 package bl.wordcounter.webapp.service;
 
 import bl.wordcounter.webapp.entity.Text;
+import bl.wordcounter.webapp.exception.SavingTextException;
+import bl.wordcounter.webapp.exception.TitleTakenException;
 import bl.wordcounter.webapp.repository.TextRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +27,9 @@ public class TextServiceImpl implements TextService {
     TextRepository textRepo;
     
     @Override
-    public Text saveText(Text text) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Text saveText(Text text) throws SavingTextException {
+        validateText(text);
+        return textRepo.save(text);
     }
 
     @Override
@@ -48,6 +51,23 @@ public class TextServiceImpl implements TextService {
     @Override
     public void deleteText(int id) {
         textRepo.deleteById(id);
+    }
+    
+    private void validateText(Text text) throws SavingTextException {
+        
+        int titleMax = 50;
+        int titleLength = text.getTitle().length();
+        if ((titleLength > titleMax) || (titleLength < 1)) {
+            String message = "Please use a title that is fewer than " + titleMax + " characters.";
+            throw new SavingTextException(message);
+        }
+        
+        int contentMax = 5000;
+        int contentLength = text.getContent().length();
+        if ((contentLength > contentMax) || (contentLength < 1)) {
+            String message = "Content must be fewer than " + contentMax + " characters.";
+            throw new SavingTextException(message);
+        }
     }
     
 }
