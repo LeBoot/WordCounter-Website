@@ -44,21 +44,20 @@ public class SessionServiceImpl implements SessionService {
     }
     
     @Override
-    public void logIn(String inputEmail, String inputPassword) throws UnsuccessfulLoginException {
+    public int logIn(String inputEmail, String inputPassword) throws UnsuccessfulLoginException {
         List<Account> accounts = accountService.getAllAccounts();
         for (Account a : accounts) {
             if (a.getEmail().equalsIgnoreCase(inputEmail)) {
                 if (enigma.doesPasswordMatch(inputPassword, a.getPassword(), a.getPasskey())) {
                     SESSION_STATUS = LOGGED_IN;
                     SESSION_OWNER = a.getId();
-                    break;
+                    return SESSION_OWNER;
                 } else {
                     throw new UnsuccessfulLoginException("Incorrect password.");
                 }
-            } else {
-                throw new UnsuccessfulLoginException("Email not associated with an account.");
             }
         }
+        throw new UnsuccessfulLoginException("Email not associated with an account.");
     }
     
 }

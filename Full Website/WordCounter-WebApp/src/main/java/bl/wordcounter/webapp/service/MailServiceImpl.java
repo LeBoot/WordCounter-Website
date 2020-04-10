@@ -5,6 +5,7 @@
  */
 package bl.wordcounter.webapp.service;
 
+import bl.wordcounter.webapp.exception.EmailNotSentException;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class MailServiceImpl implements MailService {
     
     @Override
-    public void sendForgotPassword(String recipientAddress, String newPassword) throws Exception {
+    public void sendForgotPassword(String recipientAddress, String newPassword) throws EmailNotSentException {
         Properties properties = new Properties();
         
         properties.put("mail.smtp.auth", "true");
@@ -48,9 +49,12 @@ public class MailServiceImpl implements MailService {
                 + "\n Your temporary password is " + newPassword
                 + "\n Please change your password once you log in.";
         
-        Message message = prepareMessage(session, myAccountEmail, recipientAddress, subject, text);
-        
-        Transport.send(message);
+        try {
+            Message message = prepareMessage(session, myAccountEmail, recipientAddress, subject, text);
+            Transport.send(message);
+        } catch (Exception ex) {
+            throw new EmailNotSentException("Not connected to mail API.  Unable to send email.");
+        }
         
     }
     

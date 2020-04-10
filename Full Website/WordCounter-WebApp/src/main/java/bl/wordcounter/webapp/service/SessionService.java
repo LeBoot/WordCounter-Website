@@ -20,7 +20,7 @@ public interface SessionService {
     int getSessionStatus();
     int getSessionOwner();
     void logOut();
-    void logIn(String inputEmail, String inputPassword)
+    int logIn(String inputEmail, String inputPassword)
             throws UnsuccessfulLoginException;
     
 }

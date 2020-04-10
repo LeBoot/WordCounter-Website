@@ -2,7 +2,7 @@
     Name: Home.js
     Project: Word Counter
     Date Created: 7 April 2020
-    Date Updated: 8 April 2020
+    Date Updated: 9 April 2020
     Author: Ben Lebout
 */
 
@@ -16,6 +16,7 @@ function closeAllModals() {
     closeModalSignUp();
     closeModalLogInSuccess();
     closeModalSignUpSuccess();
+    closeModalForgotPassword();
 }
 
 function clearAllErrors() {
@@ -32,8 +33,6 @@ window.onclick = function(event) {
     }
 }
 
-const error400 = "Sorry, that request didn't work.  Please try again";
-
 
 /*Log In Modal ========================================== */
 var modalLogIn = document.getElementById("modal-log-in");
@@ -42,6 +41,7 @@ function displayModalLogIn() {
     closeAllModals();
     clearAllErrors();
     modalLogIn.style.display = "block";
+    $("#modal-form-log-in-input-email").focus();
 }
 
 function closeModalLogIn() {
@@ -62,6 +62,7 @@ function displayModalSignUp() {
     closeAllModals();
     clearAllErrors();
     modalSignUp.style.display = "block";
+    $("#modal-form-sign-up-input-email").focus();
 }
 
 function closeModalSignUp() {
@@ -109,6 +110,7 @@ function displayModalForgotPassword() {
     clearAllErrors();
     setModalForgotPasswordInitialHtml();
     modalForgotPassword.style.display = "block";
+    $("#modal-form-forgot-password-input-email").focus();
 }
 
 function closeModalForgotPassword() {
@@ -133,6 +135,11 @@ function submitSignUp() {
     //Create variable to determine whether or not to make AJAX call
     var proceed = true;
 
+    //Create a variable to focus the cursor after errors
+    const emailField = $("#modal-form-sign-up-input-email");
+    const pass1Field = $("#modal-form-sign-up-input-password1");
+    var cursor = pass1Field
+
     //Grab input from user
     var email = $("#modal-form-sign-up-input-email").val().trim();
     var pass1 = $("#modal-form-sign-up-input-password1").val().trim();
@@ -147,6 +154,7 @@ function submitSignUp() {
     if (emailReturn != "good") {
         proceed = false;
         $("#modal-sign-up-form-email-errors").text(emailReturn);
+        cursor = emailField;
     }
 
     //validate password properties
@@ -162,31 +170,26 @@ function submitSignUp() {
         $("#modal-sign-up-form-password2-errors").text(error);
     }
 
+    cursor.focus();
+
     //make AJAX call
     if (proceed) {
         $.ajax({
             type: 'POST',
             url: '/account/new',
             data: {
-                "formEmail": email,
-                "formPass1": pass1,
-                "formPass2": pass2
-            },
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                formEmail: email,
+                formPass1: pass1,
+                formPass2: pass2
             },
             success: function(data, status) {
                 displayModalSignUpSuccess();
             },
             error: function(xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
-                console.log("Err: " + err);
-                console.log("Err.message: " + err.message);
-                console.log("Status: " + status);
-                console.log("Error: " + error);
-
-                $("#modal-sign-up-div-errors").text("Error Goes Here.");
+                clearModalSignUp();
+                $("#modal-sign-up-div-errors").text(err.message);
+                emailField.focus();
             }
         });        
     }
@@ -210,17 +213,34 @@ function submitLogIn() {
     var pass = $("#modal-form-log-in-input-password").val().trim();
 
     //Clear fields
-    clearModalSignUp();
+    clearModalLogIn();
     
     //validate email properties
     var emailReturn = validateEmail(email);
     if (emailReturn != "good") {
         proceed = false;
         $("#modal-log-in-form-email-errors").text(emailReturn);
+        $("#modal-form-log-in-input-email").focus();
     }
 
+    //make AJAX call
     if (proceed) {
-        
+        $.ajax({
+            type: 'POST',
+            url: '/session/login',
+            data: {
+                formEmail: email,
+                formPass: pass
+            },
+            success: function(data, status) {
+                displayModalLogInSuccess();
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                $("#modal-log-in-div-errors").text(err.message);
+                $("#modal-form-log-in-input-email").focus();
+            }
+        });        
     }
 
 }
@@ -239,7 +259,7 @@ function submitForgotPassword() {
 
     //Grab input from user
     var email = $("#modal-form-forgot-password-input-email").val().trim();
-    
+
     //Clear fields
     clearModalForgotPassword();
 
@@ -248,22 +268,31 @@ function submitForgotPassword() {
     if (emailReturn != "good") {
         proceed = false;
         $("#modal-forgot-password-div-errors").text(emailReturn);
+        $("#modal-form-forgot-password-input-email").focus();
     }
 
+    //if proceed == true
     if (proceed) {
         //Clear modal text and put spinner
         setModalForogtPasswordAsSpinner();
-
-        //MAKE AJAX CALL
-/*
-        //If error
-        closeModalForgotPassword();
-        submitForgotPassword();
-        $("#modal-forgot-password-div-errors").text("Error goes here.");
-*/
-        //if success
-        setModalForgotPasswordSuccess();
-
+        
+        //make AJAX call
+        $.ajax({
+            type: 'POST',
+            url: '/account/forgot-password',
+            data: {
+                formEmail: email
+            },
+            success: function(data, status) {
+                setModalForgotPasswordSuccess();
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                closeModalForgotPassword();
+                displayModalForgotPassword();
+                $("#modal-forgot-password-div-errors").text(err.message);
+            }
+        });        
     }
 
 }

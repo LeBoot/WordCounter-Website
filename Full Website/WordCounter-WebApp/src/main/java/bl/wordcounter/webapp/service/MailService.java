@@ -5,6 +5,8 @@
  */
 package bl.wordcounter.webapp.service;
 
+import bl.wordcounter.webapp.exception.EmailNotSentException;
+
 /**
  *
  * @author Boone
@@ -12,6 +14,6 @@ package bl.wordcounter.webapp.service;
 public interface MailService {
     
     void sendForgotPassword(String recipientAddress, String newPassword)
-            throws Exception;
+            throws EmailNotSentException;
     
 }
