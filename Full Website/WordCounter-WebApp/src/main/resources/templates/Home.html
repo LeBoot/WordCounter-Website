@@ -8,7 +8,7 @@
         
         <meta name="author" content="Ben Leboot">
         <meta name="date.created" content="2020-03-02">
-        <meta name="date.modified" content="2020-04-06"> <!-- THIS -->
+        <meta name="date.modified" content="2020-04-10"> <!-- THIS -->
                
         <!-- Title for document -->
         <title>Home | Word Counter</title>
@@ -28,130 +28,68 @@
         
         <!-- CSS, Custom, Internal -->
         <style>
-            /* The Modal (background) */
-            .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            }
+            #div-form1 {
+    width: 600px;
+    text-align: center;
+    margin: auto;
+}
 
-            /* Modal Content */
-            .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            }
+#form1,
+#page-tabs-buttons,
+#page-tabs-content {
+    width: 100%;
+}
 
-            #modal-log-in-content,
-            #modal-forgot-password-content {
-                width: 400px;
-                height: 300px;
-            }
+#form1-text-area {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 150px;
+    max-height: 300px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
 
-            #modal-sign-up-content {
-                width: 400px;
-                height: 380px;
-            }
+#form1-error {
+    color: red;
+}
 
-            .modal-success {
-                width: 400px;
-                height: 200px;
-                text-align: center;
-            }
+#container-for-page-tabs {
+    width: 90%;
+    margin: 20px auto;
+    text-align: center;
+}
 
-            .modal-header {
-                text-align: center;
-                margin-top: 0;
-            }
+#page1 {background-color: olivedrab;}
+#page2 {background-color: peru;}
+#page3 {background-color: rosybrown;}
 
-            input {
-                border: 1px solid rgb(200, 209, 209);
-                outline: none;
-                border-radius: 4px;
-                padding-left: 3px;
-            }
+.inactive-tab-content {
+    display: none;
+}
 
-            input,
-            label,
-            .div-error-small {
-                display: block;
-                width: 55%;
-                margin: auto;
-            }
+.active-tab-content {
+    display: block;
+    float: left;
+    height: 100%;
+    width: 100%;
+}
 
-            .div-error-small {
-                color: red;
-                font-size: small;
-            }
 
-            .div-error-big {
-                text-align: center;
-                color: rgb(153, 6, 6);
-                background-color: rgb(253, 197, 192);
-                border-radius: 4px;
-            }
 
-            .form-div-label-and-input{
-                width: 100%;
-                float: left;
-                margin: 5px 0px;
-            }
+/*
+#my-chart {
+    height: 400px;
+    width: 1000px;
+    margin: 30px auto;
+} */
 
-            .form-div-buttons {
-                width: 90%;
-                position: absolute;
-                bottom: 0;
-                margin-bottom: 20px;
-            }
-
-            .form-button,
-            .form-button-forgot-password {
-                float: right;
-                margin: 0px 5px;
-                background-color: rgb(227, 238, 238);
-                color: black;
-                border: 1px solid rgb(156, 150, 150);
-                border-radius: 4px;
-                cursor: pointer;
-                outline: none;
-                height: 40px;
-            }
-
-            .form-button {
-                width: 60px;
-            }
-
-            .form-button-forgot-password {
-                width: 80px;
-            }
-
-            .button-modal-success {
-                float: right;
-                margin: 20px 5px 0px 5px;
-                background-color: rgb(227, 238, 238);
-                color: black;
-                border: 1px solid rgb(156, 150, 150);
-                border-radius: 4px;
-                cursor: pointer;
-                outline: none;
-                height: 40px;
-                width: 60px;
-            }
-
-            .form-button:hover,
-            .form-button-forgot-password:hover,
-            .button-modal-success:hover {
-                background-color: rgb(195, 211, 211);
-            }
+.tab-button {
+    border: none;
+    width: 120px;
+    height: 40px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
 
         </style>
 
@@ -172,29 +110,44 @@
 
         <section class="section-main-body">
 
-            <!-- Sidebar -->
-            <nav id="sidebar">
-                <div id="div-sidebar-header">
-                    <h4>Insert "Welcome, email" with JS</h4>
+            <!-- Sidebar (Thymeleaf controlled) -->
+            <nav id="sidebar" th:switch="${isLoggedIn}">
+
+                <!-- Is Logged In-->
+                <div th:case="true">
+                    <div id="div-sidebar-header">
+                        <div><h3>Hello,</h3></div>
+                        <div><h4><span th:text="${email}"></span></h4></div>
+                    </div>
+                    <div id="div-sidebar-links-container">
+                        <div class="div-sidebar-link">
+                            <a href="account/view">
+                                <button class="div-sidebar-button button-standard" id="button-link-my-account">My Account</button>
+                            </a>
+                        </div>
+                        <div class="div-sidebar-link">
+                            <a href="session/logout">
+                                <button class="div-sidebar-button button-standard" id="button-log-out">Log Out</button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div id="div-sidebar-links-container">
-                    <div class="div-sidebar-link">
-                        <button class="div-sidebar-button button-standard" id="button-activate-modal-log-in" onClick="displayModalLogIn()">Log In</button>
+                
+                <!-- Is Not Loggged In -->
+                <div th:case="false">
+                    <div id="div-sidebar-header">
+                        <h3>Welcome!</h3>
                     </div>
-                    <div class="div-sidebar-link">
-                        <button class="div-sidebar-button button-standard" id="button-activate-modal-sign-up" onClick="displayModalSignUp()">Sign Up</button>
-                    </div>
-                    <div class="div-sidebar-link">
-                        <a href="account/view">
-                            <button class="div-sidebar-button button-standard" id="button-link-my-account">My Account</button>
-                        </a>
-                    </div>
-                    <div class="div-sidebar-link">
-                        <a href="session/logout">
-                            <button class="div-sidebar-button button-standard" id="button-log-out">Log Out</button>
-                        </a>
+                    <div id="div-sidebar-links-container">
+                        <div class="div-sidebar-link">
+                            <button class="div-sidebar-button button-standard" id="button-activate-modal-log-in" onClick="displayModalLogIn()">Log In</button>
+                        </div>
+                        <div class="div-sidebar-link">
+                            <button class="div-sidebar-button button-standard" id="button-activate-modal-sign-up" onClick="displayModalSignUp()">Sign Up</button>
+                        </div>
                     </div>
                 </div>
+
             </nav> <!-- End Sidebar ---------------------------------------------------------------------------- -->
     
             <!-- Page Content -->
@@ -299,8 +252,8 @@
             <div id="modal-sign-up-success" class="modal">
                 <div class="modal-content modal-success" id="modal-sign-up-success-content">
                     <h2>Welcome!</h2>
-                    <h4>You're successfully signed up.</h4>
-                    <button type="submit" class="button-modal-success" onclick="closeModalSignUpSuccess()">Close</button>
+                    <h4>You're successfully signed up and logged in.</h4>
+                    <button type="submit" class="button-modal-success" onclick="redirectToHome()">Close</button>
                 </div>
             </div>
 
@@ -308,7 +261,7 @@
                 <div class="modal-content modal-success" id="modal-log-in-success-content">
                     <h2>Welcome!</h2>
                     <h4>You're logged in and good to go.</h4>
-                    <button type="submit" class="button-modal-success" onclick="closeModalLogInSuccess()">Close</button>
+                    <button type="submit" class="button-modal-success" onclick="redirectToHome()">Close</button>
                 </div>
             </div>
 

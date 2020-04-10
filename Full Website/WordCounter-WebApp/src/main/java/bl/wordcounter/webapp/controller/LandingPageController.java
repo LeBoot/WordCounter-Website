@@ -5,7 +5,7 @@
  */
 package bl.wordcounter.webapp.controller;
 
-import bl.wordcounter.webapp.service.ErrorService;
+import bl.wordcounter.webapp.service.AccountService;
 import bl.wordcounter.webapp.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,24 +24,21 @@ public class LandingPageController {
     SessionService sessionService;
     
     @Autowired
-    ErrorService errorService;
+    AccountService accountService;
     
     //Thymeleaf
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    String displayHome(Model model) {
-        if (errorService.getDisplayErrors()) {
-            errorService.setDisplayErrors(false);
-            //Display the error
+    String displayHome(Model model) {        
+        boolean isLoggedIn = false;
+        String email = "";
+        if (sessionService.getSessionStatus() == SessionService.LOGGED_IN) {
+            isLoggedIn = true;
+            email = accountService.getAnAccount(sessionService.getSessionOwner()).getEmail();
         }
         
-        if (sessionService.getSessionStatus() == 0) {
-            //Display "log in" button
-            //Display "sign up" button
-        } else {
-            //Display "log out" button
-            //Display "my account" button
-        }
-        
+        model.addAttribute("email", email);
+        model.addAttribute("isLoggedIn", isLoggedIn);
+
         return "Home";
     }
     

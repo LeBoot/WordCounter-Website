@@ -89,6 +89,7 @@ public class AccountController {
             @RequestParam("formPass2") String formPass2) {
         try {
             accountService.saveNewAccount(formEmail, formPass1, formPass2);
+            sessionService.logIn(formEmail, formPass1);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);

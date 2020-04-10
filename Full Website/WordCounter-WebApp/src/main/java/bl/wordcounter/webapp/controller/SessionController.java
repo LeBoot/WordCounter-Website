@@ -48,6 +48,6 @@ public class SessionController {
     String logout() {
         sessionService.logOut();
         return "redirect:/home";
-    } 
+    }
     
 }

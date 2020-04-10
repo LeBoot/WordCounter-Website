@@ -102,6 +102,10 @@ function closeModalLogInSuccess() {
     modalLogInSuccess.style.display = "none";
 }
 
+function redirectToHome() {
+    window.location="/home";
+}
+
 /*Forgot Password Modal ========================================== */
 var modalForgotPassword = document.getElementById("modal-forgot-password");
 

@@ -2,22 +2,9 @@
     Name: Home.css
     Project: Word Counter
     Date Created: 2 March 2020
-    Date Updated: 6 April 2020
+    Date Updated: 10 April 2020
     Author: Ben Lebout
 */
-
-/*Form*/
-/* ------------------------------ */
-
-/*Page Tabs*/
-/* ------------------------------ */
-.tab-button {
-    border: none;
-    width: 120px;
-    height: 40px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
 
 /*Miscellaneous*/
 /* ------------------------------ */
@@ -48,77 +35,130 @@
 }
 
 
+/*Modals*/
+/* ------------------------------ */
 
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+}
 
+#modal-log-in-content,
+#modal-forgot-password-content {
+    width: 400px;
+    height: 300px;
+}
 
+#modal-sign-up-content {
+    width: 400px;
+    height: 380px;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#div-form1 {
-    width: 600px;
+.modal-success {
+    width: 400px;
+    height: 200px;
     text-align: center;
+}
+
+.modal-header {
+    text-align: center;
+    margin-top: 0;
+}
+
+input {
+    border: 1px solid rgb(200, 209, 209);
+    outline: none;
+    border-radius: 4px;
+    padding-left: 3px;
+}
+
+input,
+label,
+.div-error-small {
+    display: block;
+    width: 55%;
     margin: auto;
 }
 
-#form1,
-#page-tabs-buttons,
-#page-tabs-content {
-    width: 100%;
-}
-
-#form1-text-area {
-    min-width: 100%;
-    max-width: 100%;
-    min-height: 150px;
-    max-height: 300px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-}
-
-#form1-error {
+.div-error-small {
     color: red;
+    font-size: small;
 }
 
-#container-for-page-tabs {
-    width: 90%;
-    margin: 20px auto;
+.div-error-big {
     text-align: center;
+    color: rgb(153, 6, 6);
+    background-color: rgb(253, 197, 192);
+    border-radius: 4px;
 }
 
-#page1 {background-color: olivedrab;}
-#page2 {background-color: peru;}
-#page3 {background-color: rosybrown;}
-
-.inactive-tab-content {
-    display: none;
-}
-
-.active-tab-content {
-    display: block;
-    float: left;
-    height: 100%;
+.form-div-label-and-input{
     width: 100%;
+    float: left;
+    margin: 5px 0px;
 }
 
+.form-div-buttons {
+    width: 90%;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 20px;
+}
 
+.form-button,
+.form-button-forgot-password {
+    float: right;
+    margin: 0px 5px;
+    background-color: rgb(227, 238, 238);
+    color: black;
+    border: 1px solid rgb(156, 150, 150);
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    height: 40px;
+}
 
-/*
-#my-chart {
-    height: 400px;
-    width: 1000px;
-    margin: 30px auto;
-} */
+.form-button {
+    width: 60px;
+}
 
+.form-button-forgot-password {
+    width: 80px;
+}
+
+.button-modal-success {
+    float: right;
+    margin: 20px 5px 0px 5px;
+    background-color: rgb(227, 238, 238);
+    color: black;
+    border: 1px solid rgb(156, 150, 150);
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    height: 40px;
+    width: 60px;
+}
+
+.form-button:hover,
+.form-button-forgot-password:hover,
+.button-modal-success:hover {
+    background-color: rgb(195, 211, 211);
+}

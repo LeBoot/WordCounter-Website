@@ -2,7 +2,7 @@
     Name: Sidebar.css
     Project: Word Counter
     Date Created: 2 March 2020
-    Date Updated: 6 April 2020
+    Date Updated: 10 April 2020
     Author: Ben Lebout
 */
 
@@ -19,8 +19,10 @@
 }
 
 #div-sidebar-header {
-    border: solid yellow 1px;
-    text-align: center;
+    width: 95%;
+    margin: auto;
+    padding: 0px 10px;
+    color: white;
 }
 
 #div-sidebar-links-container {
