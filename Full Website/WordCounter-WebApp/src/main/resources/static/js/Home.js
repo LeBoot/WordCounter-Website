@@ -2,7 +2,7 @@
     Name: Home.js
     Project: Word Counter
     Date Created: 7 April 2020
-    Date Updated: 9 April 2020
+    Date Updated: 11 April 2020
     Author: Ben Lebout
 */
 
@@ -30,6 +30,15 @@ window.onclick = function(event) {
     }
     if (event.target == modalLogIn) {
         closeModalLogIn();
+    }
+    if (event.target == modalSignUpSuccess) {
+        closeModalSignUpSuccess();
+    }
+    if (event.target == modalLogInSuccess) {
+        closeModalLogInSuccess();
+    }
+    if (event.target == modalForgotPassword) {
+        closeModalForgotPassword();
     }
 }
 

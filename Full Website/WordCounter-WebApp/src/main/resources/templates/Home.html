@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="description of website"> <!-- THIS -->
-        <meta name="keywords" content="keyword1; keyword2; keyword3"> <!-- THIS -->
+        <meta name="description" content="Analysis of a text yields a visual representation of the frequency of the text's words.">
+        <meta name="keywords" content="chart.js; spinner; page-tabs; hamburger menu; pictures in header; modals">
         
         <meta name="author" content="Ben Leboot">
         <meta name="date.created" content="2020-03-02">
-        <meta name="date.modified" content="2020-04-10"> <!-- THIS -->
+        <meta name="date.modified" content="2020-04-11"> <!-- THIS -->
                
         <!-- Title for document -->
         <title>Home | Word Counter</title>
@@ -25,72 +25,10 @@
         <link href="css/headerfooter.css" rel="stylesheet" type="text/css" />
         <link href="css/home.css" rel="stylesheet" type="text/css" />
         <link href="css/sidebar.css" rel="stylesheet" type="text/css" />
+        <link href="css/graph.css" rel="stylesheet" type="text/css" />
         
         <!-- CSS, Custom, Internal -->
         <style>
-            #div-form1 {
-    width: 600px;
-    text-align: center;
-    margin: auto;
-}
-
-#form1,
-#page-tabs-buttons,
-#page-tabs-content {
-    width: 100%;
-}
-
-#form1-text-area {
-    min-width: 100%;
-    max-width: 100%;
-    min-height: 150px;
-    max-height: 300px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-}
-
-#form1-error {
-    color: red;
-}
-
-#container-for-page-tabs {
-    width: 90%;
-    margin: 20px auto;
-    text-align: center;
-}
-
-#page1 {background-color: olivedrab;}
-#page2 {background-color: peru;}
-#page3 {background-color: rosybrown;}
-
-.inactive-tab-content {
-    display: none;
-}
-
-.active-tab-content {
-    display: block;
-    float: left;
-    height: 100%;
-    width: 100%;
-}
-
-
-
-/*
-#my-chart {
-    height: 400px;
-    width: 1000px;
-    margin: 30px auto;
-} */
-
-.tab-button {
-    border: none;
-    width: 120px;
-    height: 40px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
         </style>
 
     </head> <!-- END HEAD ====================================================================================== -->
@@ -155,17 +93,40 @@
                 <nav id="nav-sidebar-toggle">
                     <button id="button-sidebar-toggle button-standard" onClick="toggleSidebar()">☰ Menu</button>
                 </nav>
-                <div id="div-form1">
-                    <form id="form1" onSubmit="analyzetext()">
+                <div id="div-analysis">
+                    <form id="div-analysis-form" onSubmit="analyzeText()">
                         <div>
-                            <textarea placeholder="Text to analyze." id="form1-text-area" name="form1-text-area"></textarea>
+                            <textarea placeholder="Text to analyze." id="analysis-form-text-area"></textarea>
                         </div>
-                        <div id="form1-error-div"></div>
-                        <div id="div-form1-buttons">
-                            <button class="button-standard" type="submit" id="form1-button">Analyze</button>
+
+                        <div id="analysis-form-error-div" class="div-error-small"></div>
+                         
+                        <div id="analysis-form-buttons-div" th:switch="${isLoggedIn}">
+                            <!-- If Logged In-->
+                            <div th:case="true">
+                                <button class="button-standard analysis-form-button" type="submit" onClick="analyzeText()">Analyze</button>
+                                <button class="button-standard analysis-form-button" type="button" onClick="clearForm()">Clear Form</button>
+                                <button class="button-standard analysis-form-button" type="button" onClick="saveText()">Save</button>
+                            </div>
+
+                            <!-- If Logged Out -->
+                            <div th:case="false">
+                                <button class="button-standard analysis-form-button" type="submit" onClick="analyzeText()">Analyze</button>
+                                <button class="button-standard analysis-form-button" type="button" onClick="clearForm()">Clear Form</button>
+                            </div>
                         </div>
+
+                        <div id="analysis-form-spinner" class="inactive-tab-content">
+                            <div class="spin"></div>
+                        </div>
+
+                        <div id="analysis-form-reset-button-div" class="inactive-tab-content">
+                            <button class="button standard analysis-form-button" type="button" onClick="resetForm()">Reset</button>
+                        </div>
+
                     </form>
                 </div>
+
                 <div id="container-for-page-tabs" class="inactive-tab-content">
                     <div id="page-tabs-buttons">
                         <button class="tab-button" onClick="displayTabContent('page1', this, 'olivedrab')" id="defaultOpen">Scalar Graph</button>
@@ -175,10 +136,12 @@
                     <div id="page-tabs-content">
                         <div class="tab-content" id="page1">
                             <h2>This is page 1</h2>
+                            <div id="chart-page-1"></div>
                         </div>
             
                         <div class="tab-content" id="page2">
                             <h2>This is page 2</h2>
+                            <div id="chart-page-2"></div>
                         </div>
             
                         <div class="tab-content" id="page3">
@@ -186,10 +149,8 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="my-chart"></div>
+                
             </div> <!-- End Page Content ----------------------------------------------------------------------- -->
-
 
             <!-- Modals ---------------------------------------------------------------------------------------- -->
             <div id="modal-log-in" class="modal">
@@ -283,7 +244,6 @@
                 </div>
             </div>
 
-    
         </section> <!-- END Section-Main-Body ------------------------------------------------------------------ -->
 
         <footer>
@@ -298,6 +258,7 @@
         <!-- JavaScript, Custom, External -->
         <script src="js/home.js" ></script>
         <script src="js/sidebar.js" ></script>
+        <script src="js/graph.js" ></script>
 
         <!-- External Scripts -->
             <!-- Full JQuery (with AJAX) -->

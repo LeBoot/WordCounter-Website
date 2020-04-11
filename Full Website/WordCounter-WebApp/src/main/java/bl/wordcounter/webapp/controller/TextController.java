@@ -13,6 +13,7 @@ import bl.wordcounter.webapp.service.AccountService;
 import bl.wordcounter.webapp.service.SessionService;
 import bl.wordcounter.webapp.service.TextService;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -116,6 +117,17 @@ public class TextController {
         } catch (NoSuchElementException ex) {
             return new ResponseEntity<>(ex, HttpStatus.NO_CONTENT);
         }
+    }
+    
+    //AJAX
+    @RequestMapping(value = "analyze", method = RequestMethod.POST)
+    ResponseEntity<Object> analyzeText(@RequestParam("textContent") String content) {
+        try {
+            List<Map.Entry<String, Integer>> list = textService.analyze(content);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+        }        
     }
     
 }
