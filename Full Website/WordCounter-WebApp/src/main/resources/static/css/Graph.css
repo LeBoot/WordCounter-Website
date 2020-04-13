@@ -2,7 +2,7 @@
     Name: Graph.css
     Project: Word Counter
     Date Created: 11 March 2020
-    Date Updated: 11 April 2020
+    Date Updated: 12 April 2020
     Author: Ben Lebout
 */
 
@@ -24,7 +24,10 @@
     min-height: 150px;
     max-height: 300px;
     border-radius: 4px;
-    margin-bottom: 10px;
+}
+
+#analysis-form-error-div {
+    padding-bottom: 5px;
 }
 
 #container-for-page-tabs {

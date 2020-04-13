@@ -27,7 +27,7 @@ function analyzetext() {
 
         $.ajax({
             type: "POST",
-            url: "/analyze-2",
+            url: "/text/analyze",
             data: myData,
             contentType: false,
             processData: false,
@@ -36,7 +36,7 @@ function analyzetext() {
                 replaceSpinnerWithResetButton();
                 displayPageTabs();
                 alert("Call Graphing Functions Now")
-                // displayGraph(myList);
+                displayGraph(myList);
             },
             error: function(xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");

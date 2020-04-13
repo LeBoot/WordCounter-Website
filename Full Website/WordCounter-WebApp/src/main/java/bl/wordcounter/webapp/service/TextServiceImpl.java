@@ -6,8 +6,8 @@
 package bl.wordcounter.webapp.service;
 
 import bl.wordcounter.webapp.entity.Text;
+import bl.wordcounter.webapp.entity.TextReturn;
 import bl.wordcounter.webapp.exception.SavingTextException;
-import bl.wordcounter.webapp.exception.TitleTakenException;
 import bl.wordcounter.webapp.repository.TextRepository;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -105,6 +105,41 @@ public class TextServiceImpl implements TextService {
             String message = "Content must be fewer than " + contentMax + " characters.";
             throw new SavingTextException(message);
         }
+    }
+    
+    @Override
+    public TextReturn analyze2(String input) {
+        Map<String, Integer> wordOccurances = new TreeMap<>();
+        
+        String[] stringParts = input.split(" ");
+        for (String s : stringParts) {
+            String word = s.toLowerCase().strip();
+            for (int i = 1; i <= 2; i++) {
+                for (String character : EXCLUSIONS) {
+                    word = word.replace(character, "");
+                }
+            }
+            if (!word.isBlank()) {
+                if (wordOccurances.containsKey(word)) {
+                    wordOccurances.put(word, wordOccurances.get(word) + 1);
+                } else {
+                    wordOccurances.put(word, 1);
+                }
+            }
+        }
+        
+        List<String> labels = new ArrayList<>();
+        List<Integer> occurances = new ArrayList<>();
+        for (String key : wordOccurances.keySet()) {
+            labels.add(key);
+            occurances.add(wordOccurances.get(key));
+        }
+        
+        TextReturn tr = new TextReturn();
+        tr.setLabelList(labels);
+        tr.setOccuranceList(occurances);
+        
+        return tr;
     }
     
 }

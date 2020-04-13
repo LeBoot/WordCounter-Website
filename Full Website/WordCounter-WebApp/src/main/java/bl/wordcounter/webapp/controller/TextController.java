@@ -7,6 +7,7 @@ package bl.wordcounter.webapp.controller;
 
 import bl.wordcounter.webapp.entity.Account;
 import bl.wordcounter.webapp.entity.Text;
+import bl.wordcounter.webapp.entity.TextReturn;
 import bl.wordcounter.webapp.exception.SavingTextException;
 import bl.wordcounter.webapp.exception.TitleTakenException;
 import bl.wordcounter.webapp.service.AccountService;
@@ -125,6 +126,17 @@ public class TextController {
         try {
             List<Map.Entry<String, Integer>> list = textService.analyze(content);
             return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+        }        
+    }
+    
+    //AJAX
+    @RequestMapping(value = "analyze2", method = RequestMethod.POST)
+    ResponseEntity<Object> analyzeText2(@RequestParam("textContent") String content) {
+        try {
+            TextReturn tr = textService.analyze2(content);
+            return new ResponseEntity<>(tr, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
         }        

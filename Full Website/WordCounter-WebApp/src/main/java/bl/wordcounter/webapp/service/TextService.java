@@ -6,6 +6,7 @@
 package bl.wordcounter.webapp.service;
 
 import bl.wordcounter.webapp.entity.Text;
+import bl.wordcounter.webapp.entity.TextReturn;
 import bl.wordcounter.webapp.exception.SavingTextException;
 import java.util.List;
 import java.util.Map;
@@ -22,5 +23,7 @@ public interface TextService {
     List<Text> getAllTextsForAccount(int id);
     void deleteText(int id);
     List<Map.Entry<String, Integer>> analyze(String input);
+    
+    TextReturn analyze2(String input);
     
 }
