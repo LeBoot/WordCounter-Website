@@ -2,7 +2,7 @@
     Name: Graph.js
     Project: Word Counter
     Date Created: 11 March 2020
-    Date Updated: 11 April 2020
+    Date Updated: 13 April 2020
     Author: Ben Lebout
 */
 
@@ -35,8 +35,10 @@ function analyzeText() {
             data: {
                 textContent: input
             },
-            success: function(myList) {
-                displayGraph(myList);
+            success: function(incomingData) {
+                listOfLabels = incomingData.labelList;
+                listOfOccurances = incomingData.occuranceList;
+                displayAllCharts(listOfLabels, listOfOccurances);
             },
             error: function(xhr) {
                 var err = eval("(" + xhr.responseText + ")");
@@ -84,62 +86,69 @@ function displayPageTabs() {
     $("#defaultOpen").click();
 }
 
-
-
-
-
-function configureDataForDisplay(myList) {
-    //Create myData array
-    var myData;
+function displayAllCharts(listOfLabels, listOfOccurances) {
     
-    //Create the first entry in the myData array
-    for (var key in myList[0]) {
-        if (myList[0].hasOwnProperty(key)) {
-            myData = [{y: myList[0][key], label: key}];
-        }
-    }
-
-    //If myList has more than one index, add the rest
-    if (myList.length > 1) {
-        for (var i = 1; i < myList.length; i++) {
-            for (var key in myList[i]) {
-                if (myList[i].hasOwnProperty(key)) {
-                    var nextValue = {y: myList[i][key], label: key};
-                    myData.push(nextValue);
-                }
-            }
-        }
-    }
+    //Set all spinners    
     
-    return myData;
+    displayScalarContents(listOfLabels, listOfOccurances);
+    displayLogContents(listOfLabels, listOfOccurances);
+    displayTableContents(listOfLabels, listOfOccurances);
 }
 
-
-function displayGraph(myList) {
-    var configuredData = configureDataForDisplay(myList);
-
-    var chart = new CanvasJS.Chart("chart-page-1", {
-        animationEnabled: true,
-        title:{
-            text:"Words by Occurance"
+function displayScalarContents(listOfLabels, listOfOccurances) {
+    var ctxS = $("#chart-scalar");
+    var scalarChart = new Chart(scalarChart, {
+        type: 'bar',
+        data: {
+            labels: listOfLabels,
+            datasets: [{
+                label: 'occurances',
+                backgroundColor: 'red',
+                data: listOfOccurances
+            }]
         },
-        axisX:{
-            interval: 1
-        },
-        axisY:{
-//            logarithmic: true,
-            title: "Number of Occurances"  
-        },
-        data: [{
-            type: "column",
-            color: "#014D65",
-            dataPoints: configuredData
-        }]
+        options: {
+            legend: {display: false},
+            title: {display: true, text: 'Scalar Bar Graph'},
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
     });
 
-    $("#analysis-form-spinner").addClass("inactive-tab-content");
-    $("#analysis-form-reset-button-div").removeClass("inactive-tab-content");
-    displayPageTabs();
+    //erase spinners
+    //displayPageTabs();
+}
 
-    chart.render();
+function displayLogContents(listOfLabels, listOfOccurances) {
+    var ctxL = $("#chart-log");
+    var logChart = new Chart(logChart, {
+        type: 'bar',
+        data: {
+            labels: listOfLabels,
+            datasets: [{
+                label: 'occurances',
+                backgroundColor: 'red',
+                data: listOfOccurances
+            }]
+        },
+        options: {
+            legend: {display: false},
+            title: {display: true, text: 'Log Bar Graph'},
+            scales: {
+                yAxes: [{
+                    type: 'logarithmic',
+                    ticks: {min: 0}
+                }]
+            }
+        }
+    });
+
+    //erase spinners
+    //displayPageTabs();
 }

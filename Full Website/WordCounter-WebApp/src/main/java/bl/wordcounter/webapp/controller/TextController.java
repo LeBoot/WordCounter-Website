@@ -121,7 +121,7 @@ public class TextController {
     }
     
     //AJAX
-    @RequestMapping(value = "analyze", method = RequestMethod.POST)
+    @RequestMapping(value = "analyze-draft", method = RequestMethod.POST)
     ResponseEntity<Object> analyzeText(@RequestParam("textContent") String content) {
         try {
             List<Map.Entry<String, Integer>> list = textService.analyze(content);
@@ -132,7 +132,7 @@ public class TextController {
     }
     
     //AJAX
-    @RequestMapping(value = "analyze2", method = RequestMethod.POST)
+    @RequestMapping(value = "analyze", method = RequestMethod.POST)
     ResponseEntity<Object> analyzeText2(@RequestParam("textContent") String content) {
         try {
             TextReturn tr = textService.analyze2(content);
