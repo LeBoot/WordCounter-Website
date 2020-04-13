@@ -134,12 +134,8 @@ public class TextServiceImpl implements TextService {
             labels.add(key);
             occurances.add(wordOccurances.get(key));
         }
-        
-        TextReturn tr = new TextReturn();
-        tr.setLabelList(labels);
-        tr.setOccuranceList(occurances);
-        
-        return tr;
+
+        return new TextReturn(occurances, labels);
     }
     
 }

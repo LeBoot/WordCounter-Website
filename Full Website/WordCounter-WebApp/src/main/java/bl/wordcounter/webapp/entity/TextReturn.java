@@ -15,7 +15,12 @@ import lombok.Data;
 @Data
 public class TextReturn {
     
+    public TextReturn(List<Integer> occuranceList, List<String> labelList) {
+        this.occuranceList = occuranceList;
+        this.labelList = labelList;
+    }
+    
     private List<Integer> occuranceList;
     private List<String> labelList;
-    
+
 }

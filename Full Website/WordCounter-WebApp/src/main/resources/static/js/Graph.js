@@ -38,7 +38,8 @@ function analyzeText() {
             success: function(incomingData) {
                 listOfLabels = incomingData.labelList;
                 listOfOccurances = incomingData.occuranceList;
-                displayAllCharts(listOfLabels, listOfOccurances);
+                $("#analysis-form-spinner").addClass("inactive-tab-content");
+                buildCharts(listOfLabels, listOfOccurances);
             },
             error: function(xhr) {
                 var err = eval("(" + xhr.responseText + ")");
@@ -86,17 +87,18 @@ function displayPageTabs() {
     $("#defaultOpen").click();
 }
 
-function displayAllCharts(listOfLabels, listOfOccurances) {
-    
-    //Set all spinners    
-    
+function buildCharts(listOfLabels, listOfOccurances) { 
+    displayPageTabs();
     displayScalarContents(listOfLabels, listOfOccurances);
     displayLogContents(listOfLabels, listOfOccurances);
     displayTableContents(listOfLabels, listOfOccurances);
 }
 
-function displayScalarContents(listOfLabels, listOfOccurances) {
-    var ctxS = $("#chart-scalar");
+function displayScalarContents(listOfLabels, listOfOccurances) {    
+    console.log(listOfOccurances);
+    console.log(listOfLabels);
+    
+    var scalarChart = $("#chart-scalar");
     var scalarChart = new Chart(scalarChart, {
         type: 'bar',
         data: {
@@ -121,12 +123,11 @@ function displayScalarContents(listOfLabels, listOfOccurances) {
         }
     });
 
-    //erase spinners
-    //displayPageTabs();
+    $("#page1-spinner").addClass("inactive-tab-content");
 }
 
 function displayLogContents(listOfLabels, listOfOccurances) {
-    var ctxL = $("#chart-log");
+    var logChart = $("#chart-log");
     var logChart = new Chart(logChart, {
         type: 'bar',
         data: {
@@ -149,6 +150,9 @@ function displayLogContents(listOfLabels, listOfOccurances) {
         }
     });
 
-    //erase spinners
-    //displayPageTabs();
+    $("#page2-spinner").addClass("inactive-tab-content");
+}
+
+function displayTableContents(listOfLabels, listOfOccurances) {
+
 }
