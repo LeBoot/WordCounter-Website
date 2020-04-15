@@ -8,7 +8,7 @@
         
         <meta name="author" content="Ben Leboot">
         <meta name="date.created" content="2020-03-02">
-        <meta name="date.modified" content="2020-04-11"> <!-- THIS -->
+        <meta name="date.modified" content="2020-04-14"> <!-- THIS -->
                
         <!-- Title for document -->
         <title>Home | Word Counter</title>
@@ -132,22 +132,20 @@
 
                 <div id="container-for-page-tabs" class="inactive-tab-content">
                     <div id="page-tabs-buttons">
-                        <button class="tab-button" onClick="displayTabContent('page1', this, 'olivedrab')" id="defaultOpen">Scalar Graph</button>
-                        <button class="tab-button" onClick="displayTabContent('page2', this, 'peru')">Log Graph</button>
+                        <button class="tab-button" onClick="displayTabContent('page1', this, 'rosybrown')" id="defaultOpen">Scalar Graph</button>
+                        <button class="tab-button" onClick="displayTabContent('page2', this, 'rosybrown')">Log Graph</button>
                         <button class="tab-button" onClick="displayTabContent('page3', this, 'rosybrown')">Table</button>
                     </div>
                     <div id="page-tabs-content">
                         <div class="tab-content" id="page1">
-                            <h2>This is page 1</h2>
-                            <canvas id="chart-scalar" style="max-width:400px;max-height:400px;margin:0px auto 30px auto;"></canvas>
+                            <canvas id="chart-scalar"></canvas>
                             <div id="page1-spinner">
                                 <div class="spin"></div>
                             </div>
                         </div>
             
                         <div class="tab-content" id="page2">
-                            <h2>This is page 2</h2>
-                            <canvas id="chart-log" style="max-width:400px;max-height:400px;margin:0px auto 30px auto;"></canvas>
+                            <canvas id="chart-log"></canvas>
                             <div id="page2-spinner">
                                 <div class="spin"></div>
                             </div>
@@ -158,6 +156,12 @@
                             <div id="page3-spinner">
                                 <div class="spin"></div>
                             </div>
+                            <table id="page3-table" class="inactive-tab-content">
+                                <tr id="page3-table-headrow">
+                                    <th class="page3-table-headerrow" width="50%">Word</th>
+                                    <th class="page3-table-headerrow" width="50%">Occurance</th>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>

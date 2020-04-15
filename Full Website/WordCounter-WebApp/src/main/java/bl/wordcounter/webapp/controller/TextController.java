@@ -121,21 +121,10 @@ public class TextController {
     }
     
     //AJAX
-    @RequestMapping(value = "analyze-draft", method = RequestMethod.POST)
-    ResponseEntity<Object> analyzeText(@RequestParam("textContent") String content) {
-        try {
-            List<Map.Entry<String, Integer>> list = textService.analyze(content);
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
-        }        
-    }
-    
-    //AJAX
     @RequestMapping(value = "analyze", method = RequestMethod.POST)
     ResponseEntity<Object> analyzeText2(@RequestParam("textContent") String content) {
         try {
-            TextReturn tr = textService.analyze2(content);
+            TextReturn tr = textService.analyze(content);
             return new ResponseEntity<>(tr, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);

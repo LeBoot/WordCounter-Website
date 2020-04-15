@@ -14,6 +14,7 @@ function clearAllErrors() {
 function clearForm() {
     $("#analysis-form-text-area").val("");
     clearAllErrors();
+    $("#container-for-page-tabs").addClass("inactive-tab-content");
 }
 
 function analyzeText() {
@@ -94,10 +95,7 @@ function buildCharts(listOfLabels, listOfOccurances) {
     displayTableContents(listOfLabels, listOfOccurances);
 }
 
-function displayScalarContents(listOfLabels, listOfOccurances) {    
-    console.log(listOfOccurances);
-    console.log(listOfLabels);
-    
+function displayScalarContents(listOfLabels, listOfOccurances) {   
     var scalarChart = $("#chart-scalar");
     var scalarChart = new Chart(scalarChart, {
         type: 'bar',
@@ -105,13 +103,13 @@ function displayScalarContents(listOfLabels, listOfOccurances) {
             labels: listOfLabels,
             datasets: [{
                 label: 'occurances',
-                backgroundColor: 'red',
+                backgroundColor: 'brown',
                 data: listOfOccurances
             }]
         },
         options: {
             legend: {display: false},
-            title: {display: true, text: 'Scalar Bar Graph'},
+            title: {display: false, text: 'Scalar Bar Graph'},
             scales: {
                 yAxes: [{
                     ticks: {
@@ -134,13 +132,13 @@ function displayLogContents(listOfLabels, listOfOccurances) {
             labels: listOfLabels,
             datasets: [{
                 label: 'occurances',
-                backgroundColor: 'red',
+                backgroundColor: 'brown',
                 data: listOfOccurances
             }]
         },
         options: {
             legend: {display: false},
-            title: {display: true, text: 'Log Bar Graph'},
+            title: {display: false, text: 'Log Bar Graph'},
             scales: {
                 yAxes: [{
                     type: 'logarithmic',
@@ -154,5 +152,19 @@ function displayLogContents(listOfLabels, listOfOccurances) {
 }
 
 function displayTableContents(listOfLabels, listOfOccurances) {
+    var table = $("#page3-table");
+    for (var i = 0; i < listOfLabels.length; i++) {
+        var htmlToAdd = '<tr>';
+            htmlToAdd += `<td id="label-row-` + i + `"></td>`;
+            htmlToAdd += `<td id="occurance-row-` + i + `"></td>`;
+            htmlToAdd += '</tr>';
 
+        table.append(htmlToAdd);
+
+        $("#label-row-" + i).text(listOfLabels[i]);
+        $("#occurance-row-" + i).text(listOfOccurances[i]);
+    }
+
+    $("#page3-spinner").addClass("inactive-tab-content");
+    table.removeClass("inactive-tab-content");
 }

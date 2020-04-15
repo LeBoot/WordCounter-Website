@@ -9,7 +9,6 @@ import bl.wordcounter.webapp.entity.Text;
 import bl.wordcounter.webapp.entity.TextReturn;
 import bl.wordcounter.webapp.exception.SavingTextException;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -21,9 +20,7 @@ public interface TextService {
     Text saveText(Text text) throws SavingTextException;
     Text getAText(int id) throws NoSuchElementException;
     List<Text> getAllTextsForAccount(int id);
-    void deleteText(int id);
-    List<Map.Entry<String, Integer>> analyze(String input);
-    
-    TextReturn analyze2(String input);
+    void deleteText(int id);    
+    TextReturn analyze(String input);
     
 }

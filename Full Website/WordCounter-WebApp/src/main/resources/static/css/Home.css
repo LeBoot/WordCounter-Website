@@ -9,6 +9,10 @@
 /*Miscellaneous*/
 /* ------------------------------ */
 
+.button-standard:hover {
+    background-color: rgb(214, 213, 213);
+}
+
 #nav-sidebar-toggle {
     margin: 10px;
 }
@@ -161,4 +165,84 @@ label,
 .form-button-forgot-password:hover,
 .button-modal-success:hover {
     background-color: rgb(195, 211, 211);
+}
+
+/*Graphs*/
+/* ------------------------------ */
+
+#div-analysis {
+    width: 600px;
+    text-align: center;
+    margin: auto;
+}
+
+#div-analysis-form,
+#page-tabs-buttons,
+#page-tabs-content {
+    width: 100%;
+}
+
+#analysis-form-text-area {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 150px;
+    max-height: 300px;
+    border-radius: 4px;
+}
+
+#analysis-form-error-div {
+    padding-bottom: 5px;
+}
+
+#container-for-page-tabs {
+    width: 90%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+#page1 {background-color: rosybrown;}
+#page2 {background-color: rosybrown;}
+#page3 {background-color: rosybrown;}
+
+.inactive-tab-content {
+    display: none;
+}
+
+.active-tab-content {
+    display: block;
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+
+.tab-button {
+    border: 1px solid grey;
+    border-bottom: none;
+    width: 120px;
+    height: 40px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: whitesmoke;
+}
+
+.tab-button:hover {
+    background-color: rgb(214, 213, 213);
+}
+
+#chart-log,
+#chart-scalar {
+     max-width: 800px;
+     max-height: 365px;
+     margin: 20px auto;
+}
+
+#page3-table {
+    margin: 10px auto;
+    width: 300px;
+    background-color: wheat;
+}
+
+.page3-table-headerrow {
+    border-bottom: 1px solid brown;
+    text-align: center;
 }

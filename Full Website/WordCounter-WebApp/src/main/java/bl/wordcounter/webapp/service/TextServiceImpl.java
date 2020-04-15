@@ -60,9 +60,11 @@ public class TextServiceImpl implements TextService {
     static final String[] EXCLUSIONS = {"...", ".", ",", "!", ";", "?", "\"", "'"};
     
     @Override
-    public List<Map.Entry<String, Integer>> analyze(String input) {
+    public TextReturn analyze(String input) {
         Map<String, Integer> wordOccurances = new TreeMap<>();
         
+        //Build the map of all words in alphabetical order
+        int max = 0;
         String[] stringParts = input.split(" ");
         for (String s : stringParts) {
             String word = s.toLowerCase().strip();
@@ -78,16 +80,24 @@ public class TextServiceImpl implements TextService {
                     wordOccurances.put(word, 1);
                 }
             }
+            if (wordOccurances.get(word) > max) {
+                max = wordOccurances.get(word);
+            }
         }
         
-        return reverseMap(wordOccurances); 
-    }
-    
-    private List<Map.Entry<String, Integer>> reverseMap(Map<String, Integer> map) {
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
-        list.sort(Map.Entry.comparingByValue());
-        Collections.reverse(list);
-        return list;
+        //Sorty the list by largest value to smallest value
+        List<String> labels = new ArrayList<>();
+        List<Integer> occurances = new ArrayList<>();
+        for (int i = max; i > 0; i--) {
+            for (String key : wordOccurances.keySet()) {
+                if (wordOccurances.get(key) == i) {
+                    labels.add(key);
+                    occurances.add(i);
+                }
+            }
+        }
+
+        return new TextReturn(occurances, labels);
     }
     
     private void validateText(Text text) throws SavingTextException {
@@ -105,37 +115,6 @@ public class TextServiceImpl implements TextService {
             String message = "Content must be fewer than " + contentMax + " characters.";
             throw new SavingTextException(message);
         }
-    }
-    
-    @Override
-    public TextReturn analyze2(String input) {
-        Map<String, Integer> wordOccurances = new TreeMap<>();
-        
-        String[] stringParts = input.split(" ");
-        for (String s : stringParts) {
-            String word = s.toLowerCase().strip();
-            for (int i = 1; i <= 2; i++) {
-                for (String character : EXCLUSIONS) {
-                    word = word.replace(character, "");
-                }
-            }
-            if (!word.isBlank()) {
-                if (wordOccurances.containsKey(word)) {
-                    wordOccurances.put(word, wordOccurances.get(word) + 1);
-                } else {
-                    wordOccurances.put(word, 1);
-                }
-            }
-        }
-        
-        List<String> labels = new ArrayList<>();
-        List<Integer> occurances = new ArrayList<>();
-        for (String key : wordOccurances.keySet()) {
-            labels.add(key);
-            occurances.add(wordOccurances.get(key));
-        }
-
-        return new TextReturn(occurances, labels);
     }
     
 }
