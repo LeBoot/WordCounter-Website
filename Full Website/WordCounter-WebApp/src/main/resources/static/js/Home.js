@@ -17,6 +17,8 @@ function closeAllModals() {
     closeModalLogInSuccess();
     closeModalSignUpSuccess();
     closeModalForgotPassword();
+    closeModalSaveText();
+    closeModalTextSaveSuccess();
 }
 
 function clearAllErrors() {
@@ -135,6 +137,34 @@ function clearModalForgotPassword() {
     $("#modal-form-forgot-password-input-email").val("");
 }
 
+/*Save Text Modal ========================================== */
+var modalSaveText = document.getElementById("modal-save-text");
+
+function displayModalSaveText() {
+    closeAllModals();
+    clearAllErrors();
+    $("#modal-form-save-text-input-hidden").val("1");
+    modalSaveText.style.display = "block";
+    $("#modal-form-text-save-title-input").focus();
+}
+
+function closeModalSaveText() {
+    $("#modal-form-save-text-input-title").val("");
+    modalSaveText.style.display = "none";
+}
+
+/*Text Save Success Modal ========================================== */
+var modalTextSaveSuccess = document.getElementById("modal-text-save-success");
+
+function displayModalTextSaveSuccess() {
+    closeAllModals();
+    clearAllErrors();
+    modalTextSaveSuccess.style.display = "block";
+}
+
+function closeModalTextSaveSuccess() {
+    modalTextSaveSuccess.style.display = "none";
+}
 
 /*Submit Sign Up ========================================== */
 function submitSignUp() {
@@ -358,11 +388,88 @@ function setModalForgotPasswordSuccess() {
     `);
 }
 
+/*Submit Save Text ========================================== */
+function submitSaveText() {
+    
+    //Prevent form from submitting on its own and refreshing the page
+    event.preventDefault();
+
+    //Clear errors
+    clearAllErrors();
+
+    //Create variable to determine whether or not to make AJAX call
+    var proceed = true;
+
+    //Grab input from user
+    var title = $("#modal-form-save-text-input-title").val().trim();
+    var content = $("#analysis-form-text-area").val().trim();
+    
+    //validate input from user
+    var titleReturn = validateTitle(title);
+    if (titleReturn != "good") {
+        proceed = false;
+        $("#modal-save-text-div-errors").text(titleReturn);
+        $("#modal-form-text-save-title-input").focus();
+    }
+
+    var contentReturn = validateContent(content);
+    if (contentReturn != "good") {
+        proceed = false;
+        $("#modal-save-text-div-errors").text(contentReturn);
+    } 
+    
+    //Grab hidden input
+    var hiddenElement = $("#modal-form-save-text-input-hidden");
+    var hiddenVal = hiddenElement.val();
+
+    //make AJAX call
+    if (proceed && (hiddenVal == 1)) {
+        $.ajax({
+            type: 'POST',
+            url: '/text/new-1',
+            data: {
+                textTitle: title,
+                textContent: content
+            },
+            success: function(data, status) {
+                displayModalTextSaveSuccess();
+            },
+            error: function(xhr, status, error) {
+                clearAllErrors();
+                var err = eval("(" + xhr.responseText + ")");
+
+                if (xhr.status == 409) {
+                    hiddenElement.val("2");
+                    const msg = 'That title is already taken.  To save it anyway, click "Submit".';
+                    $("#modal-save-text-div-errors").text(msg);
+                } else {
+                    $("#modal-save-text-div-errors").text(err.message);
+                }
+            }
+        });        
+    }
+
+    if (proceed && (hiddenVal == 2)) {
+        $.ajax({
+            type: 'GET',
+            url: '/text/new-2',
+            success: function(data, status) {
+                displayModalTextSaveSuccess();
+            },
+            error: function(xhr, status, error) {
+                clearAllErrors();
+                var err = eval("(" + xhr.responseText + ")");
+                $("#modal-save-text-div-errors").text(err.message);
+            }
+        });        
+    }
+
+}
 
 /*Validation ========================================== */
 function validateEmail(email) {
-    maxLength = 50;
-    minLength = 8;
+    const maxLength = 50;
+    const minLength = 8;
     
     if (email.length > maxLength) {
         return "Please use an email that is no more than " + maxLength + " characters in length.";
@@ -381,8 +488,8 @@ function validateEmail(email) {
 }
 
 function validatePassword(password) {
-    maxLength = 64;
-    minLength = 4;
+    const maxLength = 64;
+    const minLength = 4;
 
     if (password.length > maxLength) {
         return "Please use a password that is no more than " + maxLength + " characters in length.";
@@ -390,6 +497,26 @@ function validatePassword(password) {
     
     if (password.length < minLength) {
         return "Please use a password that is at least " + minLength + " characters in length.";
+    }
+
+    return "good";
+}
+
+function validateTitle(title) {
+    const maxLength = 50;
+    
+    if (title.length < 1 || title.length > maxLength) {
+        return "Please enter a title that is fewer than " + maxLength + " characters long.";
+    }
+
+    return "good";
+}
+
+function validateContent(content) {
+    const maxLength = 5000;
+    
+    if (content.length < 1 || content.length > maxLength) {
+        return "Content must be fewer than " + maxLength + " characters long.";
     }
 
     return "good";

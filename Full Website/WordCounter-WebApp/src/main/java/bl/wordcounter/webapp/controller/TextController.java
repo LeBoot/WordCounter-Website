@@ -94,7 +94,7 @@ public class TextController {
     }
     
     //AJAX
-    @RequestMapping(value = "new-2", method = RequestMethod.POST)
+    @RequestMapping(value = "new-2", method = RequestMethod.GET)
     ResponseEntity<Object> saveNewText2() {
         Text newText = new Text();
         Account account = accountService.getAnAccount(sessionService.getSessionOwner());        

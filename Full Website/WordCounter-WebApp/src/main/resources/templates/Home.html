@@ -109,7 +109,7 @@
                             <div th:case="true">
                                 <button class="button-standard analysis-form-button" type="submit" onClick="analyzeText()">Analyze</button>
                                 <button class="button-standard analysis-form-button" type="button" onClick="clearForm()">Clear Form</button>
-                                <button class="button-standard analysis-form-button" type="button" onClick="saveText()">Save</button>
+                                <button class="button-standard analysis-form-button" type="button" onClick="displayModalSaveText()">Save</button>
                             </div>
 
                             <!-- If Logged Out -->
@@ -257,6 +257,32 @@
                             <button type="submit" class="form-button" id="modal-form-forgot-password-button-submit" onclick="submitForgotPassword()">Submit</button>
                         </div>
                     </form>
+                </div>
+            </div>
+
+            <div id="modal-save-text" class="modal">
+                <div class="modal-content" id="modal-save-text-content">
+                    <h2 class="modal-header">Save Text</h2>
+                    <div class="div-error-big" id="modal-save-text-div-errors"></div>
+                    <form id="modal-form-save-text">
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-save-text-input-title">Title for this text:</label>
+                            <input type="text" id="modal-form-save-text-input-title">
+                            <input type="hidden" id="modal-form-save-text-input-hidden">
+                        </div>
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-save-text-button-cancel" onclick="closeModalSaveText()">Cancel</button>
+                            <button type="submit" class="form-button" id="modal-form-save-text-button-submit" onclick="submitSaveText()">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-text-save-success" class="modal">
+                <div class="modal-content modal-success" id="modal-text-save-success-content">
+                    <h3>Text Successfully Saved.</h3>
+                    <button type="submit" class="button-modal-success" onclick="closeModalTextSaveSuccess()">Close</button>
                 </div>
             </div>
 
