@@ -57,7 +57,7 @@ public class TextServiceImpl implements TextService {
     }
     
     //This is a list of characters to remove from words
-    static final String[] EXCLUSIONS = {"...", ".", ",", "!", ";", "?", "\"", "'"};
+    static final String[] EXCLUSIONS = {"...", ".", ",", "!", ";", "?", "\"", "'", ")", "(", "}", "{", ":"};
     
     @Override
     public TextReturn analyze(String input) {
@@ -79,10 +79,11 @@ public class TextServiceImpl implements TextService {
                 } else {
                     wordOccurances.put(word, 1);
                 }
-            }
-            if (wordOccurances.get(word) > max) {
-                max = wordOccurances.get(word);
-            }
+                
+                if (wordOccurances.get(word) > max) {
+                    max = wordOccurances.get(word);
+                }
+            }  
         }
         
         //Sorty the list by largest value to smallest value

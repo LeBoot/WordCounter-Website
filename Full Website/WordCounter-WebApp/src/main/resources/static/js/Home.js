@@ -2,7 +2,7 @@
     Name: Home.js
     Project: Word Counter
     Date Created: 7 April 2020
-    Date Updated: 11 April 2020
+    Date Updated: 16 April 2020
     Author: Ben Lebout
 */
 
@@ -14,8 +14,6 @@ $(document).ready(function () {
 function closeAllModals() {
     closeModalLogIn();
     closeModalSignUp();
-    closeModalLogInSuccess();
-    closeModalSignUpSuccess();
     closeModalForgotPassword();
     closeModalSaveText();
     closeModalTextSaveSuccess();
@@ -42,8 +40,17 @@ window.onclick = function(event) {
     if (event.target == modalForgotPassword) {
         closeModalForgotPassword();
     }
+    if (event.target == modalSaveText) {
+        closeModalSaveText();
+    }
+    if (event.target == modalTextSaveSuccess) {
+        closeModalTextSaveSuccess();
+    }
 }
 
+function redirectToHome() {
+    window.location="/home";
+}
 
 /*Log In Modal ========================================== */
 var modalLogIn = document.getElementById("modal-log-in");
@@ -98,6 +105,7 @@ function displayModalSignUpSuccess() {
 
 function closeModalSignUpSuccess() {
     modalSignUpSuccess.style.display = "none";
+    redirectToHome();
 }
 
 /*Log In Success Modal ========================================== */
@@ -111,10 +119,7 @@ function displayModalLogInSuccess() {
 
 function closeModalLogInSuccess() {
     modalLogInSuccess.style.display = "none";
-}
-
-function redirectToHome() {
-    window.location="/home";
+    redirectToHome();
 }
 
 /*Forgot Password Modal ========================================== */

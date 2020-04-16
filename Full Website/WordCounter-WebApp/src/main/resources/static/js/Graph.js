@@ -2,7 +2,7 @@
     Name: Graph.js
     Project: Word Counter
     Date Created: 11 March 2020
-    Date Updated: 13 April 2020
+    Date Updated: 16 April 2020
     Author: Ben Lebout
 */
 
@@ -17,11 +17,35 @@ function clearForm() {
     $("#container-for-page-tabs").addClass("inactive-tab-content");
 }
 
+function clearGraphs() {
+    $("#page1").html(`
+        <canvas id="chart-scalar"></canvas>
+        <div id="page1-spinner">
+            <div class="spin"></div>
+        </div>
+    `);
+
+    $("#page2").html(`
+        <canvas id="chart-log"></canvas>
+        <div id="page2-spinner">
+            <div class="spin"></div>
+        </div>
+    `);
+
+    $("#page3-table").html(`
+        <tr id="page3-table-headrow">
+            <th class="page3-table-headerrow" width="50%">Word</th>
+            <th class="page3-table-headerrow" width="50%">Occurance</th>
+        </tr>
+    `);
+}
+
 function analyzeText() {
     //Prevent form from submitting on its own and refreshing the page
     event.preventDefault();
     
     clearAllErrors();
+    clearGraphs();
 
     var input = $("#analysis-form-text-area").val().trim();
     var isInputValid = validateForm(input);

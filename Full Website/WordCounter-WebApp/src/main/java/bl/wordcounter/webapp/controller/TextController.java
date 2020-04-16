@@ -14,7 +14,6 @@ import bl.wordcounter.webapp.service.AccountService;
 import bl.wordcounter.webapp.service.SessionService;
 import bl.wordcounter.webapp.service.TextService;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -128,7 +127,7 @@ public class TextController {
             return new ResponseEntity<>(tr, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
-        }        
+        }  
     }
     
 }
