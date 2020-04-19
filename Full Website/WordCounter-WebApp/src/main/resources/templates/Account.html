@@ -23,6 +23,7 @@
         <link href="/css/headerfooter.css" rel="stylesheet" type="text/css" />
         <link href="/css/home.css" rel="stylesheet" type="text/css" />
         <link href="/css/sidebar.css" rel="stylesheet" type="text/css" />
+        <link href="/css/account.css" rel="stylesheet" type="text/css" />
         
         <!-- CSS, Custom, Internal -->
         <style>            
@@ -48,10 +49,23 @@
             <nav id="sidebar">
                 <div>
                     <div id="div-sidebar-links-container">
+                        <div id="div-sidebar-header">
+                            <div><h3>Hello,</h3></div>
+                            <div><h4><span th:text="${email}"></span></h4></div>
+                        </div>
                         <div class="div-sidebar-link">
                             <a href="/">
                                 <button class="div-sidebar-button button-standard" id="button-link-home">Home</button>
                             </a>
+                        </div>
+                        <div class="div-sidebar-link">
+                            <button class="div-sidebar-button button-standard" id="button-change-email" onclick="displayModalChangeEmail()">Change Email</button>
+                        </div>
+                        <div class="div-sidebar-link">
+                            <button class="div-sidebar-button button-standard" id="button-change-password" onclick="displayModalChangePassword()">Change Password</button>
+                        </div>
+                        <div class="div-sidebar-link">
+                            <button class="div-sidebar-button button-standard" id="button-delete-account" onclick="displayModalDeleteAccount()">Delete Account</button>
                         </div>
                         <div class="div-sidebar-link">
                             <a href="/logout">
@@ -68,6 +82,91 @@
                 <nav id="nav-sidebar-toggle">
                     <button id="button-sidebar-toggle button-standard" onClick="toggleSidebar()">☰ Menu</button>
                 </nav>
+            </div>
+
+            <!-- Modals ---------------------------------------------------------------------------------------- -->
+            <div id="modal-change-email" class="modal">
+                <div class="modal-content" id="modal-change-email-content">
+                    <h2 class="modal-header">Change Email</h2>
+                    <div class="div-error-big" id="modal-change-email-div-errors"></div>
+                    <form id="modal-form-change-email">
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-change-email-input-email">New Email:</label>
+                            <input type="email" id="modal-form-change-email-input-email">
+                            <div class="div-error-small" id="modal-change-email-form-email-errors"></div>
+                        </div>
+
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-change-email-input-password">Current Password:</label>
+                            <input type="password" id="modal-form-change-email-input-password">
+                            <div class="div-error-small" id="modal-change-email-form-password-errors"></div>
+                        </div>
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-change-email-button-cancel" onclick="closeModalChangeEmail()">Cancel</button>
+                            <button type="submit" class="form-button" id="modal-form-change-email-button-submit" onclick="submitChangeEmail()">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-change-password" class="modal">
+                <div class="modal-content" id="modal-change-password-content">
+                    <h2 class="modal-header">Change Password</h2>
+                    <div class="div-error-big" id="modal-change-password-div-errors"></div>
+                    <form id="modal-form-change-password">
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-change-password-input-old-pass">Current Password:</label>
+                            <input type="password" id="modal-form-change-password-input-old-pass">
+                            <div class="div-error-small" id="modal-change-password-form-old-pass-errors"></div>
+                        </div>
+
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-change-password-input-new-password-1">New Password:</label>
+                            <input type="password" id="modal-form-change-password-input-new-password-1">
+                            <div class="div-error-small" id="modal-change-password-form-new-password-1-errors"></div>
+                        </div>
+
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-change-password-input-new-password-2">Confirm New Password:</label>
+                            <input type="password" id="modal-form-change-password-input-new-password-2">
+                            <div class="div-error-small" id="modal-change-password-form-new-password-2-errors"></div>
+                        </div>
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-change-password-button-cancel" onclick="closeModalChangePassword()">Cancel</button>
+                            <button type="submit" class="form-button" id="modal-form-change-password-button-submit" onclick="submitChangePassword()">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-delete-account" class="modal">
+                <div class="modal-content" id="modal-delete-account-content">
+                    <h2 class="modal-header">Delete Account</h2>
+                    <div class="div-error-big" id="modal-delete-account-div-errors"></div>
+                    <h4>We're sorry to see you go!</h4>
+                    <form id="modal-form-delete-account">
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-delete-account-input-password">Password:</label>
+                            <input type="password" id="modal-form-delete-account-input-password">
+                            <div class="div-error-small" id="modal-delete-account-form-password-errors"></div>
+                        </div>
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-delete-account-button-cancel" onclick="closeModalDeleteAccount()">Cancel</button>
+                            <button type="submit" class="form-button" id="modal-form-delete-account-button-submit" onclick="submitDeleteAccount()">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-sign-up-success" class="modal">
+                <div class="modal-content modal-success" id="modal-sign-up-success-content">
+                    <h2>Welcome!</h2>
+                    <h4>You're successfully signed up and logged in.</h4>
+                    <button type="submit" class="button-modal-success" onclick="closeModalSignUpSuccess()">Close</button>
+                </div>
             </div>
 
         </section> <!-- END Section-Main-Body ------------------------------------------------------------------ -->

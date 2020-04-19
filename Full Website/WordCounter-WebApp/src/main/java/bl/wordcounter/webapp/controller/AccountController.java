@@ -9,11 +9,16 @@ import bl.wordcounter.webapp.enigma.exception.InvalidKeyException;
 import bl.wordcounter.webapp.enigma.exception.InvalidPasswordException;
 import bl.wordcounter.webapp.entity.Account;
 import bl.wordcounter.webapp.exception.EmailNotSentException;
+import bl.wordcounter.webapp.exception.EmailUnavailableException;
+import bl.wordcounter.webapp.exception.IncorrectPasswordException;
+import bl.wordcounter.webapp.exception.InvalidInputException;
 import bl.wordcounter.webapp.service.AccountService;
 import bl.wordcounter.webapp.service.MailService;
 import bl.wordcounter.webapp.service.SessionService;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +52,10 @@ public class AccountController {
         if (sessionService.getSessionStatus() == 0) {
             return "redirect:/home";
         }
+        
+        String email = accountService.getAnAccount(sessionService.getSessionOwner()).getEmail();
+        model.addAttribute("email", email);
+        
         return "Account";
     }
     
@@ -86,7 +95,8 @@ public class AccountController {
     ResponseEntity<Object> saveNewAccount(
             @RequestParam("formEmail") String formEmail,
             @RequestParam("formPass1") String formPass1,
-            @RequestParam("formPass2") String formPass2) {
+            @RequestParam("formPass2") String formPass2
+    ) {
         try {
             accountService.saveNewAccount(formEmail, formPass1, formPass2);
             sessionService.logIn(formEmail, formPass1);
@@ -98,8 +108,17 @@ public class AccountController {
     
     //AJAX
     @RequestMapping(value = "/change-email", method = RequestMethod.POST)
-    ResponseEntity<Object> changeEmail() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    ResponseEntity<Object> changeEmail(
+            @RequestParam("formEmail") String formEmail,
+            @RequestParam("formPass") String formPass
+    ) {
+        try {
+            int accountId = sessionService.getSessionOwner();
+            accountService.changeEmail(accountId, formEmail, formPass);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (EmailUnavailableException | IncorrectPasswordException | InvalidInputException ex) {
+            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+        }
     }
     
     //AJAX

@@ -10,6 +10,7 @@ import bl.wordcounter.webapp.enigma.exception.InvalidKeyException;
 import bl.wordcounter.webapp.enigma.exception.InvalidPasswordException;
 import bl.wordcounter.webapp.entity.Account;
 import bl.wordcounter.webapp.exception.EmailUnavailableException;
+import bl.wordcounter.webapp.exception.IncorrectPasswordException;
 import bl.wordcounter.webapp.exception.InvalidInputException;
 import bl.wordcounter.webapp.repository.AccountRepository;
 import java.util.List;
@@ -36,10 +37,18 @@ public class AccountServiceImpl implements AccountService {
     }
     
     @Override
-    public void changeEmail(int id, String email) throws EmailUnavailableException {
+    public void changeEmail(int id, String email, String password)
+            throws EmailUnavailableException, InvalidInputException, IncorrectPasswordException {
+        validateEmail(email);
         checkEmailAvailability(email);
         Account account = getAnAccount(id);
-        accountRepo.save(account);
+        if (enigma.doesPasswordMatch(password, account.getPassword(), account.getPasskey())) {
+            account.setEmail(email);
+            accountRepo.save(account);
+        } else {
+            String message = "That is the incorrect password for the account.";
+            throw new IncorrectPasswordException(message);
+        }
     }
     
     @Override

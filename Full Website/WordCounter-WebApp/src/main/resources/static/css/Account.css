@@ -1,10 +1,12 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
 /* 
-    Created on : Apr 6, 2020, 3:11:22 PM
-    Author     : Boone
+    Name: Account.css
+    Project: Word Counter
+    Date Created: 19 April 2020
+    Date Updated: 19 April 2020
+    Author: Ben Lebout
 */
 
+#modal-change-email-content {
+    width: 400px;
+    height: 300px;
+}
