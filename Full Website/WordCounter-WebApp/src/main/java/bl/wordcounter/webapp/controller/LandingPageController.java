@@ -31,7 +31,7 @@ public class LandingPageController {
     AccountService accountService;
     
     //Thymeleaf
-    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/", "/home"}, method = RequestMethod.GET)
     String displayHome(Model model) {        
         boolean isLoggedIn = false;
         String email = "";

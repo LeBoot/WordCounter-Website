@@ -15,6 +15,9 @@ function closeAllModals() {
     closeModalChangeEmail();
     closeModalChangePassword();
     closeModalDeleteAccount();
+    closeModalChangePassword();
+    closeModalChangePasswordSuccess();
+    closeModalDeleteAccount();
 }
 
 function clearAllErrors() {
@@ -28,6 +31,18 @@ window.onclick = function(event) {
     }
     if (event.target == modalChangePassword) {
         closeModalChangePassword();
+    }
+    if (event.target == modalDeleteAccount) {
+        closeModalDeleteAccount();
+    }
+    if (event.target == modalChangeEmailSuccess) {
+        closeModalChangeEmailSuccess();
+    }
+    if (event.target == modalChangePassword) {
+        closeModalChangePassword();
+    }
+    if (event.target == modalChangePasswordSuccess) {
+        closeModalChangePasswordSuccess();
     }
     if (event.target == modalDeleteAccount) {
         closeModalDeleteAccount();
@@ -116,32 +131,139 @@ function submitChangeEmail() {
 
 }
 
+const modalChangeEmailSuccess = document.getElementById("modal-change-email-success");
+
 function displayModalChangeEmailSuccess() {
-    
+    closeAllModals();
+    clearAllErrors();
+    modalChangeEmailSuccess.style.display = "block";
+}
+
+function closeModalChangeEmailSuccess() {
+    modalChangeEmailSuccess.style.display = "none";
+
+    //refresh page to update sidebar message
+    window.location="/account/view";
 }
 
 
 /*Change Password ================================================== */
 const modalChangePassword = document.getElementById("modal-change-password");
+const modalChangePasswordSuccess = document.getElementById("modal-change-password-success");
 
 function displayModalChangePassword() {
-
+    closeAllModals();
+    clearAllErrors();
+    modalChangePassword.style.display = "block";
+    $("#modal-form-change-password-input-old-pass").focus();
 }
 
 function closeModalChangePassword() {
+    clearModalChangePassword();
+    modalChangePassword.style.display = "none";
+}
+
+function clearModalChangePassword() {
+    $("#modal-form-change-password-input-old-pass").val("");
+    $("#modal-form-change-password-input-new-password-1").val("");
+    $("#modal-form-change-password-input-new-password-2").val("");
+}
+
+function displayModalChangePasswordSuccess() {
+    closeAllModals();
+    clearAllErrors();
+    modalChangePasswordSuccess.style.display = "block";
+}
+
+function closeModalChangePasswordSuccess() {
+    modalChangePasswordSuccess.style.display = "none";
+}
+
+function submitChangePassword() {
+    //Prevent form from submitting on its own and refreshing the page
+    event.preventDefault();
+
+    //Clear errors
+    clearAllErrors();
+
+    //Create variable to determine whether or not to make AJAX call
+    var proceed = true;
+
+    //Create a variable to focus the cursor after errors
+    const oldPassField = $("#modal-form-change-password-input-old-pass");
+    const newPass1Field = $("#modal-form-change-password-input-new-passsword-1");
+    var cursor = newPass1Field;
+
+    //Grab input from user
+    var oldPass = $("#modal-form-change-password-input-old-pass").val().trim();
+    var newPass1 = $("#modal-form-change-password-input-new-password-1").val().trim();
+    var newPass2 = $("#modal-form-change-password-input-new-password-2").val().trim();
+
+    //Clear all fields
+    clearModalChangePassword();
+
+    //validate new password properties
+    var passReturn = validatePassword(newPass1);
+    if (passReturn != "good") {
+        proceed = false;
+        $("#modal-change-password-form-new-password-1-errors").text(passReturn);
+    }
+
+    if (newPass1 != newPass2) {
+        proceed = false;
+        var error = "Passwords do not match."
+        $("#modal-change-password-form-new-password-2-errors").text(error);
+    }
+
+    cursor.focus();
+
+    //make AJAX call
+    if (proceed) {
+        $.ajax({
+            type: 'POST',
+            url: '/account/change-password',
+            data: {
+                oldPass: oldPass,
+                newPass1: newPass1,
+                newPass2: newPass2
+            },
+            success: function(data, status) {
+                displayModalChangePasswordSuccess();
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                clearModalChangePassword();
+                $("#modal-change-password-div-errors").text(err.message);
+                oldPassField.focus();
+            }
+        });        
+    }
 
 }
 
 
-/*Change Password ================================================== */
+/*Delete Account ================================================== */
 const modalDeleteAccount = document.getElementById("modal-delete-account");
 
 function displayModalDeleteAccount() {
+    closeAllModals();
+    clearAllErrors();
+    modalDeleteAccount.style.display = "block";
+    $("#modal-form-delete-account-input-password").focus();
 
 }
 
 function closeModalDeleteAccount() {
+    clearModalDeleteAccount();
+    modalDeleteAccount.style.display = "none";
+}
 
+function clearModalDeleteAccount() {
+    $("#modal-form-delete-account-input-password").val("");
+}
+
+function submitDeleteAccount() {
+    //WRITE THIS NEXT
 }
 
 
