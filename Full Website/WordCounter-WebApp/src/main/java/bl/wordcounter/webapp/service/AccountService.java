@@ -23,9 +23,10 @@ public interface AccountService {
     String autogeneratePassword(int length);
     void changeEmail(int id, String email, String password)
             throws EmailUnavailableException, InvalidInputException, IncorrectPasswordException;
-    void changePassword(int id, String password)
-            throws NoSuchElementException, InvalidKeyException, InvalidPasswordException;
-    void deleteAccount(int id);
+    void changePassword(int id, String oldPass, String newPass1, String newPass2)
+            throws NoSuchElementException, InvalidKeyException, InvalidPasswordException,
+            IncorrectPasswordException, InvalidInputException;
+    void deleteAccount(int id, String password) throws IncorrectPasswordException;
     List<Account> getAllAccounts();
     Account getAnAccount(int id)
             throws NoSuchElementException;

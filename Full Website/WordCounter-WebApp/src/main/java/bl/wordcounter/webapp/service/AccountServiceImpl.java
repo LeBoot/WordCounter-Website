@@ -52,15 +52,28 @@ public class AccountServiceImpl implements AccountService {
     }
     
     @Override
-    public void changePassword(int id, String password)
-            throws NoSuchElementException, InvalidKeyException, InvalidPasswordException {
+    public void changePassword(int id, String oldPass, String newPass1, String newPass2)
+            throws NoSuchElementException, InvalidKeyException, InvalidPasswordException,
+            IncorrectPasswordException, InvalidInputException {
         Account account = getAnAccount(id);
-        encryptPasswordAndSave(account, password);
+        if (enigma.doesPasswordMatch(oldPass, account.getPassword(), account.getPasskey())) {
+            confirmPasswordsMatch(newPass1, newPass2);
+            encryptPasswordAndSave(account, newPass1);
+        } else {
+            String message = "That is the incorrect password for the account.";
+            throw new IncorrectPasswordException(message);
+        }
     }
     
     @Override
-    public void deleteAccount(int id) {
-        accountRepo.deleteById(id);
+    public void deleteAccount(int id, String password) throws IncorrectPasswordException {
+        Account account = getAnAccount(id);
+        if (enigma.doesPasswordMatch(password, account.getPassword(), account.getPasskey())) {
+            accountRepo.deleteById(id);
+        } else {
+            String message = "That is the incorrect password for the account.";
+            throw new IncorrectPasswordException(message);
+        }
     }
     
     @Override

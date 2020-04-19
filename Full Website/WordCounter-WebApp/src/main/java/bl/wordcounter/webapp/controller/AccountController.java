@@ -5,8 +5,6 @@
  */
 package bl.wordcounter.webapp.controller;
 
-import bl.wordcounter.webapp.enigma.exception.InvalidKeyException;
-import bl.wordcounter.webapp.enigma.exception.InvalidPasswordException;
 import bl.wordcounter.webapp.entity.Account;
 import bl.wordcounter.webapp.exception.EmailNotSentException;
 import bl.wordcounter.webapp.exception.EmailUnavailableException;
@@ -16,9 +14,6 @@ import bl.wordcounter.webapp.service.AccountService;
 import bl.wordcounter.webapp.service.MailService;
 import bl.wordcounter.webapp.service.SessionService;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,10 +63,9 @@ public class AccountController {
                 try {
                     String newPassword = accountService.autogeneratePassword(7);
                     mailService.sendForgotPassword(email, newPassword);
-                    accountService.changePassword(a.getId(), newPassword);
+                    accountService.changePassword(a.getId(), a.getPassword(), newPassword, newPassword);
                     return new ResponseEntity<>(HttpStatus.OK);
-                } catch (InvalidKeyException | InvalidPasswordException | 
-                        EmailNotSentException | NoSuchElementException ex) {
+                } catch (Exception ex) {
                     return new ResponseEntity<>(ex, HttpStatus.EXPECTATION_FAILED);
                 }
             }
@@ -82,12 +76,18 @@ public class AccountController {
     }
     
     //AJAX
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    ResponseEntity<Object> deleteAccount() {
-        int accountId = sessionService.getSessionOwner();
-        sessionService.logOut();        
-        accountService.deleteAccount(accountId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    ResponseEntity<Object> deleteAccount(
+            @RequestParam("password") String password
+    ) {
+        try {
+            int accountId = sessionService.getSessionOwner();
+            accountService.deleteAccount(accountId, password);
+            sessionService.logOut();
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IncorrectPasswordException ex) {
+            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+        }
     }
     
     //AJAX
@@ -123,8 +123,18 @@ public class AccountController {
     
     //AJAX
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-    ResponseEntity<Object> changePassword() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    ResponseEntity<Object> changePassword(
+            @RequestParam("oldPass") String oldPass,
+            @RequestParam("newPass1") String newPass1,
+            @RequestParam("newPass2") String newPass2
+    ) {
+        try {
+            int accountId = sessionService.getSessionOwner();
+            accountService.changePassword(accountId, oldPass, newPass1, newPass2);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+        }
     }
     
 }
