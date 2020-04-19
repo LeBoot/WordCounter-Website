@@ -275,7 +275,7 @@ function submitLogIn() {
     if (proceed) {
         $.ajax({
             type: 'POST',
-            url: '/session/login',
+            url: '/login',
             data: {
                 formEmail: email,
                 formPass: pass

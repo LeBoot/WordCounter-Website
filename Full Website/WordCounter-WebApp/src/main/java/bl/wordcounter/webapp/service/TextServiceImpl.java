@@ -10,7 +10,6 @@ import bl.wordcounter.webapp.entity.TextReturn;
 import bl.wordcounter.webapp.exception.SavingTextException;
 import bl.wordcounter.webapp.repository.TextRepository;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -44,7 +43,9 @@ public class TextServiceImpl implements TextService {
     @Override
     public List<Text> getAllTextsForAccount(int id) {
         try {
-            return textRepo.findAllForAccount(id);
+            List<Text> list = textRepo.findAllForAccount(id);
+            list = truncateList(list);
+            return list;
         } catch (Exception e) {
             List<Text> emptyList = new ArrayList<>();
             return emptyList;
@@ -116,6 +117,18 @@ public class TextServiceImpl implements TextService {
             String message = "Content must be fewer than " + contentMax + " characters.";
             throw new SavingTextException(message);
         }
+    }
+    
+    private List<Text> truncateList(List<Text> list) {
+        int maxLength = 100;
+        for (Text text : list) {
+            String content = text.getContent();
+            if (content.length() > maxLength) {
+                content = content.substring(0, maxLength) + "...";
+                text.setContent(content);
+            }
+        }
+        return list;
     }
     
 }

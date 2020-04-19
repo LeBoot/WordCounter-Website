@@ -5,13 +5,17 @@
  */
 package bl.wordcounter.webapp.controller;
 
+import bl.wordcounter.webapp.exception.UnsuccessfulLoginException;
 import bl.wordcounter.webapp.service.AccountService;
 import bl.wordcounter.webapp.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -40,6 +44,30 @@ public class LandingPageController {
         model.addAttribute("isLoggedIn", isLoggedIn);
 
         return "Home";
+    }
+    
+    //AJAX
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    ResponseEntity<Object> attemptLogin(
+            @RequestParam("formEmail") String email,
+            @RequestParam("formPass") String password
+            ) {
+        if (sessionService.getSessionStatus() == SessionService.LOGGED_IN) {
+            sessionService.logOut();
+        }
+        try {
+            sessionService.logIn(email, password);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (UnsuccessfulLoginException ex) {
+            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    //Thymeleaf
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    String logout() {
+        sessionService.logOut();
+        return "redirect:/home";
     }
     
 }

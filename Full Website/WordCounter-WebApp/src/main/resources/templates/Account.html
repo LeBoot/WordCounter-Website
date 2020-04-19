@@ -3,12 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="description of website"> <!-- THIS -->
-        <meta name="keywords" content="keyword1; keyword2; keyword3"> <!-- THIS -->
         
         <meta name="author" content="Ben Leboot">
-        <meta name="date.created" content="2020-03-02">
-        <meta name="date.modified" content="2020-04-06"> <!-- THIS -->
+        <meta name="date.created" content="2020-04-19">
+        <meta name="date.modified" content="2020-04-19"> <!-- THIS -->
                
         <!-- Title for document -->
         <title>Account | Word Counter</title>
@@ -22,9 +20,9 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
  
         <!-- CSS, Custom, External -->
-        <link href="css/headerfooter.css" rel="stylesheet" type="text/css" />
-        <link href="css/account.css" rel="stylesheet" type="text/css" />
-        <link href="css/sidebar.css" rel="stylesheet" type="text/css" />
+        <link href="/css/headerfooter.css" rel="stylesheet" type="text/css" />
+        <link href="/css/home.css" rel="stylesheet" type="text/css" />
+        <link href="/css/sidebar.css" rel="stylesheet" type="text/css" />
         
         <!-- CSS, Custom, Internal -->
         <style>            
@@ -33,23 +31,58 @@
     </head> <!-- END HEAD ====================================================================================== -->
     
     <body>
-        <noscript><div id="noscript-div"><h2>Warning: This page does not function properly with JavaScript disabled.</h2></div></noscript>
+        <noscript><div id="div-noscript"><h2>Warning: This page does not function properly with JavaScript disabled.</h2></div></noscript>
+        
         <header>
-            Header
-        </header> <!-- END header -->
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+            <div class="div-header-picture"></div>
+        </header> <!-- END header ------------------------------------------------------------------------------ -->
+
         <section class="section-main-body">
-            Section Main Body
-        </section> <!-- END Section-Main-Body -->
+            <!-- Sidebar (Thymeleaf controlled) -->
+            <nav id="sidebar">
+                <div>
+                    <div id="div-sidebar-links-container">
+                        <div class="div-sidebar-link">
+                            <a href="/">
+                                <button class="div-sidebar-button button-standard" id="button-link-home">Home</button>
+                            </a>
+                        </div>
+                        <div class="div-sidebar-link">
+                            <a href="/logout">
+                                <button class="div-sidebar-button button-standard" id="button-log-out">Log Out</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </nav> <!-- End Sidebar ---------------------------------------------------------------------------- -->
+
+            <!-- Page Content -->
+            <div id="page-content">
+                <nav id="nav-sidebar-toggle">
+                    <button id="button-sidebar-toggle button-standard" onClick="toggleSidebar()">☰ Menu</button>
+                </nav>
+            </div>
+
+        </section> <!-- END Section-Main-Body ------------------------------------------------------------------ -->
+
         <footer>
-            Footer
+            <p>Created by LeBoot Websites</p>
+            <p>Copyright © 2020</p>
         </footer> <!-- END footer -->
 
         <!-- JavaScript, Custom, Internal -->
         <script></script>
 
         <!-- JavaScript, Custom, External -->
-        <script src="js/account.js" ></script>
-        <script src="js/sidebar.js" ></script>
+        <script src="/js/account.js" ></script>
+        <script src="/js/sidebar.js" ></script>
 
         <!-- External Scripts -->
             <!-- Full JQuery (with AJAX) -->
