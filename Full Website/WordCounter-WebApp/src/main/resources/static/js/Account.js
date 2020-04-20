@@ -2,14 +2,35 @@
     Name: Account.js
     Project: Word Counter
     Date Created: 19 April 2020
-    Date Updated: 19 April 2020
+    Date Updated: 20 April 2020
     Author: Ben Lebout
 */
 
 $(document).ready(function () {
     closeAllModals();
     clearAllErrors();
+    callForTexts();
 })
+
+function callForTexts() {
+    $.ajax({
+        type: 'GET',
+        url: '/account/get-list',
+        success: function(data, status) {
+            fillTable(data);
+        },
+        error: function(xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            $("#modal-change-email-div-errors").text(err.message); //This
+        }
+    });
+}
+
+function fillTable(data) {
+    //Write THIS
+}
+
+/*Modal Helpers ============================================== */
 
 function closeAllModals() {
     closeModalChangeEmail();

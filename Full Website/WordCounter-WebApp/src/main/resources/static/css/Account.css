@@ -2,7 +2,7 @@
     Name: Account.css
     Project: Word Counter
     Date Created: 19 April 2020
-    Date Updated: 19 April 2020
+    Date Updated: 20 April 2020
     Author: Ben Lebout
 */
 
@@ -14,4 +14,34 @@
 #modal-change-password-content {
     width: 400px;
     height: 375px;
+}
+
+#div-to-hold-table {
+    width: 1000px;
+    margin: auto;
+    background-color: rosybrown;
+    padding-bottom: 25px;
+}
+
+#account-header {
+    text-align: center;
+    padding: 5px;
+}
+
+#account-table {
+    background-color: wheat;
+    width: 950px;
+    margin: auto;
+}
+
+th {
+    padding-left: 10px;
+}
+
+#account-table-headerrow {
+    border-bottom: 2px solid brown;
+}
+
+tr {
+    border-bottom: 1px solid brown;
 }
