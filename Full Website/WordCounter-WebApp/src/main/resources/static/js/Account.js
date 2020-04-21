@@ -2,7 +2,7 @@
     Name: Account.js
     Project: Word Counter
     Date Created: 19 April 2020
-    Date Updated: 20 April 2020
+    Date Updated: 21 April 2020
     Author: Ben Lebout
 */
 
@@ -17,17 +17,17 @@ function callForTexts() {
         type: 'GET',
         url: '/text/get-list',
         success: function(data, textStatus, xhr) {
-            $("#account-page-spinner").addClass("inactive-tab-content");
-            
+            $("#account-page-spinner").addClass("inactive-tab-content");            
             if (xhr.status == 204) {
-                displayNoContent();
+                $("#account-table-no-content-div").removeClass("inactive-tab-content");
             } else {
                 fillTable(data);
             }
         },
         error: function(xhr, textStatus) {
-            var err = eval("(" + xhr.responseText + ")");
-            $("#modal-change-email-div-errors").text(err.message); //This ====================
+            $("#account-page-spinner").addClass("inactive-tab-content");
+            const msg = "Sorry, but we're having trouble on our end and cannot retrieve your texts.  Please try again later.";
+            $("#account-page-div-errors").text(msg);
         }
     });
 }
@@ -39,7 +39,7 @@ function fillTable(data) {
         htmlToAdd += '<td id="table-row-content-' + index + '"></td>';
         htmlToAdd += '<td><button type="button" class="button-account-table" onclick="editText(' + text.id + ')">View/Edit</button></td>';
         htmlToAdd += '<td><button type="button" class="button-account-table" onclick="analyzeText(' + text.id + ')">Analyze</button></td>';
-        htmlToAdd += '<td><button type="button" class="button-account-table" onclick="deleteText(' + text.id + ')">Delete</button></td>';
+        htmlToAdd += `<td><button type="button" class="button-account-table" onclick="displayModalDeleteText(` + text.id + `, '` + text.title + `')">Delete</button></td>`;
         htmlToAdd += '</tr>';
 
         $("#account-table").append(htmlToAdd);
@@ -49,10 +49,6 @@ function fillTable(data) {
     });
 }
 
-function displayNoContent() {
-    //THIS
-    alert("no results");
-}
 
 /*Modal Helpers ============================================== */
 
@@ -63,6 +59,7 @@ function closeAllModals() {
     closeModalChangePassword();
     closeModalChangePasswordSuccess();
     closeModalDeleteAccount();
+    closeModalDeleteText();
 }
 
 function clearAllErrors() {
@@ -91,6 +88,9 @@ window.onclick = function(event) {
     }
     if (event.target == modalDeleteAccount) {
         closeModalDeleteAccount();
+    }
+    if (event.target == modalDeleteText) {
+        closeModalDeleteText();
     }
 }
 
@@ -348,6 +348,48 @@ function submitDeleteAccount() {
     }
 }
 
+/*Delete Text ================================================== */
+const modalDeleteText = document.getElementById("modal-delete-text");
+
+function displayModalDeleteText(textId, textTitle) {
+    closeAllModals();
+    clearAllErrors();
+    $("#modal-delete-text-hidden-input-id").val(textId);
+    $("#modal-delete-text-span-title").text(textTitle);
+    modalDeleteText.style.display = "block";
+}
+
+function closeModalDeleteText() {
+    modalDeleteText.style.display = "none";
+}
+
+function submitDeleteText() {
+    //Prevent form from submitting on its own and refreshing the page
+    event.preventDefault();
+
+    //Clear errors
+    clearAllErrors();
+
+    //Grab text id
+    var textId = $("#modal-delete-text-hidden-input-id").val();
+    console.log("TextID: " + textId);
+
+    //make AJAX call
+    if (true) {
+        $.ajax({
+            type: 'POST',
+            url: '/text/delete/' + textId,
+            success: function(data, status) {
+                window.location="/account/view";
+            },
+            error: function(xhr, status, error) {
+                const msg = "Cannot fulfil that request right now.  Please try again later.";
+                $("#modal-delete-text-div-errors").text(msg);
+            }
+        });
+    }
+
+}
 
 /*Validation ========================================== */
 function validateEmail(email) {

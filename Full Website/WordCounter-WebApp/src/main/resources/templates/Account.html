@@ -6,7 +6,7 @@
         
         <meta name="author" content="Ben Leboot">
         <meta name="date.created" content="2020-04-19">
-        <meta name="date.modified" content="2020-04-20"> <!-- THIS -->
+        <meta name="date.modified" content="2020-04-21"> <!-- THIS -->
                
         <!-- Title for document -->
         <title>Account | Word Counter</title>
@@ -95,6 +95,10 @@
                             <th width="8%">Delete</th>
                         </tr>
                     </table>
+                    <div class="div-error-big" id="account-page-div-errors"></div>
+                    <div id="account-table-no-content-div" class="inactive-tab-content">
+                        <p>You have no texts to display.</p>
+                    </div>
                     <div id="account-page-spinner">
                         <div class="spin"></div>
                     </div>
@@ -191,6 +195,27 @@
                 <div class="modal-content modal-success" id="modal-change-password-success-content">
                     <h3>Your password has been successfully changed.</h3>
                     <button type="submit" class="button-modal-success" onclick="closeModalChangePasswordSuccess()">Close</button>
+                </div>
+            </div>
+
+            <div id="modal-delete-text" class="modal">
+                <div class="modal-content" id="modal-delete-text-content">
+                    <h2 class="modal-header">Delete Text</h2>
+                    <div class="div-error-big" id="modal-delete-text-div-errors"></div>
+                    <div style="text-align: center;">
+                        <h5>Are you sure you want to delete <i><span id="modal-delete-text-span-title"></span></i>?</h5>
+                    </div>
+                    
+                    <form id="modal-form-delete-text">
+                        <div class="form-div-label-and-input">
+                            <input type="hidden" id="modal-delete-text-hidden-input-id">
+                        </div>
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-delete-text-button-cancel" onclick="closeModalDeleteText()">Cancel</button>
+                            <button type="submit" class="form-button" id="modal-form-delete-text-button-submit" onclick="submitDeleteText()">Delete</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 

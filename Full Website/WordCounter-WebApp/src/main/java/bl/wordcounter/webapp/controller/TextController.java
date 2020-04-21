@@ -45,7 +45,7 @@ public class TextController {
     private static String placeholderContent;
     
     //AJAX
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
     ResponseEntity<Object> deleteText(@PathVariable(value="id") String id) {
         textService.deleteText(Integer.parseInt(id));
         return new ResponseEntity<>(HttpStatus.OK);
