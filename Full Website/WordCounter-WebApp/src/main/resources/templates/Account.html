@@ -59,6 +59,9 @@
                             </a>
                         </div>
                         <div class="div-sidebar-link">
+                            <button class="div-sidebar-button button-standard" id="button-submit-new-text" onclick="displayModalSaveNewText()">Add New Text</button>
+                        </div>
+                        <div class="div-sidebar-link">
                             <button class="div-sidebar-button button-standard" id="button-change-email" onclick="displayModalChangeEmail()">Change Email</button>
                         </div>
                         <div class="div-sidebar-link">
@@ -264,6 +267,41 @@
                             <button type="submit" class="form-button" id="modal-form-save-text-anyway-button-submit" onclick="submitViewEditText('false')">Yes</button>
                         </div>
                     </form>
+                </div>
+            </div>
+
+            <div id="modal-save-new-text" class="modal">
+                <div class="modal-content" id="modal-save-new-text-content">
+                    <h2 class="modal-header">Save New Text</h2>
+                    <div class="div-error-big" id="modal-save-new-text-div-errors"></div>
+                    
+                    <form id="modal-form-save-new-text">
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-save-new-text-input-title" class="view-edit-text-label">Title:</label>
+                            <input type="text" id="modal-form-save-new-text-input-title">
+                            <div class="div-error-small" id="modal-form-save-new-text-input-title-errors"></div>
+                        </div>
+
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-save-new-text-input-content" class="view-edit-text-label">Content:</label>
+                            <textarea id="modal-form-save-new-text-input-content"></textarea>
+                            <div class="div-error-small" id="modal-form-save-new-text-input-content-errors"></div>
+                        </div>
+
+                        <input type="hidden" id="modal-form-save-new-text-input-hidden">
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-save-new-text-button-close" onclick="closeModalSaveNewText()">Close</button>
+                            <button type="submit" class="form-button" id="modal-form-vsave-new-text-button-save" onclick="submitSaveNewText()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-save-new-text-success" class="modal">
+                <div class="modal-content modal-success" id="modal-save-new-text-success-content">
+                    <h3>Text Successfully Saved.</h3>
+                    <button type="submit" class="button-modal-success" onclick="closeModalSaveNewTextSuccess()">Close</button>
                 </div>
             </div>
 

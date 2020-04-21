@@ -62,6 +62,7 @@ function closeAllModals() {
     closeModalDeleteText();
     closeModalViewEditText();
     closeModalSaveTextAnyway();
+    closeModalSaveNewText();
 }
 
 function clearAllErrors() {
@@ -99,6 +100,12 @@ window.onclick = function(event) {
     }
     if (event.target == modalDoSaveTextAnyway) {
         closeModalSaveTextAnyway();
+    }
+    if (event.target == modalSaveNewText) {
+        closeModalSaveNewText();
+    }
+    if (event.target == modalSaveNewTextSuccess) {
+        closeModalSaveNewTextSuccess();
     }
 }
 
@@ -555,6 +562,112 @@ function closeModalSaveTextAnyway() {
     modalDoSaveTextAnyway.style.display = "none";
 }
 
+/*Save New Text ======================================== */
+var modalSaveNewText = document.getElementById("modal-save-new-text");
+
+function displayModalSaveNewText() {
+    closeAllModals();
+    clearAllErrors();
+    $("#modal-form-save-new-text-input-hidden").val("1");
+    modalSaveNewText.style.display = "block";
+    $("#modal-form-save-new-text-input-title").focus();
+}
+
+function closeModalSaveNewText() {
+    $("#modal-form-save-new-text-input-title").val("");
+    $("#modal-form-save-new-text-input-title").val("");
+    modalSaveNewText.style.display = "none";
+}
+function submitSaveNewText() {
+    
+    //Prevent form from submitting on its own and refreshing the page
+    event.preventDefault();
+
+    //Clear errors
+    clearAllErrors();
+
+    //Create variable to determine whether or not to make AJAX call
+    var proceed = true;
+
+    //Grab input from user
+    var title = $("#modal-form-save-new-text-input-title").val().trim();
+    var content = $("#modal-form-save-new-text-input-content").val().trim();
+    
+    //validate input from user
+    var titleReturn = validateTitle(title);
+    if (titleReturn != "good") {
+        proceed = false;
+        $("#modal-form-save-new-text-input-title-errors").text(titleReturn);
+        $("#modal-form-save-new-text-input-title").focus();
+    }
+
+    var contentReturn = validateContent(content);
+    if (contentReturn != "good") {
+        proceed = false;
+        $("#modal-form-save-new-text-input-content-errors").text(contentReturn);
+    } 
+    
+    //Grab hidden input
+    var hiddenElement = $("#modal-form-save-new-text-input-hidden");
+    var hiddenVal = hiddenElement.val();
+
+    //make AJAX call
+    if (proceed && (hiddenVal == 1)) {
+        $.ajax({
+            type: 'POST',
+            url: '/text/new-1',
+            data: {
+                textTitle: title,
+                textContent: content
+            },
+            success: function(data, status) {
+                displayModalSaveNewTextSuccess();
+            },
+            error: function(xhr, status, error) {
+                clearAllErrors();
+                var err = eval("(" + xhr.responseText + ")");
+
+                if (xhr.status == 409) {
+                    hiddenElement.val("2");
+                    const msg = 'That title is already taken.  To save it anyway, click "Submit".';
+                    $("#modal-save-new-text-div-errors").text(msg);
+                } else {
+                    $("#modal-save-new-text-div-errors").text(err.message);
+                }
+            }
+        });        
+    }
+
+    if (proceed && (hiddenVal == 2)) {
+        $.ajax({
+            type: 'GET',
+            url: '/text/new-2',
+            success: function(data, status) {
+                displayModalSaveNewTextSuccess();
+            },
+            error: function(xhr, status, error) {
+                clearAllErrors();
+                var err = eval("(" + xhr.responseText + ")");
+                $("#modal-save-new-text-div-errors").text(err.message);
+            }
+        });        
+    }
+
+}
+
+const modalSaveNewTextSuccess = document.getElementById("modal-save-new-text-success");
+
+function displayModalSaveNewTextSuccess() {
+    closeAllModals();
+    clearAllErrors();
+    modalSaveNewTextSuccess.style.display = "block";
+
+}
+
+function closeModalSaveNewTextSuccess() {
+    window.location="/account/view";
+}
+
 
 /*Validation ========================================== */
 function validateEmail(email) {
@@ -606,7 +719,7 @@ function validateContent(content) {
     const maxLength = 5000;
     
     if (content.length < 1 || content.length > maxLength) {
-        return "Content must be fewer than " + maxLength + " characters long.";
+        return "Please enter content that is fewer than " + maxLength + " characters long.";
     }
 
     return "good";

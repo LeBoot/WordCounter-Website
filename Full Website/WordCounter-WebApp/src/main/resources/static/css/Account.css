@@ -22,7 +22,8 @@
     height: 375px;
 }
 
-#modal-view-edit-text-content {
+#modal-view-edit-text-content,
+#modal-save-new-text-content {
     width: 400px;
     height: 500px;
 }
@@ -91,7 +92,9 @@ tr {
 }
 
 #modal-form-view-edit-text-input-title,
-#modal-form-view-edit-text-input-content {
+#modal-form-view-edit-text-input-content,
+#modal-form-save-new-text-input-content,
+#modal-form-save-new-text-input-title {
     border: 1px solid rgb(200, 209, 209);
     outline: none;
     border-radius: 4px;
@@ -102,11 +105,16 @@ tr {
     display: block;
 }
 
-#modal-form-view-edit-text-input-content {
+#modal-form-view-edit-text-input-content,
+#modal-form-save-new-text-input-content {
     min-height: 200px;
     max-height: 200px;
 }
 
-.view-edit-text-label {
+.view-edit-text-label,
+#modal-form-view-edit-text-input-title-errors,
+#modal-form-view-edit-text-input-content-errors,
+#modal-form-save-new-text-input-title-errors,
+#modal-form-save-new-text-input-content-errors {
     width: 80%;
 }
