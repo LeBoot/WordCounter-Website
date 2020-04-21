@@ -22,6 +22,11 @@
     height: 375px;
 }
 
+#modal-view-edit-text-content {
+    width: 400px;
+    height: 500px;
+}
+
 #div-to-hold-table {
     width: 1000px;
     margin: auto;

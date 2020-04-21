@@ -37,7 +37,7 @@ function fillTable(data) {
         var htmlToAdd = '<tr>';
         htmlToAdd += '<td id="table-row-title-' + index + '"></td>';
         htmlToAdd += '<td id="table-row-content-' + index + '"></td>';
-        htmlToAdd += '<td><button type="button" class="button-account-table" onclick="editText(' + text.id + ')">View/Edit</button></td>';
+        htmlToAdd += '<td><button type="button" class="button-account-table" onclick="displayModalViewEditText(' + text.id + ')">View/Edit</button></td>';
         htmlToAdd += '<td><button type="button" class="button-account-table" onclick="analyzeText(' + text.id + ')">Analyze</button></td>';
         htmlToAdd += `<td><button type="button" class="button-account-table" onclick="displayModalDeleteText(` + text.id + `, '` + text.title + `')">Delete</button></td>`;
         htmlToAdd += '</tr>';
@@ -60,6 +60,7 @@ function closeAllModals() {
     closeModalChangePasswordSuccess();
     closeModalDeleteAccount();
     closeModalDeleteText();
+    closeModalViewEditText();
 }
 
 function clearAllErrors() {
@@ -91,6 +92,9 @@ window.onclick = function(event) {
     }
     if (event.target == modalDeleteText) {
         closeModalDeleteText();
+    }
+    if (event.target == modalViewEditText) {
+        closeModalViewEditText();
     }
 }
 
@@ -391,6 +395,124 @@ function submitDeleteText() {
 
 }
 
+
+/*Edit Text ================================================== */
+const modalViewEditText = document.getElementById("modal-view-edit-text");
+var originalTitle = "";
+var originalContent = "";
+
+function resetOriginals() {
+    originalTitle = "";
+    originalContent = "";
+}
+
+function displayModalViewEditText(textId) {
+    closeAllModals();
+    clearAllErrors();
+
+    //ajax call for content
+    $.ajax({
+        type: 'GET',
+        url: '/text/get/' + textId,
+        success: function(text, status) {
+            //fill values
+            $("#modal-form-view-edit-text-input-id").val(textId);
+            $("#modal-form-view-edit-text-input-title").val(text.title);
+            $("#modal-form-view-edit-text-input-content").val(text.content);
+
+            //set originals
+            originalTitle = text.title;
+            originalContent = text.content;
+        },
+        error: function(xhr, status, error) {
+            clearAllErrors();
+            var err = eval("(" + xhr.responseText + ")");
+            $("#modal-view-edit-text-div-errors").text(err.message);
+        }
+    });    
+
+    modalViewEditText.style.display = "block";
+}
+
+function closeModalViewEditText() {
+    clearModalViewEditText();
+    clearAllErrors();
+    resetOriginals();
+    modalViewEditText.style.display = "none";
+}
+
+function clearModalViewEditText() {
+    $("#modal-form-view-edit-text-input-id").val("");
+    $("#modal-form-view-edit-text-input-title").val("");
+    $("#modal-form-view-edit-text-input-title").val("");
+}
+
+function submitViewEditText(checkTitles) {
+    //Prevent form from submitting on its own and refreshing the page
+    event.preventDefault();
+
+    //Clear errors
+    clearAllErrors();
+
+    //Create variable to determine whether or not to make AJAX call
+    var proceed = true;
+
+    //Grab input from user
+    var id = $("#modal-form-view-edit-text-input-id").val();
+    var title = $("#modal-form-view-edit-text-input-title").val().trim();
+    var content = $("#modal-form-view-edit-text-input-content").val().trim();
+
+    //if no changes, break out of method
+    if ((title == originalTitle) && (content == originalContent)) {
+        proceed = false;
+        closeModalViewEditText();
+    }
+    
+    //validate input from user
+    var titleReturn = validateTitle(title);
+    if (titleReturn != "good") {
+        proceed = false;
+        $("#modal-form-view-edit-text-input-title-errors").text(titleReturn);
+    }
+
+    var contentReturn = validateContent(content);
+    if (contentReturn != "good") {
+        proceed = false;
+        $("#modal-form-view-edit-text-input-content-errors").text(contentReturn);
+    }
+
+    //make AJAX call
+    if (proceed) {
+        $.ajax({
+            type: 'POST',
+            url: '/text/edit/' + id,
+            data: {
+                textTitle: title,
+                textContent: content,
+                checkTitles: checkTitles
+            },
+            success: function(data, status) {
+                closeModalViewEditText();
+            },
+            error: function(xhr, status, error) {
+                clearAllErrors();
+                if (xhr.status == 400) {
+                    displayModalDoSaveTextAnyway();
+                } else {
+                    var err = eval("(" + xhr.responseText + ")");
+                    $("#modal-view-edit-text-div-errors").text(err.message);
+                }
+            }
+        });        
+    }
+
+}
+
+function displayModalDoSaveTextAnyway() {
+    alert("displayModalDoSaveTextAnyway");
+}
+
+
 /*Validation ========================================== */
 function validateEmail(email) {
     const maxLength = 50;
@@ -422,6 +544,26 @@ function validatePassword(password) {
     
     if (password.length < minLength) {
         return "Please use a password that is at least " + minLength + " characters in length.";
+    }
+
+    return "good";
+}
+
+function validateTitle(title) {
+    const maxLength = 50;
+    
+    if (title.length < 1 || title.length > maxLength) {
+        return "Please enter a title that is fewer than " + maxLength + " characters long.";
+    }
+
+    return "good";
+}
+
+function validateContent(content) {
+    const maxLength = 5000;
+    
+    if (content.length < 1 || content.length > maxLength) {
+        return "Content must be fewer than " + maxLength + " characters long.";
     }
 
     return "good";

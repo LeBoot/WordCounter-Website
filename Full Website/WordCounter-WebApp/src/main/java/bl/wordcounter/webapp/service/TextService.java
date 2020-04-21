@@ -8,6 +8,7 @@ package bl.wordcounter.webapp.service;
 import bl.wordcounter.webapp.entity.Text;
 import bl.wordcounter.webapp.entity.TextReturn;
 import bl.wordcounter.webapp.exception.SavingTextException;
+import bl.wordcounter.webapp.exception.TitleTakenException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -20,7 +21,9 @@ public interface TextService {
     Text saveText(Text text) throws SavingTextException;
     Text getAText(int id) throws NoSuchElementException;
     List<Text> getAllTextsForAccount(int id);
-    void deleteText(int id);    
+    void deleteText(int id);
+    void editText(int accountId, Text text, boolean checkTitle)
+            throws SavingTextException, TitleTakenException;
     TextReturn analyze(String input);
     
 }

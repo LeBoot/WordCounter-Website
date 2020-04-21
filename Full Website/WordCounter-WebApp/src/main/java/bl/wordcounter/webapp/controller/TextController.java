@@ -130,4 +130,29 @@ public class TextController {
         }  
     }
     
+    //AJAX
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
+    ResponseEntity<Object> editText(
+            @PathVariable(value = "id") int textId,
+            @RequestParam("textTitle") String title,
+            @RequestParam("textContent") String content,
+            @RequestParam("checkTitles") boolean checkTitles
+    ) {
+       Account acc = accountService.getAnAccount(sessionService.getSessionOwner());
+       Text text = new Text();
+       text.setAccount(acc);
+       text.setId(textId);
+       text.setTitle(title);
+       text.setContent(content);
+       
+       try {
+           textService.editText(acc.getId(), text, checkTitles);
+           return new ResponseEntity<>(HttpStatus.OK);
+       } catch (TitleTakenException ex) {
+           return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+       } catch (SavingTextException ex) {
+           return new ResponseEntity<>(ex, HttpStatus.EXPECTATION_FAILED);
+       }
+    }
+    
 }

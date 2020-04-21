@@ -219,6 +219,34 @@
                 </div>
             </div>
 
+            <div id="modal-view-edit-text" class="modal">
+                <div class="modal-content" id="modal-view-edit-text-content">
+                    <h2 class="modal-header">View/Edit Text</h2>
+                    <div class="div-error-big" id="modal-view-edit-text-div-errors"></div>
+                    
+                    <form id="modal-form-edit-text-account">
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-view-edit-text-input-title">Title:</label>
+                            <input type="text" id="modal-form-view-edit-text-input-title">
+                            <div class="div-error-small" id="modal-form-view-edit-text-input-title-errors"></div>
+                        </div>
+
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-view-edit-text-input-content">Content:</label>
+                            <textarea id="modal-form-view-edit-text-input-content"></textarea>
+                            <div class="div-error-small" id="modal-form-view-edit-text-input-content-errors"></div>
+                        </div>
+
+                        <input type="hidden" id="modal-form-view-edit-text-input-id">
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-view-edit-text-button-close" onclick="closeModalViewEditText()">Close</button>
+                            <button type="submit" class="form-button" id="modal-form-view-edit-text-button-save" onclick="submitViewEditText('true')">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </section> <!-- END Section-Main-Body ------------------------------------------------------------------ -->
 
         <footer>

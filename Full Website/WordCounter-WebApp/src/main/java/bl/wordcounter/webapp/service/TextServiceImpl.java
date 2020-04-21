@@ -8,6 +8,7 @@ package bl.wordcounter.webapp.service;
 import bl.wordcounter.webapp.entity.Text;
 import bl.wordcounter.webapp.entity.TextReturn;
 import bl.wordcounter.webapp.exception.SavingTextException;
+import bl.wordcounter.webapp.exception.TitleTakenException;
 import bl.wordcounter.webapp.repository.TextRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,21 @@ public class TextServiceImpl implements TextService {
     @Override
     public void deleteText(int id) {
         textRepo.deleteById(id);
+    }
+    
+    @Override
+    public void editText(int accountId, Text text, boolean checkTitles) throws SavingTextException, TitleTakenException{        
+        validateText(text);
+        List<Text> list = textRepo.findAllForAccount(accountId);
+        if (checkTitles) {
+            for (Text t : list) {
+                if (t.getTitle().equalsIgnoreCase(text.getTitle())) {
+                    String msg = "One of your texts already has that title.  Do you want to save it anyway?";
+                    throw new TitleTakenException(msg);
+                }
+            }
+        }
+        textRepo.save(text);
     }
     
     //This is a list of characters to remove from words
