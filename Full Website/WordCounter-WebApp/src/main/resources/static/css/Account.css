@@ -6,7 +6,8 @@
     Author: Ben Lebout
 */
 
-#modal-change-email-content {
+#modal-change-email-content,
+#modal-delete-account-content {
     width: 400px;
     height: 300px;
 }
@@ -34,7 +35,7 @@
     margin: auto;
 }
 
-th {
+th, td {
     padding-left: 10px;
 }
 

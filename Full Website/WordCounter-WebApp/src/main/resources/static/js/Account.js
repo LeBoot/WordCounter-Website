@@ -15,19 +15,43 @@ $(document).ready(function () {
 function callForTexts() {
     $.ajax({
         type: 'GET',
-        url: '/account/get-list',
-        success: function(data, status) {
-            fillTable(data);
+        url: '/text/get-list',
+        success: function(data, textStatus, xhr) {
+            $("#account-page-spinner").addClass("inactive-tab-content");
+            
+            if (xhr.status == 204) {
+                displayNoContent();
+            } else {
+                fillTable(data);
+            }
         },
-        error: function(xhr, status, error) {
+        error: function(xhr, textStatus) {
             var err = eval("(" + xhr.responseText + ")");
-            $("#modal-change-email-div-errors").text(err.message); //This
+            $("#modal-change-email-div-errors").text(err.message); //This ====================
         }
     });
 }
 
 function fillTable(data) {
-    //Write THIS
+    $.each(data, function(index, text) {
+        var htmlToAdd = '<tr>';
+        htmlToAdd += '<td id="table-row-title-' + index + '"></td>';
+        htmlToAdd += '<td id="table-row-content-' + index + '"></td>';
+        htmlToAdd += '<td><button type="button" class="button-account-table" onclick="editText(' + text.id + ')">View/Edit</button></td>';
+        htmlToAdd += '<td><button type="button" class="button-account-table" onclick="analyzeText(' + text.id + ')">Analyze</button></td>';
+        htmlToAdd += '<td><button type="button" class="button-account-table" onclick="deleteText(' + text.id + ')">Delete</button></td>';
+        htmlToAdd += '</tr>';
+
+        $("#account-table").append(htmlToAdd);
+
+        $("#table-row-title-" + index).text(text.title);
+        $("#table-row-content-" + index).text(text.content);
+    });
+}
+
+function displayNoContent() {
+    //THIS
+    alert("no results");
 }
 
 /*Modal Helpers ============================================== */
@@ -276,6 +300,7 @@ function displayModalDeleteAccount() {
 
 function closeModalDeleteAccount() {
     clearModalDeleteAccount();
+    clearAllErrors();
     modalDeleteAccount.style.display = "none";
 }
 
@@ -284,7 +309,43 @@ function clearModalDeleteAccount() {
 }
 
 function submitDeleteAccount() {
-    //WRITE THIS NEXT
+    //Prevent form from submitting on its own and refreshing the page
+    event.preventDefault();
+
+    //Clear errors
+    clearAllErrors();
+
+    //Create variable to determine whether or not to make AJAX call
+    var proceed = true;
+
+    //Grab and verify input from user
+    var password = $("#modal-form-delete-account-input-password").val().trim();
+    if (password.length < 1) {
+        proceed = false;
+        const message = "Please enter your password.";
+        $("modal-delete-account-div-errors").text(message);
+    }
+
+    //make AJAX call
+    if (proceed) {
+        $.ajax({
+            type: 'POST',
+            url: '/account/delete',
+            data: {
+                password: password
+            },
+            success: function(data, status) {
+                window.location="/home";
+                alert("Your account has been deleted");
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                clearModalDeleteAccount();
+                $("#modal-delete-account-div-errors").text(err.message);
+                $("#modal-form-delete-account-input-password").focus();
+            }
+        });        
+    }
 }
 
 

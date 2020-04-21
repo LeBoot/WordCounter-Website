@@ -95,6 +95,9 @@
                             <th width="8%">Delete</th>
                         </tr>
                     </table>
+                    <div id="account-page-spinner">
+                        <div class="spin"></div>
+                    </div>
                 </div>
             </div>
 
@@ -159,12 +162,14 @@
                 <div class="modal-content" id="modal-delete-account-content">
                     <h2 class="modal-header">Delete Account</h2>
                     <div class="div-error-big" id="modal-delete-account-div-errors"></div>
-                    <h4>We're sorry to see you go!</h4>
+                    <div style="text-align: center;">
+                        <h5>Please enter your password to confirm deletion.</h5>
+                    </div>
+                    
                     <form id="modal-form-delete-account">
                         <div class="form-div-label-and-input">
                             <label for="modal-form-delete-account-input-password">Password:</label>
                             <input type="password" id="modal-form-delete-account-input-password">
-                            <div class="div-error-small" id="modal-delete-account-form-password-errors"></div>
                         </div>
 
                         <div class="form-div-buttons">
