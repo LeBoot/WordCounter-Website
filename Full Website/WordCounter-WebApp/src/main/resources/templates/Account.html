@@ -226,13 +226,13 @@
                     
                     <form id="modal-form-edit-text-account">
                         <div class="form-div-label-and-input">
-                            <label for="modal-form-view-edit-text-input-title">Title:</label>
+                            <label for="modal-form-view-edit-text-input-title" class="view-edit-text-label">Title:</label>
                             <input type="text" id="modal-form-view-edit-text-input-title">
                             <div class="div-error-small" id="modal-form-view-edit-text-input-title-errors"></div>
                         </div>
 
                         <div class="form-div-label-and-input">
-                            <label for="modal-form-view-edit-text-input-content">Content:</label>
+                            <label for="modal-form-view-edit-text-input-content" class="view-edit-text-label">Content:</label>
                             <textarea id="modal-form-view-edit-text-input-content"></textarea>
                             <div class="div-error-small" id="modal-form-view-edit-text-input-content-errors"></div>
                         </div>
@@ -242,6 +242,26 @@
                         <div class="form-div-buttons">
                             <button type="button" class="form-button" id="modal-form-view-edit-text-button-close" onclick="closeModalViewEditText()">Close</button>
                             <button type="submit" class="form-button" id="modal-form-view-edit-text-button-save" onclick="submitViewEditText('true')">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-save-text-anyway" class="modal">
+                <div class="modal-content" id="modal-save-text-anyway-content">
+                    <div class="div-error-big" id="modal-save-text-anyway-div-errors"></div>
+                    <div style="text-align: center;">
+                        <h4 id="modal-save-text-anyway-error-display"></h4>
+                    </div>
+                    
+                    <form id="modal-form-save-text-anyway">
+                        <div class="form-div-label-and-input">
+                            <input type="hidden" id="modal-save-text-anyway-hidden-input-no-meaning" value="-1">
+                        </div>
+
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-save-text-anyway-button-cancel" onclick="closeModalSaveTextAnyway()">No</button>
+                            <button type="submit" class="form-button" id="modal-form-save-text-anyway-button-submit" onclick="submitViewEditText('false')">Yes</button>
                         </div>
                     </form>
                 </div>

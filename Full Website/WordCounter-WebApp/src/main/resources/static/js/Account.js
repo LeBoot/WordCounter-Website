@@ -61,6 +61,7 @@ function closeAllModals() {
     closeModalDeleteAccount();
     closeModalDeleteText();
     closeModalViewEditText();
+    closeModalSaveTextAnyway();
 }
 
 function clearAllErrors() {
@@ -95,6 +96,9 @@ window.onclick = function(event) {
     }
     if (event.target == modalViewEditText) {
         closeModalViewEditText();
+    }
+    if (event.target == modalDoSaveTextAnyway) {
+        closeModalSaveTextAnyway();
     }
 }
 
@@ -406,6 +410,16 @@ function resetOriginals() {
     originalContent = "";
 }
 
+var placeholderId = "";
+var palceholderTitle = "";
+var placeholderContent = "";
+
+function resetPlaceholders() {
+    placeholderId = "";
+    palceholderTitle = "";
+    placeholderContent = "";
+}
+
 function displayModalViewEditText(textId) {
     closeAllModals();
     clearAllErrors();
@@ -457,30 +471,48 @@ function submitViewEditText(checkTitles) {
     //Create variable to determine whether or not to make AJAX call
     var proceed = true;
 
-    //Grab input from user
-    var id = $("#modal-form-view-edit-text-input-id").val();
-    var title = $("#modal-form-view-edit-text-input-title").val().trim();
-    var content = $("#modal-form-view-edit-text-input-content").val().trim();
+    if (checkTitles == false) {
+        id = placeholderId;
+        title = palceholderTitle;
+        content = placeholderContent;
+    } else {
 
-    //if no changes, break out of method
-    if ((title == originalTitle) && (content == originalContent)) {
-        proceed = false;
-        closeModalViewEditText();
+        //Grab input from user
+        var id = $("#modal-form-view-edit-text-input-id").val();
+        var title = $("#modal-form-view-edit-text-input-title").val().trim();
+        var content = $("#modal-form-view-edit-text-input-content").val().trim();
+
+        //if no changes, break out of method
+        if ((title == originalTitle) && (content == originalContent)) {
+            proceed = false;
+            closeModalViewEditText();
+        }
+        
+        //validate input from user
+        var titleReturn = validateTitle(title);
+        if (titleReturn != "good") {
+            proceed = false;
+            $("#modal-form-view-edit-text-input-title-errors").text(titleReturn);
+        }
+
+        var contentReturn = validateContent(content);
+        if (contentReturn != "good") {
+            proceed = false;
+            $("#modal-form-view-edit-text-input-content-errors").text(contentReturn);
+        }
+
+        //If the title hasn't changed, don't flag it as already in use in the backend
+        if (title == originalTitle) {
+            checkTitles = false;
+        }
+
+        //Set placeholders for if title is taken
+        placeholderId = id;
+        palceholderTitle = title;
+        placeholderContent = content;
+
     }
     
-    //validate input from user
-    var titleReturn = validateTitle(title);
-    if (titleReturn != "good") {
-        proceed = false;
-        $("#modal-form-view-edit-text-input-title-errors").text(titleReturn);
-    }
-
-    var contentReturn = validateContent(content);
-    if (contentReturn != "good") {
-        proceed = false;
-        $("#modal-form-view-edit-text-input-content-errors").text(contentReturn);
-    }
-
     //make AJAX call
     if (proceed) {
         $.ajax({
@@ -492,14 +524,16 @@ function submitViewEditText(checkTitles) {
                 checkTitles: checkTitles
             },
             success: function(data, status) {
-                closeModalViewEditText();
+                resetPlaceholders();
+                window.location="/account/view";
             },
             error: function(xhr, status, error) {
                 clearAllErrors();
+                var err = eval("(" + xhr.responseText + ")");
                 if (xhr.status == 400) {
-                    displayModalDoSaveTextAnyway();
+                    displayModalDoSaveTextAnyway(err.message);
                 } else {
-                    var err = eval("(" + xhr.responseText + ")");
+                    resetPlaceholders();
                     $("#modal-view-edit-text-div-errors").text(err.message);
                 }
             }
@@ -508,8 +542,17 @@ function submitViewEditText(checkTitles) {
 
 }
 
-function displayModalDoSaveTextAnyway() {
-    alert("displayModalDoSaveTextAnyway");
+const modalDoSaveTextAnyway = document.getElementById("modal-save-text-anyway");
+
+function displayModalDoSaveTextAnyway(message) {
+    $("#modal-save-text-anyway-error-display").text(message);
+    modalDoSaveTextAnyway.style.display = "block";
+}
+
+function closeModalSaveTextAnyway() {
+    resetPlaceholders();
+    clearAllErrors();
+    modalDoSaveTextAnyway.style.display = "none";
 }
 
 
