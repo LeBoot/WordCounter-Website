@@ -5,9 +5,11 @@
  */
 package bl.wordcounter.webapp.controller;
 
+import bl.wordcounter.webapp.entity.Text;
 import bl.wordcounter.webapp.exception.UnsuccessfulLoginException;
 import bl.wordcounter.webapp.service.AccountService;
 import bl.wordcounter.webapp.service.SessionService;
+import bl.wordcounter.webapp.service.TextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,19 +32,34 @@ public class LandingPageController {
     @Autowired
     AccountService accountService;
     
+    @Autowired
+    TextService textService;
+    
     //Thymeleaf
     @RequestMapping(value = {"", "/", "/home"}, method = RequestMethod.GET)
     String displayHome(Model model) {        
         boolean isLoggedIn = false;
+        boolean doAnalyze = false;
         String email = "";
+        String doAnalyzeContent = "";
+        
         if (sessionService.getSessionStatus() == SessionService.LOGGED_IN) {
             isLoggedIn = true;
             email = accountService.getAnAccount(sessionService.getSessionOwner()).getEmail();
+            try {
+                Text text = textService.getDisplayText();
+                doAnalyzeContent = text.getContent();
+                doAnalyze = true;
+                textService.clearDisplayText();
+            } catch (NullPointerException ex) {               
+            }
         }
         
-        model.addAttribute("email", email);
         model.addAttribute("isLoggedIn", isLoggedIn);
-
+        model.addAttribute("doAnalyze", doAnalyze);
+        model.addAttribute("email", email);
+        model.addAttribute("doAnalyzeContent", doAnalyzeContent);
+        
         return "Home";
     }
     

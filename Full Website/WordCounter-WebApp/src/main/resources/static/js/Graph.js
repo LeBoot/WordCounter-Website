@@ -2,9 +2,20 @@
     Name: Graph.js
     Project: Word Counter
     Date Created: 11 March 2020
-    Date Updated: 16 April 2020
+    Date Updated: 22 April 2020
     Author: Ben Lebout
 */
+
+$(document).ready(function () {
+    evaluateDoAnalyze();
+})
+
+function evaluateDoAnalyze() {
+    var doAnalyze = $("#home-do-analyze").val();
+    if (doAnalyze == 'true') {
+        analyzeText(false);
+    }
+}
 
 function clearAllErrors() {
     $(".div-error-big").text("");
@@ -40,16 +51,22 @@ function clearGraphs() {
     `);
 }
 
-function analyzeText() {
-    //Prevent form from submitting on its own and refreshing the page
-    event.preventDefault();
+function analyzeText(didEventHappen) {
+    var input;
+
+    //If the form was submitted, prevent form from submitting on its own and refreshing the page
+    if (didEventHappen == true) {
+        event.preventDefault();
+        input = $("#analysis-form-text-area").val().trim();
+    } else {
+        input = $("#home-do-analyze-content").val().trim();
+        $("#analysis-form-text-area").val(input);
+    }
     
     clearAllErrors();
     clearGraphs();
-
-    var input = $("#analysis-form-text-area").val().trim();
+    
     var isInputValid = validateForm(input);
-
     if (isInputValid == true) {
         
         $("#analysis-form-spinner").removeClass("inactive-tab-content");

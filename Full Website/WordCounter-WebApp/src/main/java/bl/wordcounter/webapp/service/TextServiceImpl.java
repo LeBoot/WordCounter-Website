@@ -25,9 +25,26 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TextServiceImpl implements TextService {
-
+    
     @Autowired
     TextRepository textRepo;
+    
+    public static Text displayText;
+    
+    @Override
+    public Text getDisplayText() throws NullPointerException {
+        return displayText;
+    }
+    
+    @Override
+    public void setDisplayText(int textId) throws NoSuchElementException{
+        displayText = getAText(textId);
+    }  
+    
+    @Override
+    public void clearDisplayText() {
+        displayText = null;
+    }
     
     @Override
     public Text saveText(Text text) throws SavingTextException {

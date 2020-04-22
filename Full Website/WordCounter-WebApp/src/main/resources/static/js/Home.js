@@ -2,7 +2,7 @@
     Name: Home.js
     Project: Word Counter
     Date Created: 7 April 2020
-    Date Updated: 16 April 2020
+    Date Updated: 22 April 2020
     Author: Ben Lebout
 */
 

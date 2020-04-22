@@ -101,19 +101,22 @@
                             <textarea placeholder="Text to analyze." id="analysis-form-text-area"></textarea>
                         </div>
 
+                        <input type="hidden" id="home-do-analyze" th:value="${doAnalyze}">
+                        <input type="hidden" id="home-do-analyze-content" th:value="${doAnalyzeContent}">
+
                         <div id="analysis-form-error-div" class="div-error-small"></div>
                          
                         <div id="analysis-form-buttons-div" th:switch="${isLoggedIn}">
                             <!-- If Logged In-->
                             <div th:case="true">
-                                <button class="button-standard analysis-form-button" type="submit" onClick="analyzeText()">Analyze</button>
+                                <button class="button-standard analysis-form-button" type="submit" onClick="analyzeText(true)">Analyze</button>
                                 <button class="button-standard analysis-form-button" type="button" onClick="clearForm()">Clear Form</button>
                                 <button class="button-standard analysis-form-button" type="button" onClick="displayModalSaveNewText()">Save</button>
                             </div>
 
                             <!-- If Logged Out -->
                             <div th:case="false">
-                                <button class="button-standard analysis-form-button" type="submit" onClick="analyzeText()">Analyze</button>
+                                <button class="button-standard analysis-form-button" type="submit" onClick="analyzeText(true)">Analyze</button>
                                 <button class="button-standard analysis-form-button" type="button" onClick="clearForm()">Clear Form</button>
                             </div>
                         </div>

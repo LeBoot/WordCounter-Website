@@ -43,6 +43,17 @@ public class TextController {
     
     
     //AJAX
+    @RequestMapping(value = "display/{id}", method = RequestMethod.POST)
+    ResponseEntity<Object> setDisplayText(@PathVariable(value="id") String id) {
+        try {
+            textService.setDisplayText(Integer.parseInt(id));
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NumberFormatException | NoSuchElementException ex) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        } 
+    }    
+    
+    //AJAX
     @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
     ResponseEntity<Object> deleteText(@PathVariable(value="id") String id) {
         textService.deleteText(Integer.parseInt(id));

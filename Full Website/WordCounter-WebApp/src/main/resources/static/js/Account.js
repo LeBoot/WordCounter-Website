@@ -38,7 +38,7 @@ function fillTable(data) {
         htmlToAdd += '<td id="table-row-title-' + index + '"></td>';
         htmlToAdd += '<td id="table-row-content-' + index + '"></td>';
         htmlToAdd += '<td><button type="button" class="button-account-table" onclick="displayModalViewEditText(' + text.id + ')">View/Edit</button></td>';
-        htmlToAdd += '<td><button type="button" class="button-account-table" onclick="analyzeText(' + text.id + ')">Analyze</button></td>';
+        htmlToAdd += '<td><button type="button" class="button-account-table" onclick="analyzeThisText(' + text.id + ')">Analyze</button></td>';
         htmlToAdd += `<td><button type="button" class="button-account-table" onclick="displayModalDeleteText(` + text.id + `, '` + text.title + `')">Delete</button></td>`;
         htmlToAdd += '</tr>';
 
@@ -718,4 +718,18 @@ function validateContent(content) {
     }
 
     return "good";
+}
+
+/*Analyze Text ======================================== */
+function analyzeThisText(textId) {
+    $.ajax({
+        type: 'POST',
+        url: '/text/display/' + textId,
+        success: function(data, status) {
+            window.location = "/home";
+        },
+        error: function(xhr, status, error) {
+            alert("Unable to perform that action.  Please try again later");
+        }
+    });    
 }

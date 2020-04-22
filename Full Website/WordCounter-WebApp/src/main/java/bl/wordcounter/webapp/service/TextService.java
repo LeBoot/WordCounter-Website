@@ -18,6 +18,9 @@ import java.util.NoSuchElementException;
  */
 public interface TextService {
     
+    Text getDisplayText() throws NullPointerException;
+    void setDisplayText(int textId) throws NoSuchElementException;
+    void clearDisplayText();
     Text saveText(Text text) throws SavingTextException;
     Text getAText(int id) throws NoSuchElementException;
     List<Text> getAllTextsForAccount(int id);
