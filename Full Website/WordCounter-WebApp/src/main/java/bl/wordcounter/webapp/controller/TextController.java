@@ -41,8 +41,6 @@ public class TextController {
     @Autowired
     AccountService accountService;
     
-    private static String placeholderTitle;
-    private static String placeholderContent;
     
     //AJAX
     @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
@@ -63,20 +61,22 @@ public class TextController {
     }
     
     //AJAX
-    @RequestMapping(value = "new-1", method = RequestMethod.POST)
-    ResponseEntity<Object> saveNewText1(
+    @RequestMapping(value = "new", method = RequestMethod.POST)
+    ResponseEntity<Object> saveNewText(
             @RequestParam("textTitle") String title,
-            @RequestParam("textContent") String content
+            @RequestParam("textContent") String content,
+            @RequestParam("checkTitles") boolean checkTitles
             ) {
         Account account = accountService.getAnAccount(sessionService.getSessionOwner());
-        List<Text> list = textService.getAllTextsForAccount(account.getId());
-        for (Text t : list) {
-            if (t.getTitle().equalsIgnoreCase(title)) {
-                placeholderTitle = title;
-                placeholderContent = content;
-                String message = "One of your saved texts already has that title.";
-                TitleTakenException ex = new TitleTakenException(message);
-                return new ResponseEntity<>(ex, HttpStatus.CONFLICT);
+        
+        if (checkTitles) {
+            List<Text> list = textService.getAllTextsForAccount(account.getId());
+            for (Text t : list) {
+                if (t.getTitle().equalsIgnoreCase(title)) {
+                    String message = "One of your saved texts already has that title.  Do you want to save it anyway?";
+                    TitleTakenException ex = new TitleTakenException(message);
+                    return new ResponseEntity<>(ex, HttpStatus.CONFLICT);
+                }
             }
         }
         
@@ -84,22 +84,6 @@ public class TextController {
         newText.setAccount(account);
         newText.setTitle(title);
         newText.setContent(content);
-        try {
-            textService.saveText(newText);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (SavingTextException ex) {
-            return new ResponseEntity<>(ex, HttpStatus.EXPECTATION_FAILED);
-        }
-    }
-    
-    //AJAX
-    @RequestMapping(value = "new-2", method = RequestMethod.GET)
-    ResponseEntity<Object> saveNewText2() {
-        Text newText = new Text();
-        Account account = accountService.getAnAccount(sessionService.getSessionOwner());        
-        newText.setAccount(account);
-        newText.setTitle(placeholderTitle);
-        newText.setContent(placeholderContent);
         try {
             textService.saveText(newText);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -133,7 +117,7 @@ public class TextController {
     //AJAX
     @RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
     ResponseEntity<Object> editText(
-            @PathVariable(value = "id") int textId,
+            @PathVariable(value = "id") String textId,
             @RequestParam("textTitle") String title,
             @RequestParam("textContent") String content,
             @RequestParam("checkTitles") boolean checkTitles
@@ -141,7 +125,7 @@ public class TextController {
        Account acc = accountService.getAnAccount(sessionService.getSessionOwner());
        Text text = new Text();
        text.setAccount(acc);
-       text.setId(textId);
+       text.setId(Integer.parseInt(textId));
        text.setTitle(title);
        text.setContent(content);
        

@@ -8,7 +8,7 @@
         
         <meta name="author" content="Ben Leboot">
         <meta name="date.created" content="2020-03-02">
-        <meta name="date.modified" content="2020-04-16"> <!-- THIS -->
+        <meta name="date.modified" content="2020-04-22"> <!-- THIS -->
                
         <!-- Title for document -->
         <title>Home | Word Counter</title>
@@ -108,7 +108,7 @@
                             <div th:case="true">
                                 <button class="button-standard analysis-form-button" type="submit" onClick="analyzeText()">Analyze</button>
                                 <button class="button-standard analysis-form-button" type="button" onClick="clearForm()">Clear Form</button>
-                                <button class="button-standard analysis-form-button" type="button" onClick="displayModalSaveText()">Save</button>
+                                <button class="button-standard analysis-form-button" type="button" onClick="displayModalSaveNewText()">Save</button>
                             </div>
 
                             <!-- If Logged Out -->
@@ -258,29 +258,54 @@
                 </div>
             </div>
 
-            <div id="modal-save-text" class="modal">
-                <div class="modal-content" id="modal-save-text-content">
+            <div id="modal-save-new-text" class="modal">
+                <div class="modal-content" id="modal-save-new-text-content">
                     <h2 class="modal-header">Save Text</h2>
-                    <div class="div-error-big" id="modal-save-text-div-errors"></div>
-                    <form id="modal-form-save-text">
+                    <div class="div-error-big" id="modal-save-new-text-div-errors"></div>
+                    
+                    <form id="modal-form-save-new-text">
                         <div class="form-div-label-and-input">
-                            <label for="modal-form-save-text-input-title">Title for this text:</label>
-                            <input type="text" id="modal-form-save-text-input-title">
-                            <input type="hidden" id="modal-form-save-text-input-hidden">
+                            <label for="modal-form-save-new-text-input-title" class="view-edit-text-label">Title:</label>
+                            <input type="text" id="modal-form-save-new-text-input-title">
+                            <div class="div-error-small" id="modal-form-save-new-text-input-title-errors"></div>
                         </div>
 
+                        <div class="form-div-label-and-input">
+                            <label for="modal-form-save-new-text-input-content" class="view-edit-text-label">Content:</label>
+                            <textarea id="modal-form-save-new-text-input-content"></textarea>
+                            <div class="div-error-small" id="modal-form-save-new-text-input-content-errors"></div>
+                        </div>
+
+                        <input type="hidden" id="modal-form-save-new-text-input-hidden">
+
                         <div class="form-div-buttons">
-                            <button type="button" class="form-button" id="modal-form-save-text-button-cancel" onclick="closeModalSaveText()">Cancel</button>
-                            <button type="submit" class="form-button" id="modal-form-save-text-button-submit" onclick="submitSaveText()">Submit</button>
+                            <button type="button" class="form-button" id="modal-form-save-new-text-button-close" onclick="closeModalSaveNewText()">Close</button>
+                            <button type="submit" class="form-button" id="modal-form-vsave-new-text-button-save" onclick="submitSaveNewText('true')">Save</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div id="modal-text-save-success" class="modal">
-                <div class="modal-content modal-success" id="modal-text-save-success-content">
+            <div id="modal-save-new-text-anyway" class="modal">
+                <div class="modal-content" id="modal-save-new-text-anyway-content">
+                    <div class="div-error-big" id="modal-save-new-text-anyway-div-errors"></div>
+                    <div style="text-align: center;">
+                        <h4 id="modal-save-new-text-anyway-error-display"></h4>
+                    </div>
+                    
+                    <form id="modal-form-save-new-text-anyway">
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-save-new-text-anyway-button-cancel" onclick="closeModalSaveNewTextAnyway()">No</button>
+                            <button type="submit" class="form-button" id="modal-form-save-new-text-anyway-button-submit" onclick="submitSaveNewText('false')">Yes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-save-new-text-success" class="modal">
+                <div class="modal-content modal-success" id="modal-save-new-text-success-content">
                     <h3>Text Successfully Saved.</h3>
-                    <button type="submit" class="button-modal-success" onclick="closeModalTextSaveSuccess()">Close</button>
+                    <button type="submit" class="button-modal-success" onclick="closeModalSaveNewTextSuccess()">Close</button>
                 </div>
             </div>
 

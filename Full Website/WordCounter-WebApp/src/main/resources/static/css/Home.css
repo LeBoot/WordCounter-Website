@@ -2,7 +2,7 @@
     Name: Home.css
     Project: Word Counter
     Date Created: 2 March 2020
-    Date Updated: 10 April 2020
+    Date Updated: 22 April 2020
     Author: Ben Lebout
 */
 
@@ -66,8 +66,7 @@
 }
 
 #modal-log-in-content,
-#modal-forgot-password-content,
-#modal-save-text-content {
+#modal-forgot-password-content {
     width: 400px;
     height: 300px;
 }
@@ -75,6 +74,16 @@
 #modal-sign-up-content {
     width: 400px;
     height: 380px;
+}
+
+#modal-save-new-text-content {
+    width: 400px;
+    height: 500px;
+}
+
+#modal-save-new-text-anyway-content {
+    width: 400px;
+    height: 150px;
 }
 
 .modal-success {
@@ -246,4 +255,27 @@ label,
 .page3-table-headerrow {
     border-bottom: 1px solid brown;
     text-align: center;
+}
+
+#modal-form-save-new-text-input-content,
+#modal-form-save-new-text-input-title {
+    border: 1px solid rgb(200, 209, 209);
+    outline: none;
+    border-radius: 4px;
+    padding-left: 3px;
+    max-width: 80%;
+    min-width: 80%;
+    margin: auto;
+    display: block;
+}
+
+#modal-form-save-new-text-input-content {
+    min-height: 200px;
+    max-height: 200px;
+}
+
+.view-edit-text-label,
+#modal-form-save-new-text-input-title-errors,
+#modal-form-save-new-text-input-content-errors {
+    width: 80%;
 }

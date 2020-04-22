@@ -15,8 +15,9 @@ function closeAllModals() {
     closeModalLogIn();
     closeModalSignUp();
     closeModalForgotPassword();
-    closeModalSaveText();
-    closeModalTextSaveSuccess();
+    closeModalSaveNewText();
+    closeModalSaveNewTextAnyway();
+    closeModalSaveNewTextSuccess();
 }
 
 function clearAllErrors() {
@@ -40,11 +41,14 @@ window.onclick = function(event) {
     if (event.target == modalForgotPassword) {
         closeModalForgotPassword();
     }
-    if (event.target == modalSaveText) {
-        closeModalSaveText();
+    if (event.target == modalSaveNewText) {
+        closeModalSaveNewText();
     }
-    if (event.target == modalTextSaveSuccess) {
-        closeModalTextSaveSuccess();
+    if (event.target == modalDoSaveNewTextAnyway) {
+        closeModalSaveNewTextAnyway();
+    }
+    if (event.target == modalSaveNewTextSuccess) {
+        closeModalSaveNewTextSuccess();
     }
 }
 
@@ -140,22 +144,6 @@ function closeModalForgotPassword() {
 
 function clearModalForgotPassword() {
     $("#modal-form-forgot-password-input-email").val("");
-}
-
-/*Save Text Modal ========================================== */
-var modalSaveText = document.getElementById("modal-save-text");
-
-function displayModalSaveText() {
-    closeAllModals();
-    clearAllErrors();
-    $("#modal-form-save-text-input-hidden").val("1");
-    modalSaveText.style.display = "block";
-    $("#modal-form-text-save-title-input").focus();
-}
-
-function closeModalSaveText() {
-    $("#modal-form-save-text-input-title").val("");
-    modalSaveText.style.display = "none";
 }
 
 /*Text Save Success Modal ========================================== */
@@ -393,8 +381,24 @@ function setModalForgotPasswordSuccess() {
     `);
 }
 
-/*Submit Save Text ========================================== */
-function submitSaveText() {
+/*Save New Text ======================================== */
+const modalSaveNewText = document.getElementById("modal-save-new-text");
+
+function displayModalSaveNewText() {
+    closeAllModals();
+    clearAllErrors();
+    modalSaveNewText.style.display = "block";
+    $("#modal-form-save-new-text-input-title").focus();
+    $("#modal-form-save-new-text-input-content").val($("#analysis-form-text-area").val());
+}
+
+function closeModalSaveNewText() {
+    $("#modal-form-save-new-text-input-title").val("");
+    $("#modal-form-save-new-text-input-content").val("");
+    modalSaveNewText.style.display = "none";
+}
+
+function submitSaveNewText(checkTitles) {
     
     //Prevent form from submitting on its own and refreshing the page
     event.preventDefault();
@@ -406,70 +410,75 @@ function submitSaveText() {
     var proceed = true;
 
     //Grab input from user
-    var title = $("#modal-form-save-text-input-title").val().trim();
-    var content = $("#analysis-form-text-area").val().trim();
+    var title = $("#modal-form-save-new-text-input-title").val().trim();
+    var content = $("#modal-form-save-new-text-input-content").val().trim();
     
     //validate input from user
     var titleReturn = validateTitle(title);
     if (titleReturn != "good") {
         proceed = false;
-        $("#modal-save-text-div-errors").text(titleReturn);
-        $("#modal-form-text-save-title-input").focus();
+        $("#modal-form-save-new-text-input-title-errors").text(titleReturn);
+        $("#modal-form-save-new-text-input-title").focus();
     }
 
     var contentReturn = validateContent(content);
     if (contentReturn != "good") {
         proceed = false;
-        $("#modal-save-text-div-errors").text(contentReturn);
+        $("#modal-form-save-new-text-input-content-errors").text(contentReturn);
     } 
-    
-    //Grab hidden input
-    var hiddenElement = $("#modal-form-save-text-input-hidden");
-    var hiddenVal = hiddenElement.val();
 
     //make AJAX call
-    if (proceed && (hiddenVal == 1)) {
+    if (proceed) {
         $.ajax({
             type: 'POST',
-            url: '/text/new-1',
+            url: '/text/new',
             data: {
                 textTitle: title,
-                textContent: content
+                textContent: content,
+                checkTitles: checkTitles
             },
             success: function(data, status) {
-                displayModalTextSaveSuccess();
+                displayModalSaveNewTextSuccess();
             },
             error: function(xhr, status, error) {
                 clearAllErrors();
                 var err = eval("(" + xhr.responseText + ")");
-
                 if (xhr.status == 409) {
-                    hiddenElement.val("2");
-                    const msg = 'That title is already taken.  To save it anyway, click "Submit".';
-                    $("#modal-save-text-div-errors").text(msg);
+                    displayModalDoSaveNewTextAnyway(err.message);
                 } else {
-                    $("#modal-save-text-div-errors").text(err.message);
+                    $("#modal-save-new-text-div-errors").text(err.message);
                 }
             }
         });        
     }
 
-    if (proceed && (hiddenVal == 2)) {
-        $.ajax({
-            type: 'GET',
-            url: '/text/new-2',
-            success: function(data, status) {
-                displayModalTextSaveSuccess();
-            },
-            error: function(xhr, status, error) {
-                clearAllErrors();
-                var err = eval("(" + xhr.responseText + ")");
-                $("#modal-save-text-div-errors").text(err.message);
-            }
-        });        
-    }
+}
+
+const modalDoSaveNewTextAnyway = document.getElementById("modal-save-new-text-anyway");
+
+function displayModalDoSaveNewTextAnyway(message) {
+    $("#modal-save-new-text-anyway-error-display").text(message);
+    modalDoSaveNewTextAnyway.style.display = "block";
+}
+
+function closeModalSaveNewTextAnyway() {
+    clearAllErrors();
+    modalDoSaveNewTextAnyway.style.display = "none";
+}
+
+const modalSaveNewTextSuccess = document.getElementById("modal-save-new-text-success");
+
+function displayModalSaveNewTextSuccess() {
+    closeAllModals();
+    clearAllErrors();
+    modalSaveNewTextSuccess.style.display = "block";
 
 }
+
+function closeModalSaveNewTextSuccess() {
+    modalSaveNewTextSuccess.style.display = "none";
+}
+
 
 /*Validation ========================================== */
 function validateEmail(email) {

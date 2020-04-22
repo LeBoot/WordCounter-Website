@@ -6,7 +6,7 @@
         
         <meta name="author" content="Ben Leboot">
         <meta name="date.created" content="2020-04-19">
-        <meta name="date.modified" content="2020-04-21"> <!-- THIS -->
+        <meta name="date.modified" content="2020-04-22"> <!-- THIS -->
                
         <!-- Title for document -->
         <title>Account | Word Counter</title>
@@ -292,7 +292,23 @@
 
                         <div class="form-div-buttons">
                             <button type="button" class="form-button" id="modal-form-save-new-text-button-close" onclick="closeModalSaveNewText()">Close</button>
-                            <button type="submit" class="form-button" id="modal-form-vsave-new-text-button-save" onclick="submitSaveNewText()">Save</button>
+                            <button type="submit" class="form-button" id="modal-form-vsave-new-text-button-save" onclick="submitSaveNewText('true')">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-save-new-text-anyway" class="modal">
+                <div class="modal-content" id="modal-save-new-text-anyway-content">
+                    <div class="div-error-big" id="modal-save-new-text-anyway-div-errors"></div>
+                    <div style="text-align: center;">
+                        <h4 id="modal-save-new-text-anyway-error-display"></h4>
+                    </div>
+                    
+                    <form id="modal-form-save-new-text-anyway">
+                        <div class="form-div-buttons">
+                            <button type="button" class="form-button" id="modal-form-save-new-text-anyway-button-cancel" onclick="closeModalSaveNewTextAnyway()">No</button>
+                            <button type="submit" class="form-button" id="modal-form-save-new-text-anyway-button-submit" onclick="submitSaveNewText('false')">Yes</button>
                         </div>
                     </form>
                 </div>

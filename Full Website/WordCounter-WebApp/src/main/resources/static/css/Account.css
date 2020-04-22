@@ -2,7 +2,7 @@
     Name: Account.css
     Project: Word Counter
     Date Created: 19 April 2020
-    Date Updated: 21 April 2020
+    Date Updated: 22 April 2020
     Author: Ben Lebout
 */
 
@@ -28,7 +28,8 @@
     height: 500px;
 }
 
-#modal-save-text-anyway-content {
+#modal-save-text-anyway-content,
+#modal-save-new-text-anyway-content {
     width: 400px;
     height: 150px;
 }
