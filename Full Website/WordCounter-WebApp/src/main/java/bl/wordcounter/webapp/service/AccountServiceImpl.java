@@ -66,6 +66,12 @@ public class AccountServiceImpl implements AccountService {
     }
     
     @Override
+    public void changePasswordMail(int id, String newPassword) throws InvalidPasswordException, InvalidKeyException {
+        Account account = getAnAccount(id);
+        encryptPasswordAndSave(account, newPassword);
+    }
+    
+    @Override
     public void deleteAccount(int id, String password) throws IncorrectPasswordException {
         Account account = getAnAccount(id);
         if (enigma.doesPasswordMatch(password, account.getPassword(), account.getPasskey())) {

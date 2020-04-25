@@ -63,7 +63,7 @@ public class AccountController {
                 try {
                     String newPassword = accountService.autogeneratePassword(7);
                     mailService.sendForgotPassword(email, newPassword);
-                    accountService.changePassword(a.getId(), a.getPassword(), newPassword, newPassword);
+                    accountService.changePasswordMail(a.getId(), newPassword);
                     return new ResponseEntity<>(HttpStatus.OK);
                 } catch (Exception ex) {
                     return new ResponseEntity<>(ex, HttpStatus.EXPECTATION_FAILED);

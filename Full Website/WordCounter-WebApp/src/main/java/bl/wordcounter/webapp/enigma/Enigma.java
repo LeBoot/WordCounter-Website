@@ -318,7 +318,7 @@ public class Enigma {
     
     
     //OTHER ====================================================================
-    private String viewOriginalPassword(String encrypted, String key) throws InvalidKeyException {
+    public String viewOriginalPassword(String encrypted, String key) throws InvalidKeyException {
         return decrypt(encrypted, key);
     }
 }

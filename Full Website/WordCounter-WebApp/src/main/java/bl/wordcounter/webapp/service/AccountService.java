@@ -26,6 +26,8 @@ public interface AccountService {
     void changePassword(int id, String oldPass, String newPass1, String newPass2)
             throws NoSuchElementException, InvalidKeyException, InvalidPasswordException,
             IncorrectPasswordException, InvalidInputException;
+    void changePasswordMail(int id, String newPassword)
+            throws InvalidPasswordException, InvalidKeyException;
     void deleteAccount(int id, String password) throws IncorrectPasswordException;
     List<Account> getAllAccounts();
     Account getAnAccount(int id)
