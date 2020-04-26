@@ -95,7 +95,7 @@ function analyzeText(didEventHappen) {
 }
 
 function validateForm(input) {
-    var maxChar = 5000;
+    var maxChar = 15000;
     
     if (input.length < 1) {
         $("#form1-text-area").val("");

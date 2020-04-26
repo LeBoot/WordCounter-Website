@@ -527,7 +527,7 @@ function validateTitle(title) {
 }
 
 function validateContent(content) {
-    const maxLength = 5000;
+    const maxLength = 15000;
     
     if (content.length < 1 || content.length > maxLength) {
         return "Please enter content that is fewer than " + maxLength + " characters long.";

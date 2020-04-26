@@ -91,7 +91,7 @@ public class TextServiceImpl implements TextService {
     }
     
     //This is a list of characters to remove from words
-    static final String[] EXCLUSIONS = {"...", ".", ",", "!", ";", "?", "\"", "'", ")", "(", "}", "{", ":"};
+    static final String[] EXCLUSIONS = {"...", ".", ",", "!", ";", "?", "\"", "'", ")", "(", "}", "{", ":", "[", "]", "--"};
     
     @Override
     public TextReturn analyze(String input) {
@@ -144,7 +144,7 @@ public class TextServiceImpl implements TextService {
             throw new SavingTextException(message);
         }
         
-        int contentMax = 5000;
+        int contentMax = 15000;
         int contentLength = text.getContent().length();
         if ((contentLength > contentMax) || (contentLength < 1)) {
             String message = "Content must be fewer than " + contentMax + " characters.";
