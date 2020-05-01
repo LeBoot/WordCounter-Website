@@ -58,6 +58,7 @@ IDE and Text Editors:
   * Prettier logarithmic graph for small ranges of data
   * Character limit of more than 15,000
   * Prompt to log-in/create-account to save text when user is not logged in
+  * Regular Expressions
  
  This website has known shortcomings because my goal was not to build a perfect website but to practice full-stack development and create a functional website.
  The following are some known shortcomings:
