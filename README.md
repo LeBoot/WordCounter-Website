@@ -56,7 +56,7 @@ IDE and Text Editors:
  A future version of this site might include the following:
   * Scroll bar for table
   * Prettier logarithmic graph for small ranges of data
-  * Character limit of more than 15,000
+  * Character limit of more than 15,000 (should be able to use a BLOB in MySQL)
   * Prompt to log-in/create-account to save text when user is not logged in
   * Regular Expressions
  
@@ -65,3 +65,5 @@ IDE and Text Editors:
   * Imperfect bootstrapping
   * No administrator page
   * No way to contact website manager
+  * No jUnit testing on the backend
+  * Little to no JavaDoc comments
