@@ -1,5 +1,5 @@
 # WordCounter-Website
-Current Project: Full-Stack Website (Unhosted, 03/2020 - Present)
+A Full-Stack Website (Unhosted, 03/2020 - 05/2020)
 
 ## Contents
   * [Use](#Use)
